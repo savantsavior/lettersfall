@@ -570,7 +570,7 @@ func RunGameplayCore():
 		FramesSinceLastPlayerInput+=1
 
 	pass
-
+#  load("res://media/images/logos/SPR_Logo.png")
 #----------------------------------------------------------------------------------------
 func LoadDictionary():
 	var file = FileAccess.open("res://media/Dictionary/words.txt", FileAccess.READ)
