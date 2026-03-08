@@ -129,7 +129,7 @@ func _ready():
 	StarColorG.resize(250)
 	StarColorB.resize(250)
 
-	for _index in range(0, 100000):
+	for _index in range(0, 40000):
 		Sprites.ci_rid.append(-1)
 		Sprites.ci_rid[_index] = RenderingServer.canvas_item_create()
 		RenderingServer.canvas_item_set_parent(Sprites.ci_rid[_index], get_canvas_item())
@@ -168,8 +168,8 @@ func _ready():
 	Sprites.SpriteImage[23] = load("res://media/images/backgrounds/BG_Title_Logo.png")
 	Sprites.SpriteActive[23] = true
 
-	#Sprites.SpriteImage[26] = load("res://media/images/gui/NF_GP_QR_Code.png")
-	#Sprites.SpriteActive[26] = true
+	Sprites.SpriteImage[26] = load("res://media/images/gui/NF_GP_QR_Code.png")
+	Sprites.SpriteActive[26] = true
 
 	for index in range(30, 40):
 		Sprites.SpriteImage[index] = load("res://media/images/gui/ScreenLine2.png")
@@ -235,120 +235,72 @@ func _ready():
 		Sprites.SpriteActive[200+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[20000+index] = load("res://media/images/playing/A-Tile.png")
+		Sprites.SpriteImage[20000+index] = load("res://media/images/playing/Tile0-S.png")
 		Sprites.SpriteActive[20000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[21000+index] = load("res://media/images/playing/B-Tile.png")
+		Sprites.SpriteImage[21000+index] = load("res://media/images/playing/Tile1-S.png")
 		Sprites.SpriteActive[21000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[22000+index] = load("res://media/images/playing/C-Tile.png")
+		Sprites.SpriteImage[22000+index] = load("res://media/images/playing/Tile2-S.png")
 		Sprites.SpriteActive[22000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[23000+index] = load("res://media/images/playing/D-Tile.png")
+		Sprites.SpriteImage[23000+index] = load("res://media/images/playing/Tile3-S.png")
 		Sprites.SpriteActive[23000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[24000+index] = load("res://media/images/playing/E-Tile.png")
+		Sprites.SpriteImage[24000+index] = load("res://media/images/playing/Tile4-S.png")
 		Sprites.SpriteActive[24000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[25000+index] = load("res://media/images/playing/F-Tile.png")
+		Sprites.SpriteImage[25000+index] = load("res://media/images/playing/Tile5-S.png")
 		Sprites.SpriteActive[25000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[26000+index] = load("res://media/images/playing/G-Tile.png")
+		Sprites.SpriteImage[26000+index] = load("res://media/images/playing/Tile6-S.png")
 		Sprites.SpriteActive[26000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[27000+index] = load("res://media/images/playing/H-Tile.png")
+		Sprites.SpriteImage[27000+index] = load("res://media/images/playing/Tile7-S.png")
 		Sprites.SpriteActive[27000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[28000+index] = load("res://media/images/playing/I-Tile.png")
+		Sprites.SpriteImage[28000+index] = load("res://media/images/playing/Tile8-S.png")
 		Sprites.SpriteActive[28000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[29000+index] = load("res://media/images/playing/J-Tile.png")
+		Sprites.SpriteImage[29000+index] = load("res://media/images/playing/Tile9-S.png")
 		Sprites.SpriteActive[29000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[30000+index] = load("res://media/images/playing/K-Tile.png")
+		Sprites.SpriteImage[30000+index] = load("res://media/images/playing/TilePlus-S.png")
 		Sprites.SpriteActive[30000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[31000+index] = load("res://media/images/playing/L-Tile.png")
+		Sprites.SpriteImage[31000+index] = load("res://media/images/playing/TileMinus-S.png")
 		Sprites.SpriteActive[31000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[32000+index] = load("res://media/images/playing/M-Tile.png")
+		Sprites.SpriteImage[32000+index] = load("res://media/images/playing/TileMuliply-S.png")
 		Sprites.SpriteActive[32000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[33000+index] = load("res://media/images/playing/N-Tile.png")
+		Sprites.SpriteImage[33000+index] = load("res://media/images/playing/TileDivide-S.png")
 		Sprites.SpriteActive[33000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[34000+index] = load("res://media/images/playing/O-Tile.png")
+		Sprites.SpriteImage[34000+index] = load("res://media/images/playing/TileDecimal-S.png")
 		Sprites.SpriteActive[34000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[35000+index] = load("res://media/images/playing/P-Tile.png")
+		Sprites.SpriteImage[35000+index] = load("res://media/images/playing/TileEqual-S.png")
 		Sprites.SpriteActive[35000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[36000+index] = load("res://media/images/playing/Q-Tile.png")
+		Sprites.SpriteImage[36000+index] = load("res://media/images/playing/Selected-S.png")
 		Sprites.SpriteActive[36000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[37000+index] = load("res://media/images/playing/R-Tile.png")
-		Sprites.SpriteActive[37000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[38000+index] = load("res://media/images/playing/S-Tile.png")
-		Sprites.SpriteActive[38000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[39000+index] = load("res://media/images/playing/T-Tile.png")
-		Sprites.SpriteActive[39000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[40000+index] = load("res://media/images/playing/U-Tile.png")
-		Sprites.SpriteActive[40000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[41000+index] = load("res://media/images/playing/V-Tile.png")
-		Sprites.SpriteActive[41000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[42000+index] = load("res://media/images/playing/W-Tile.png")
-		Sprites.SpriteActive[42000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[43000+index] = load("res://media/images/playing/X-Tile.png")
-		Sprites.SpriteActive[43000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[44000+index] = load("res://media/images/playing/Y-Tile.png")
-		Sprites.SpriteActive[44000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[45000+index] = load("res://media/images/playing/Z-Tile.png")
-		Sprites.SpriteActive[45000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[46000+index] = load("res://media/images/playing/Apostrophe-Tile.png")
-		Sprites.SpriteActive[46000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[47000+index] = load("res://media/images/playing/Hyphen-Tile.png")
-		Sprites.SpriteActive[47000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[48000+index] = load("res://media/images/playing/Selected-S.png")
-		Sprites.SpriteActive[48000+index] = true
 
 	Sprites.SpriteImage[2001] = load("res://media/images/playing/UndoButton-S.png")
 	Sprites.SpriteActive[2001] = true
@@ -403,7 +355,7 @@ func _ready():
 	Sprites.SpriteActive[19999] = true
 
 	var sprite_size
-	for index in range(0, 100000):
+	for index in range(0, 40000):
 		if Sprites.SpriteActive[index] == true:
 			sprite_size = Sprites.SpriteImage[index].get_size()
 			Sprites.SpriteImageWidth[index] = sprite_size.x
@@ -418,8 +370,6 @@ func _ready():
 				RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 500)
 			elif (index == 10):
 				RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], -25)
-			elif (index == 20):
-				RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 1)
 			elif (index == 130):
 				RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], -100)
 			elif (index > 39 && index < 49):
@@ -438,9 +388,9 @@ func _ready():
 				RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], -5)
 			elif (index > 9999 and index < 19980):
 				RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], -2)
-			elif (index > 19999 and index < 48000):
+			elif (index > 19999 and index < 36000):
 				RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 0)
-			elif (index > 47999 and index < 49000):
+			elif (index > 35999 and index < 37000):
 				RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 1)
 			elif (index == 131):
 				RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], -99999)
@@ -603,12 +553,8 @@ func DrawText(index, text, x, y, horizontalJustification, fontToUseIndex, fontSi
 		add_child(Texts.TextImage[index])
 		TextIsUsed[index] = true
 
-	if (fontToUseIndex == 0):
-		fontSize-=5
-		y+=7
-
 	var xValue = x
-
+#
 	if horizontalJustification == 0:
 		Texts.TextImage[index].text = text
 		Texts.TextImage[index].set_use_bbcode(false)
@@ -681,7 +627,7 @@ func LoadAboutScreenTexts():
 
 	AddAboutScreenText(" ", 0.0)
 
-	AddAboutScreenText("''LettersFall 110%™''", 0.0)
+	AddAboutScreenText("''NumbersFall 110%™''", 0.0)
 
 	AddAboutScreenText(LogicCore.Version, 1.0)
 
@@ -735,8 +681,9 @@ func LoadAboutScreenTexts():
 	AddAboutScreenText("Lead Game Tester:", 0.0)
 	AddAboutScreenText("JeZxLee", 1.0)
 
-	AddAboutScreenText("Tiles To Words Conversion By:", 0.0)
-	AddAboutScreenText("''normalized''", 1.0)
+	AddAboutScreenText("P.E.M.D.A.S. Tiles To Equations Conversion By:", 0.0)
+	AddAboutScreenText("''wchc''", 1.0)
+	AddAboutScreenText("''kraasch''", 1.0)
 	AddAboutScreenText("JeZxLee", 1.0)
 
 	AddAboutScreenText("Support Game Programmers:", 0.0)
@@ -788,9 +735,9 @@ func LoadAboutScreenTexts():
 	AddAboutScreenText("''OGGResizer''", 1.0)
 	AddAboutScreenText("[SkyShape.com]", 1.0)
 
-	AddAboutScreenText("''LettersFall 110%™'' Logo Created In:", 0.0)
-	AddAboutScreenText("Genuine Canva A.I. Graphic Creation Tool[Paid]", 1.0)
-	AddAboutScreenText("[https://www.Canva.com]", 1.0)
+	AddAboutScreenText("''NumbersFall 110%™'' Logo Created In:", 0.0)
+	AddAboutScreenText("Genuine Microsoft Office 2021 Professional Plus Publisher", 1.0)
+	AddAboutScreenText("[Office.com]", 1.0)
 
 	AddAboutScreenText("Game Created On A:", 0.0)
 	AddAboutScreenText("Hyper-Custom ''JeZxLee'' Pro-Built Desktop", 1.0)
@@ -882,9 +829,6 @@ func LoadAboutScreenTexts():
 	AddAboutScreenText("''hyvernox''", 1.0)
 	AddAboutScreenText("''TokyoFunkScene''", 1.0)
 	AddAboutScreenText("''trizZzle''", 1.0)
-	AddAboutScreenText("''sancho2''", 1.0)
-	AddAboutScreenText("''hasjime''", 1.0)
-	AddAboutScreenText("''conz3d''", 1.0)
 
 	AddAboutScreenText(" ", 1.0)
 	AddAboutScreenText("''You!''", 1.0)

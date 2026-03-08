@@ -77,38 +77,7 @@ func InitializeGUI(createTexts):
 		
 		if createTexts == true:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, ButtonText[index], 0, -99999, 1, 0, 45, 1.0, 1.0, 0, 0.0, 0.0, 0.0, 0.85, 0.85, 0.85, 1.0)
-
-
-
-			# Load two images to combine into one image
-			#var img1 = load("res://media/images/gui/Button2.png")
-			#var img2 = load("res://media/images/gui/Exit2.png")
-#
-			#var c_img1:CompressedTexture2D = load("res://media/images/gui/Button2.png")
-			#var c_img2:CompressedTexture2D = load("res://media/images/gui/Exit2.png")
-#
-#
-#
-			## Blend img2 onto img1
-			#c_img1.blend_rect(c_img2, Rect2i(Vector2i.ZERO, c_img2.get_size()), Vector2i.ZERO)
-			# ^--- Invalid call. Nonexistent function 'blend_rect' in base 'CompressedTexture2D'.
-#
-			# Convert back to texture
-#			c_img1 = ImageTexture.create_from_image(c_img1)
-
-		#var texture_rect: TextureRect = $TextureRect
-#
-		#var c_img1:CompressedTexture2D = load("res://media/images/gui/Button2.png")
-		#var c_img2:CompressedTexture2D = load("res://media/images/gui/Exit2.png")
-#
-		#var b_img:Image = c_img1.get_image() # image to blend into 
-		#var img2:Image = c_img2.get_image()  # image blending into it
-#
-		#b_img.blend_rect(img2, Rect2i(Vector2i.ZERO, img2.get_size()), Vector2i.ZERO)
-		#texture_rect.texture = ImageTexture.create_from_image(b_img)	
-#
-
-
+		
 		Buttons.ButtonTextIndex.append(index)
 		Buttons.ButtonIndex.append(-1)
 		Buttons.ButtonScreenX.append(0)
@@ -208,7 +177,7 @@ func DrawAllButtons():
 				VisualsCore.DrawSprite(51, (VisualsCore.ScreenWidth/2.0)+154.0, Buttons.ButtonScreenY[index], 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0)
 
 		var textHeight = VisualsCore.Texts.TextImage[index].get_theme_font("normal_font").get_string_size(VisualsCore.Texts.TextImage[index].text).y
-		VisualsCore.Texts.TextImage[Buttons.ButtonIndex[index]].global_position.y = (Buttons.ButtonScreenY[index]-(textHeight / 2) - 7 - 13 + 7)
+		VisualsCore.Texts.TextImage[Buttons.ButtonIndex[index]].global_position.y = (Buttons.ButtonScreenY[index]-(textHeight / 2) - 7 - 13 )
 
 		if (ScreensCore.ScreenToDisplay != ScreensCore.NewHighScoreScreen):
 			for indexTwo in range(40, 50):
