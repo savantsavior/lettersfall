@@ -77,7 +77,7 @@ func InitializeGUI(createTexts):
 		
 		if createTexts == true:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, ButtonText[index], 0, -99999, 1, 0, 45, 1.0, 1.0, 0, 0.0, 0.0, 0.0, 0.85, 0.85, 0.85, 1.0)
-		
+
 		Buttons.ButtonTextIndex.append(index)
 		Buttons.ButtonIndex.append(-1)
 		Buttons.ButtonScreenX.append(0)
@@ -177,7 +177,7 @@ func DrawAllButtons():
 				VisualsCore.DrawSprite(51, (VisualsCore.ScreenWidth/2.0)+154.0, Buttons.ButtonScreenY[index], 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0)
 
 		var textHeight = VisualsCore.Texts.TextImage[index].get_theme_font("normal_font").get_string_size(VisualsCore.Texts.TextImage[index].text).y
-		VisualsCore.Texts.TextImage[Buttons.ButtonIndex[index]].global_position.y = (Buttons.ButtonScreenY[index]-(textHeight / 2) - 7 - 13 )
+		VisualsCore.Texts.TextImage[Buttons.ButtonIndex[index]].global_position.y = (Buttons.ButtonScreenY[index]-(textHeight / 2) - 7 - 13 + 7)
 
 		if (ScreensCore.ScreenToDisplay != ScreensCore.NewHighScoreScreen):
 			for indexTwo in range(40, 50):

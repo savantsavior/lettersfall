@@ -19,18 +19,18 @@
 #                    Cross-Platform / M.I.T. Open-Source
 #      "Grand National GNX" v2 Godot Engine 4.5.1+ 2D Video Game Framework
 # ------------------------------------------------------------------------------
-#                                                TM
-#                             "Learn To Have Fun!"
-#    _______               ___.                       ___________      .__  .__TM
-#    \      \  __ __  _____\_ |__   ___________  _____\_   _____/____  |  | |  |  
-#    /   |   \|  |  \/     \| __ \_/ __ \_  __ \/  ___/|    __) \__  \ |  | |  |  
-#   /    |    \  |  /  Y Y  \ \_\ \  ___/|  | \/\___ \ |     \   / __ \|  |_|  |__
-#   \____|__  /____/|__|_|  /___  /\___  >__|  /____  >\___  /  (____  /____/____/
-#           \/            \/    \/     \/           \/     \/        \/   110%
 #                                               TM
-#                              "NumbersFall 110%"
+#                            "Learn To Have Fun!"
+# .____           __    __                      ___________      .__  .__ TM
+# |    |    _____/  |__/  |_  ___________  _____\_   _____/____  |  | |  |  
+# |    |  _/ __ \   __\   __\/ __ \_  __ \/  ___/|    __) \__  \ |  | |  |  
+# |    |__\  ___/|  |  |  | \  ___/|  | \/\___ \ |     \   / __ \|  |_|  |__
+# |_______ \___  >__|  |__|  \___  >__|  /____  >\___  /  (____  /____/____/
+#         \/   \/                \/           \/     \/        \/   110%
+#                                               TM
+#                              "LettersFall 110%"
 #
-#                             Retail Version 1.1.0
+#                    Retail Version 1.1.0 Beta 1 Same Story
 #
 #                            Linux Flatpak On Flathub
 #                 HTML5 Enabled Desktop/Laptop Internet Browsers
@@ -41,6 +41,8 @@ extends Node2D
 
 #----------------------------------------------------------------------------------------
 func _ready():
+#	get_tree().change_scene_to_file.call_deferred("res://Main.tscn")
+	
 	VisualsCore.SetFramesPerSecond(30)
 
 	VisualsCore.KeepAspectRatio = 1

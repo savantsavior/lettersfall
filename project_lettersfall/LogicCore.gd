@@ -20,7 +20,7 @@ extends Node2D
 
 var HideCopyright = false
 
-var Version = "Retail 1.1.0"
+var Version = "1.1.0 - Beta 1 Same Story"
 
 const ChildStoryMode				= 0
 const TeenStoryMode					= 2
@@ -50,6 +50,8 @@ var PauseWasJustPressed = false
 var Score
 var ScoreChanged
 var ScoreText
+
+var ScoreAddPointsOnWord
 
 var Level
 var LevelText
@@ -100,14 +102,13 @@ var PiecesCanStillFall = false
 
 var BonusScore
 
-var PlusIndex
-var MinusIndex
-var MinusTwoIndex
-var MultiplyIndex
-var DivideIndex
-var DecimalIndex
-var DecimalTwoIndex
-var EqualIndex
+var ShownA = false
+var ShownE = false
+var ShownI = false
+var ShownO = false
+var ShownU = false
+var ShownApostrophe = false
+var ShownHyphen = false
 
 var TheEnd
 
@@ -129,6 +130,9 @@ var EnableRightClick = 1
 
 var FramesSinceLastPlayerInput = 0
 
+var WordDictionary = []
+var EndOfWordsFile = 0
+
 #---------------------------------------------------------------------------------------
 func SetupForNewGame():
 	PAUSEgame = false
@@ -139,6 +143,8 @@ func SetupForNewGame():
 
 	Score = 0
 	Level = 1
+
+	ScoreAddPointsOnWord = 0
 
 	BonusScore = 0
 
@@ -156,59 +162,45 @@ func SetupForNewGame():
 	while (allTilesShown == false):
 		for y in range(0, 3):
 			for x in range(0, 18):
-				Playfield[x][y] = (randi() % 10)
+				Playfield[x][y] = ( randi() % (28-2) )
 
-		Playfield[randi() % 12][randi() % 2] = 10
-		Playfield[randi() % 12][randi() % 2] = 11
-		Playfield[randi() % 12][randi() % 2] = 12
-		Playfield[randi() % 12][randi() % 2] = 13
-
-		Playfield[randi() % 12][randi() % 2] = 11
-
+		Playfield[randi() % 12][randi() % 2] = 0
+		Playfield[randi() % 12][randi() % 2] = 4
+		Playfield[randi() % 12][randi() % 2] = 8
 		Playfield[randi() % 12][randi() % 2] = 14
-		Playfield[randi() % 12][randi() % 2] = 14
+		Playfield[randi() % 12][randi() % 2] = 20
 
-		Playfield[randi() % 12][randi() % 2] = 15
+		Playfield[randi() % 12][randi() % 2] = 26
+		Playfield[randi() % 12][randi() % 2] = 27
 
-		var shownPlus = false
-		var shownMinus = false
-		var shownMinusTwo = false
-		var shownMultiply = false
-		var shownDivide = false
-		var shownDecimal = false
-		var shownDecimalTwo = false
-		var shownEqual = false
+		ShownA = false
+		ShownE = false
+		ShownI = false
+		ShownO = false
+		ShownU = false
+		ShownApostrophe = false
+		ShownHyphen = false
 		for y in range(0, 12):
 			for x in range(0, 18):
-				if (Playfield[x][y] == 10):  shownPlus = true
-				
-				if (Playfield[x][y] == 11):
-					if (shownMinus == false):
-						shownMinus = true
-					elif (shownMinusTwo == false):
-						shownMinusTwo = true
-				
-				if (Playfield[x][y] == 12):  shownMultiply = true
-				if (Playfield[x][y] == 13):  shownDivide = true
+				if (Playfield[x][y] == 0):  ShownA = true
+				if (Playfield[x][y] == 4):  ShownE = true
+				if (Playfield[x][y] == 8):  ShownI = true
+				if (Playfield[x][y] == 17):  ShownO = true
+				if (Playfield[x][y] == 20):  ShownU = true
 
-				if (Playfield[x][y] == 14):
-					if (shownDecimal == false):
-						shownDecimal = true
-					elif (shownDecimalTwo == false):
-						shownDecimalTwo = true
+				if (Playfield[x][y] == 26):  ShownApostrophe = true
+				if (Playfield[x][y] == 27):  ShownHyphen = true
 
-				if (Playfield[x][y] == 15):  shownEqual = true
-
-		if (shownPlus == true and shownMinus == true and shownMinusTwo == true and shownMultiply == true and shownDivide == true and shownDecimal == true and shownDecimalTwo == true and shownEqual == true):
+		if (ShownA == true and ShownE == true and ShownI == true and ShownO == true and ShownU == true and ShownApostrophe == true and ShownHyphen == true):
 			allTilesShown = true
 
 	FallingTileX = 0
 	FallingTileY = 11
-	FallingTileScreenX = 99-11
+	FallingTileScreenX = 99-11-1
 	FallingTileScreenY = (500-37+10) - (FallingTileY*50)
 	FallingTileYoffset = 0
 
-	FallingTile = (randi() % 10)
+	FallingTile = ( randi() % (28-2) )
 
 	StillPlaying = true
 
@@ -285,227 +277,196 @@ func SetUpNextFallingTile():
 		AudioCore.PlayEffect(4)
 		return
 
-	FallingTileScreenX = 99 - 11 + (FallingTileX*50)
+	FallingTileScreenX = 99 - 11 - 1 + (FallingTileX*50)
 	FallingTileScreenY = (500-37+11) - (FallingTileY*50)
 	FallingTileYoffset = 0
 
-	FallingTile = (randi() % 10)
+	FallingTile = ( randi() % (28-2) )
 
-	var allTilesShown = false
-	while (allTilesShown == false):
-		var shownPlus = false
-		var shownMinus = false
-		var shownMinusTwo = false
-		var shownMultiply = false
-		var shownDivide = false
-		var shownDecimal = false
-		var shownDecimalTwo = false
-		var shownEqual = false
-		for y in range(0, 12):
-			for x in range(0, 18):
-				if (Playfield[x][y] == 10):  shownPlus = true
-				
-				if (Playfield[x][y] == 11):
-					if (shownMinus == false):
-						shownMinus = true
-					elif (shownMinusTwo == false):
-						shownMinusTwo = true
-				
-				if (Playfield[x][y] == 12):  shownMultiply = true
-				if (Playfield[x][y] == 13):  shownDivide = true
+	ShownA = false
+	ShownE = false
+	ShownI = false
+	ShownO = false
+	ShownU = false
+	ShownApostrophe = false
+	ShownHyphen = false
+	for y in range(0, 12):
+		for x in range(0, 18):
+			if (Playfield[x][y] == 0):  ShownA = true
+			if (Playfield[x][y] == 4):  ShownE = true
+			if (Playfield[x][y] == 8):  ShownI = true
+			if (Playfield[x][y] == 17):  ShownO = true
+			if (Playfield[x][y] == 20):  ShownU = true
 
-				if (Playfield[x][y] == 14):
-					if (shownDecimal == false):
-						shownDecimal = true
-					elif (shownDecimalTwo == false):
-						shownDecimalTwo = true
+			if (Playfield[x][y] == 26):  ShownApostrophe = true
+			if (Playfield[x][y] == 27):  ShownHyphen = true
 
-				if (Playfield[x][y] == 15):  shownEqual = true
+	if (ShownApostrophe == false):  FallingTile = 26
+	elif (ShownHyphen == false):  FallingTile = 27
 
-		if (shownEqual == false):
-			FallingTile = 15
-			return
-		elif (shownPlus == false):
-			FallingTile = 10
-			return
-		elif (shownMinus == false):
-			FallingTile = 11
-			return
-		elif (shownMultiply == false):
-			FallingTile = 12
-			return
-		elif (shownDivide == false):
-			FallingTile = 13
-			return
-		elif (shownDecimal == false):
-			FallingTile = 14
-			return
-		elif (shownMinusTwo == false):
-			FallingTile = 11
-			return
-		elif (shownDecimalTwo == false):
-			FallingTile = 14
-			return
-
-		if (shownPlus == true and shownMinus == true and shownMinusTwo == true and shownMultiply == true and shownDivide == true and shownDecimalTwo == true and shownDecimalTwo == true and shownEqual == true):
-			allTilesShown = true
+	elif (ShownA == false):  FallingTile = 0
+	elif (ShownE == false):  FallingTile = 4
+	elif (ShownI == false):  FallingTile = 8
+	elif (ShownO == false):  FallingTile = 17
+	elif (ShownU == false):  FallingTile = 20
 
 	pass
 
 #----------------------------------------------------------------------------------------
 func ConvertTilesToString():
-	ThereIsAnOperator = false
-	ThereIsAnEqual = false
-	
-	PlusIndex = -1
-	MinusIndex = -1
-	MinusTwoIndex = -1
-	MultiplyIndex = -1
-	DivideIndex = -1
-	DecimalIndex = -1
-	DecimalTwoIndex = -1
-	EqualIndex = -1
-
-	TheEnd = 0
-
 	CurrentClearedTiles = 0
+
+	ScoreAddPointsOnWord = 0
 
 	ValueToCheck = ""
 	var index = 0
 	while (index < 18 and SelectedTilePlayfieldX[index] != -1 and SelectedTilePlayfieldY[index] != -1):
 		var selX = SelectedTilePlayfieldX[index]
 		var selY = SelectedTilePlayfieldY[index]
-		if (Playfield[selX][selY] > -1 and Playfield[selX][selY] < 16):
+		if (Playfield[selX][selY] > -1 and Playfield[selX][selY] < 28):
 			CurrentClearedTiles+=1
 			var part = Playfield[selX][selY]
-			if   (part ==  0):  ValueToCheck+="0"
-			elif (part ==  1):  ValueToCheck+="1"
-			elif (part ==  2):  ValueToCheck+="2"
-			elif (part ==  3):  ValueToCheck+="3"
-			elif (part ==  4):  ValueToCheck+="4"
-			elif (part ==  5):  ValueToCheck+="5"
-			elif (part ==  6):  ValueToCheck+="6"
-			elif (part ==  7):  ValueToCheck+="7"
-			elif (part ==  8):  ValueToCheck+="8"
-			elif (part ==  9):  ValueToCheck+="9"
+			if   (part ==  0):
+				ValueToCheck+="a"
+				ScoreAddPointsOnWord+=1
+			elif (part ==  1):
+				ValueToCheck+="b"
+				ScoreAddPointsOnWord+=3
+			elif (part ==  2):
+				ValueToCheck+="c"
+				ScoreAddPointsOnWord+=3
+			elif (part ==  3):
+				ValueToCheck+="d"
+				ScoreAddPointsOnWord+=2
+			elif (part ==  4):
+				ValueToCheck+="e"
+				ScoreAddPointsOnWord+=1
+			elif (part ==  5):
+				ValueToCheck+="f"
+				ScoreAddPointsOnWord+=4
+			elif (part ==  6):
+				ValueToCheck+="g"
+				ScoreAddPointsOnWord+=2
+			elif (part ==  7):
+				ValueToCheck+="h"
+				ScoreAddPointsOnWord+=4
+			elif (part ==  8):
+				ValueToCheck+="i"
+				ScoreAddPointsOnWord+=1
+			elif (part ==  9):
+				ValueToCheck+="j"
+				ScoreAddPointsOnWord+=8
 			elif (part == 10):
-				ValueToCheck+="+"
-				PlusIndex = index
-				ThereIsAnOperator = true
+				ValueToCheck+="k"
+				ScoreAddPointsOnWord+=5
 			elif (part == 11):
-				ValueToCheck+="-"
-
-				if (MinusIndex == -1):
-					MinusIndex = index
-				elif (MinusTwoIndex == -1):
-					MinusTwoIndex = index
-
-				ThereIsAnOperator = true
+				ValueToCheck+="l"
+				ScoreAddPointsOnWord+=1
 			elif (part == 12):
-				ValueToCheck+="*"
-				ThereIsAnOperator = true
-				MultiplyIndex = index
+				ValueToCheck+="m"
+				ScoreAddPointsOnWord+=3
 			elif (part == 13):
-				ValueToCheck+="/"
-				ThereIsAnOperator = true
-				DivideIndex = index
+				ValueToCheck+="n"
+				ScoreAddPointsOnWord+=1
 			elif (part == 14):
-				ValueToCheck+="."
-
-				if (DecimalIndex == -1):
-					DecimalIndex = index
-				elif (DecimalTwoIndex == -1):
-					DecimalTwoIndex = index
-
+				ValueToCheck+="o"
+				ScoreAddPointsOnWord+=1
 			elif (part == 15):
-				ValueToCheck+="="
-				ThereIsAnEqual = true
-				EqualIndex = index
+				ValueToCheck+="p"
+				ScoreAddPointsOnWord+=3
+			elif (part == 16):
+				ValueToCheck+="q"
+				ScoreAddPointsOnWord+=10
+			elif (part == 17):
+				ValueToCheck+="r"
+				ScoreAddPointsOnWord+=1
+			elif (part == 18):
+				ValueToCheck+="s"
+				ScoreAddPointsOnWord+=1
+			elif (part == 19):
+				ValueToCheck+="t"
+				ScoreAddPointsOnWord+=1
+			elif (part == 20):
+				ValueToCheck+="u"
+				ScoreAddPointsOnWord+=1
+			elif (part == 21):
+				ValueToCheck+="v"
+				ScoreAddPointsOnWord+=4
+			elif (part == 22):
+				ValueToCheck+="w"
+				ScoreAddPointsOnWord+=4
+			elif (part == 23):
+				ValueToCheck+="x"
+				ScoreAddPointsOnWord+=8
+			elif (part == 24):
+				ValueToCheck+="y"
+				ScoreAddPointsOnWord+=4
+			elif (part == 25):
+				ValueToCheck+="z"
+				ScoreAddPointsOnWord+=10
+			elif (part == 26):
+				ValueToCheck+="'"
+				ScoreAddPointsOnWord+=5
+			elif (part == 27):
+				ValueToCheck+="-"
+				ScoreAddPointsOnWord+=10
 
-			index+=1
-
+		index+=1
+		
 	pass
 
 #----------------------------------------------------------------------------------------
 func CheckEquationNewPerfect():
 	ConvertTilesToString()
 
-	var splitEquation = ValueToCheck.split("=", true, 0)
+	for index in range(0, EndOfWordsFile):
+		if (WordDictionary[index] == ValueToCheck):
+			Score+=( (ScoreAddPointsOnWord*SelectedTileIndex) + (100*Level) )
+			ScoreChanged = true
 
-	var expression = Expression.new()
-	expression.parse(splitEquation[0])
-	var resultLeft = expression.execute()
+			TotalClearedTiles+=SelectedTileIndex
+			if (SecretCodeCombined == 1111):  TotalClearedTiles = ( LevelAdvance[GameMode] + 1)
 
-	var expressionTwo = Expression.new()
-	expressionTwo.parse(splitEquation[1])
-	var resultRight = expressionTwo.execute()
+			if ( TotalClearedTiles > ( LevelAdvance[GameMode]) ):
+				AudioCore.PlayEffect(8)
+				TotalClearedTiles = 0
+				LevelAdvance[GameMode]+=10
+				Level+=1
 
-	if (resultLeft == null or resultRight == null):  return(false)
+				if (GameMode < 4):
+					CutSceneAlpha = 0.0
+					CutSceneScale = 2.0
+					CutSceneTimer = 0
 
-	if (is_equal_approx(resultLeft, resultRight) == true):
-		var numberOfOperators = 0
-		var scoreAdd = 0
-		if (MultiplyIndex > -1):
-			scoreAdd+=(50*Level)
-			numberOfOperators+=1
-		if (DivideIndex > -1):
-			scoreAdd+=(100*Level)
-			numberOfOperators+=1
-		if (PlusIndex > -1):
-			scoreAdd+=(25*Level)
-			numberOfOperators = 0
-		if (MinusIndex > -1):
-			scoreAdd+=(75*Level)
-			numberOfOperators+=1
-		if (MinusTwoIndex > -1):
-			scoreAdd+=(75*2*Level)
-			numberOfOperators+=1
-		if (DecimalIndex > -1):
-			scoreAdd+=(125*Level)
-		if (DecimalTwoIndex > -1):
-			scoreAdd+=(125*2*Level)
+					if (Level == 4):  AudioCore.PlayMusic(2, true)
+					elif (Level == 6):  AudioCore.PlayMusic(3, true)
+					elif (Level == 8):  AudioCore.PlayMusic(4, true)
+					elif (Level == 9):  AudioCore.PlayMusic(5, true)
 
-		Score+=scoreAdd
-		Score+=(250**Level*numberOfOperators)
-		Score+=(SelectedTileIndex*50*Level)
-		ScoreChanged = true
-
-		TotalClearedTiles+=SelectedTileIndex
-
-		if (SecretCodeCombined == 1111):  TotalClearedTiles = ( LevelAdvance[GameMode] + 1)
-
-		if ( TotalClearedTiles > ( LevelAdvance[GameMode]) ):
-			AudioCore.PlayEffect(8)
-			TotalClearedTiles = 0
-			LevelAdvance[GameMode]+=10
-			Level+=1
-
-			if (Level == 4):  AudioCore.PlayMusic(2, true)
-			elif (Level == 6):  AudioCore.PlayMusic(3, true)
-			elif (Level == 8):  AudioCore.PlayMusic(4, true)
-			elif (Level == 9):  AudioCore.PlayMusic(5, true)
-
-			if (GameMode < 4):
-				CutSceneAlpha = 0.0
-				CutSceneScale = 2.0
-				CutSceneTimer = 0
-				
-				if (Level == 10):
-					StillPlaying = false
-					GameWon = true
+					if (Level == 10):
+						StillPlaying = false
+						GameWon = true
+					else:
+						ScreensCore.ScreenFadeStatus = ScreensCore.FadingToBlack
 				else:
-					ScreensCore.ScreenFadeStatus = ScreensCore.FadingToBlack
-			else:
-				CutSceneAlpha = 0.0
-				CutSceneScale = 0.0
-				CutSceneTimer = 0
+					CutSceneAlpha = 0.0
+					CutSceneScale = 0.0
+					CutSceneTimer = 0
 
-		return(true)
-	else:
-		return(false)
+			return(true)
+
+	return(false)
 
 #----------------------------------------------------------------------------------------
 func RunGameplayCore():
+	if (GameMode > 3):
+		if (AudioCore.MusicPlayer.playing == false):
+			var index = randi_range(1, 6)
+			while (index == AudioCore.MusicCurrentlyPlaying):
+				index = randi_range(1, 6)
+
+			AudioCore.PlayMusic(index, false)
+
 	if (GameState == FadingTiles):
 		DrawEverything = true
 
@@ -516,7 +477,7 @@ func RunGameplayCore():
 			SelectedTilesAlpha = 0.0
 			GameState = ApplyingGravity
 
-			for index in range(9):
+			for index in range(20):
 				for y in range(12):
 					for x in range(18):
 						if (Playfield[x][y] > -1):
@@ -545,8 +506,8 @@ func RunGameplayCore():
 					Playfield[x][7] = -1
 
 		PiecesCanStillFall = false
-		for y in range(7):
-			for x in range(12):
+		for y in range(11):
+			for x in range(18):
 				if (Playfield[x][y] == -1 and Playfield[x][y+1] > -1):
 					PiecesCanStillFall = true
 
@@ -566,9 +527,7 @@ func RunGameplayCore():
 		var yPos = -1
 
 		if (Level < 10):
-			FallingTileYoffset+=(7+Level)
-		else:
-			FallingTileYoffset+=(7+9)
+			FallingTileYoffset+=(2+Level)
 
 		if (CurrentHeightOfPlayfield < 4):
 			FallingTileYoffset+=35
@@ -588,8 +547,7 @@ func RunGameplayCore():
 				Playfield[FallingTileX][FallingTileY] = FallingTile
 				SetUpNextFallingTile()
 
-		if (InputCore.MouseButtonLeftPressed == true and CutSceneScale == 0.0):
-			ConvertTilesToString()
+		if (InputCore.MouseButtonLeftPressed == true and CutSceneScale == 0.0 and InputCore.DelayAllUserInput == -1):
 			var screenY = 500-37+11
 			var screenX = 99-11
 			for y in range(12):
@@ -610,64 +568,9 @@ func RunGameplayCore():
 
 								if (selected == false):
 									if (SelectedTileIndex == 0):
-										if ( (Playfield[x][y] > 0 and Playfield[x][y] < 10) or (Playfield[x][y] == 11) or (Playfield[x][y] == 14) ):
 											allowTileSelection = true
 									elif (SelectedTileIndex > 0):
-										var posX = SelectedTilePlayfieldX[SelectedTileIndex-1]
-										var posY = SelectedTilePlayfieldY[SelectedTileIndex-1]
-
-										if ( (Playfield[x][y] > -1 and Playfield[x][y] < 10) ):
-											allowTileSelection = true
-											
-											if ( Playfield[x][y] == 0 and (Playfield[posX][posY] == 10 or Playfield[posX][posY] == 11 or Playfield[posX][posY] == 12 and Playfield[posX][posY] == 13) ):
-												allowTileSelection = false
-
-											if ( Playfield[x][y] == 0 and (Playfield[posX][posY] == 15) ):
-												allowTileSelection = false
-
-											if ( Playfield[x][y] == 0 and (Playfield[posX][posY] == 13) ):
-												allowTileSelection = false
-										elif (Playfield[posX][posY] > -1 and Playfield[posX][posY] < 10):
-											if (Playfield[x][y] == 10):
-												if (PlusIndex == -1):
-													allowTileSelection = true
-											elif (Playfield[x][y] == 11):
-												if (MinusIndex == -1):
-													allowTileSelection = true
-											elif (Playfield[x][y] == 12):
-												if (MultiplyIndex == -1):
-													allowTileSelection = true
-											elif (Playfield[x][y] == 13):
-												if (DivideIndex == -1):
-													allowTileSelection = true
-
-											if (Playfield[x][y] == 15 and SelectedTileIndex > 2 and ThereIsAnOperator == true):
-												if (ThereIsAnEqual == false):
-													allowTileSelection = true
-
-										if (Playfield[x][y] == 11 and (Playfield[posX][posY] == 10 or Playfield[posX][posY] == 12 or Playfield[posX][posY] == 13) ):
-											allowTileSelection = true
-
-										if (Playfield[x][y] == 0 and Playfield[posX][posY] == 12):
-											allowTileSelection = false
-
-										if (Playfield[x][y] == 11 and Playfield[posX][posY] == 15):
-											allowTileSelection = true
-
-										if (ThereIsAnEqual == true and MinusIndex > -1 and Playfield[posX][posY] == 15 and Playfield[x][y] == 0):
-											allowTileSelection = true
-
-										if (SelectedTileIndex > 1):
-											var checkX = SelectedTilePlayfieldX[SelectedTileIndex-2]
-											var checkY = SelectedTilePlayfieldY[SelectedTileIndex-2]
-											if (ThereIsAnEqual == true and MinusIndex > -1 and Playfield[checkX][checkY] == 15 and Playfield[posX][posY] == 0 and Playfield[x][y] > -1 and Playfield[x][y] < 10):
-												allowTileSelection = false
-
-										if ( Playfield[x][y] == 14 and ((Playfield[posX][posY] > -1 and Playfield[posX][posY] < 10)) ):
-											allowTileSelection = true
-
-										if ( Playfield[x][y] == 14 and (Playfield[posX][posY] > 9 and Playfield[posX][posY] < 14) or Playfield[posX][posY] == 15 ):
-											allowTileSelection = true
+										allowTileSelection = true
 
 					screenX+=50
 
@@ -678,13 +581,31 @@ func RunGameplayCore():
 			SelectedTilePlayfieldX[SelectedTileIndex] = xPos
 			SelectedTilePlayfieldY[SelectedTileIndex] = yPos
 			SelectedTileIndex+=1
-			ConvertTilesToString()
+#			ConvertTilesToString()
 			AudioCore.PlayEffect(0)
 			FramesSinceLastPlayerInput = 0
 
 			DrawEverything = true
 
 		FramesSinceLastPlayerInput+=1
+
+	pass
+
+#----------------------------------------------------------------------------------------
+func LoadDictionary():
+	var file = FileAccess.open("res://media/Dictionary/words.txt", FileAccess.READ)
+	assert(file != null, "Failed to open word list")
+
+	WordDictionary.resize(500000)
+
+	var idx := 0
+	while not file.eof_reached():
+		WordDictionary[idx] = file.get_line()
+		idx += 1
+		EndOfWordsFile = idx
+
+	var success := WordDictionary.resize(idx+1)
+	assert(success == OK, "Failed to resize by trim")
 
 	pass
 
@@ -698,14 +619,14 @@ func _ready():
 	LogicCore.SecretCodeCombined = 0000
 
 	LevelAdvance.resize(8)
-	LevelAdvance[ChildStoryMode] = 15
-	LevelAdvance[TeenStoryMode]  = (15 * 3)
-	LevelAdvance[AdultStoryMode] = (15 * 2)
-	LevelAdvance[TurboStoryMode] = (15 * 4)
-	LevelAdvance[ChildNeverMode] = 15
-	LevelAdvance[TeenNeverMode]  = (15 * 3)
-	LevelAdvance[AdultNeverMode] = (15 * 2)
-	LevelAdvance[TurboNeverMode] = (15 * 4)
+	LevelAdvance[ChildStoryMode] = 7
+	LevelAdvance[TeenStoryMode]  = (7 * 3)
+	LevelAdvance[AdultStoryMode] = (7 * 2)
+	LevelAdvance[TurboStoryMode] = (7 * 4)
+	LevelAdvance[ChildNeverMode] = 7
+	LevelAdvance[TeenNeverMode]  = (7 * 3)
+	LevelAdvance[AdultNeverMode] = (7 * 2)
+	LevelAdvance[TurboNeverMode] = (7 * 4)
 
 	Playfield.resize(18)
 	for x in range(18):
@@ -714,7 +635,7 @@ func _ready():
 		for y in range(12):
 			Playfield[x][y] = []
 
-	TileSpriteIndex.resize(16)
+	TileSpriteIndex.resize(28)
 
 	Score = 0
 	Level = 0
@@ -740,15 +661,10 @@ func _ready():
 
 	PiecesCanStillFall = false
 
-	PlusIndex = -1
-	MinusIndex = -1
-	MultiplyIndex = -1
-	DivideIndex = -1
-	DecimalIndex = -1
-	EqualIndex = -1
-
 	number.resize(16)
 	mathOperator.resize(16)
+
+	LoadDictionary()
 
 	pass
 
