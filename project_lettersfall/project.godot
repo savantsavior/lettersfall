@@ -14,7 +14,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="\"LettersFall 110%[TM]\" - v1.1.0 Beta 1 Same Story - TeamJeZxLee.Itch.io"
+config/name="\"LettersFall 110%[TM]\" - v1.1.0 Beta 2 Same Story - TeamJeZxLee.Itch.io"
 run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.5")
 run/max_fps=30
@@ -322,7 +322,7 @@ quality/intended_usage/framebuffer_allocation=1
 quality/intended_usage/framebuffer_allocation.mobile=1
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
-quality/filters/anisotropic_filter_level=1
+quality/filters/anisotropic_filter_level=2
 quality/filters/use_nearest_mipmap_filter=true
 environment/default_clear_color=Color(0, 0, 0, 1)
 environment/default_environment="res://default_env.tres"

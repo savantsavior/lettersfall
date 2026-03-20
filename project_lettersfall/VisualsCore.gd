@@ -212,27 +212,12 @@ func _ready():
 	Sprites.SpriteImage[190] = load("res://media/images/gui/Play2.png")
 	Sprites.SpriteActive[190] = true
 
-	Sprites.SpriteImage[191] = load("res://media/images/playing/Tile1.png")
-	Sprites.SpriteActive[191] = true
-
-	Sprites.SpriteImage[192] = load("res://media/images/playing/TilePlus.png")
-	Sprites.SpriteActive[192] = true
-
-	Sprites.SpriteImage[193] = load("res://media/images/playing/Tile2.png")
-	Sprites.SpriteActive[193] = true
-
-	Sprites.SpriteImage[194] = load("res://media/images/playing/TileEqual.png")
-	Sprites.SpriteActive[194] = true
-
-	Sprites.SpriteImage[195] = load("res://media/images/playing/Tile3.png")
-	Sprites.SpriteActive[195] = true
-
 	for index in range(0, 100):
 		Sprites.SpriteImage[200+index] = load("res://media/images/gui/NameInputButton2.png")
 		Sprites.SpriteActive[200+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[20000+index] = load("res://media/images/playing/A-Tile.png")
+		Sprites.SpriteImage[20000+index] = load("res://media/images/playing/A2-Tile.png")
 		Sprites.SpriteActive[20000+index] = true
 
 	for index in range(0, 999):
@@ -248,7 +233,7 @@ func _ready():
 		Sprites.SpriteActive[23000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[24000+index] = load("res://media/images/playing/E-Tile.png")
+		Sprites.SpriteImage[24000+index] = load("res://media/images/playing/E2-Tile.png")
 		Sprites.SpriteActive[24000+index] = true
 
 	for index in range(0, 999):
@@ -264,7 +249,7 @@ func _ready():
 		Sprites.SpriteActive[27000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[28000+index] = load("res://media/images/playing/I-Tile.png")
+		Sprites.SpriteImage[28000+index] = load("res://media/images/playing/I2-Tile.png")
 		Sprites.SpriteActive[28000+index] = true
 
 	for index in range(0, 999):
@@ -288,7 +273,7 @@ func _ready():
 		Sprites.SpriteActive[33000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[34000+index] = load("res://media/images/playing/O-Tile.png")
+		Sprites.SpriteImage[34000+index] = load("res://media/images/playing/O2-Tile.png")
 		Sprites.SpriteActive[34000+index] = true
 
 	for index in range(0, 999):
@@ -312,7 +297,7 @@ func _ready():
 		Sprites.SpriteActive[39000+index] = true
 
 	for index in range(0, 999):
-		Sprites.SpriteImage[40000+index] = load("res://media/images/playing/U-Tile.png")
+		Sprites.SpriteImage[40000+index] = load("res://media/images/playing/U2-Tile.png")
 		Sprites.SpriteActive[40000+index] = true
 
 	for index in range(0, 999):
@@ -465,6 +450,8 @@ func _ready():
 	FontTTF.append(-1)
 	FontTTF[1] = load("res://media/fonts/FNT_02.ttf")
 	TextCurrentIndex = 0
+	FontTTF[0].font_weight = 700
+	FontTTF[1].font_weight = 700
 
 	AboutTextsStartIndex = 0
 	AboutTextsEndIndex = 0

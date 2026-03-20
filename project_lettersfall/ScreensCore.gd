@@ -348,20 +348,20 @@ func DisplayTitleScreen():
 		elif (OperatingSys == OSAndroid):
 			VisualsCore.DrawSprite(20, VisualsCore.ScreenWidth/2.0, 103.0, 0.95, 0.75, 0, 1.0, 1.0, 1.0, 1.0)
 
-		VisualsCore.DrawSprite(30, VisualsCore.ScreenWidth/2.0, 150+45-10, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
+		VisualsCore.DrawSprite(30, VisualsCore.ScreenWidth/2.0, 150+45-10+15, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
 
 		var highScoreFullText
 		highScoreFullText = "''"+DataCore.HighScoreName[LogicCore.GameMode][0]+"'' Scored: "+str(DataCore.HighScoreScore[LogicCore.GameMode][0])
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, highScoreFullText, 0, 170+35+15-12-15, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, highScoreFullText, 0, 170+35+15-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-		VisualsCore.DrawSprite(31, VisualsCore.ScreenWidth/2.0, 194+35+20-20, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
+		VisualsCore.DrawSprite(31, VisualsCore.ScreenWidth/2.0, 194+35+20-20+13, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
 
 		if (OperatingSys != OSAndroid):
 			RenderingServer.canvas_item_set_modulate(VisualsCore.Sprites.ci_rid[15], Color(1.0, 1.0, 1.0, 1.0))
 		else:
 			RenderingServer.canvas_item_set_modulate(VisualsCore.Sprites.ci_rid[26], Color(1.0, 1.0, 1.0, 1.0))
 
-		var buttonY = 223+70-10-14
+		var buttonY = 223+70-10-14+15
 		var buttonOffsetY = 70
 		InterfaceCore.CreateButton (0, (VisualsCore.ScreenWidth/2.0), (buttonY))
 		buttonY+=buttonOffsetY
@@ -1872,6 +1872,8 @@ func DisplayNewHighScoreScreen():
 #----------------------------------------------------------------------------------------
 func DisplayCutSceneScreen():
 	if ScreenFadeStatus == FadingFromBlack && ScreenFadeTransparency == 1.0:
+		print("Fired!")
+		
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
 
 		VisualsCore.DrawSprite(10, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
@@ -1885,7 +1887,7 @@ func DisplayCutSceneScreen():
 
 		InputCore.DelayAllUserInput = 35
 
-	if (InputCore.MouseButtonLeftPressed == true):
+	if (InputCore.MouseButtonLeftPressed == true and InputCore.DelayAllUserInput == -1):
 		InputCore.DelayAllUserInput = 25
 		ScreenToDisplayNext = PlayingGameScreen
 		ScreenFadeStatus = FadingToBlack

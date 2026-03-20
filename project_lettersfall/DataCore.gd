@@ -25,7 +25,7 @@ var HighScoreScore = []
 var PlayerWithHighestScore
 var NewHighScoreRank
 
-const FILE_NAME = "user://LettersFall-1_1_0-Beta-1b-game-data.json"
+const FILE_NAME = "user://LettersFall-1_1_0-Beta-2d-game-data.json"
 var godot_Temp_Version = Engine.get_version_info()
 var GODOT_VERSION = godot_Temp_Version.string
 
@@ -61,7 +61,7 @@ func ClearHighScores():
 		HighScoreName[mode][5] = "mattmatteh"
 		HighScoreName[mode][6] = "Oshi Bobo"
 		HighScoreName[mode][7] = "Suno.com A.I. Music + Lyrics"
-		HighScoreName[mode][8] = "Godot Engine Version 4.5.1+"
+		HighScoreName[mode][8] = "Godot Engine Version 4.5.2+"
 		HighScoreName[mode][9] = "You!"
 
 		HighScoreLevel[mode][0] = 10

@@ -20,7 +20,7 @@ extends Node2D
 
 var HideCopyright = false
 
-var Version = "1.1.0 - Beta 1 Same Story"
+var Version = "1.1.0 - Beta 2 Same Story"
 
 const ChildStoryMode				= 0
 const TeenStoryMode					= 2
@@ -160,38 +160,44 @@ func SetupForNewGame():
 
 	var allTilesShown = false
 	while (allTilesShown == false):
-		for y in range(0, 3):
+		for y in range(0, 4):
 			for x in range(0, 18):
 				Playfield[x][y] = ( randi() % (28-2) )
 
-		Playfield[randi() % 12][randi() % 2] = 0
-		Playfield[randi() % 12][randi() % 2] = 4
-		Playfield[randi() % 12][randi() % 2] = 8
-		Playfield[randi() % 12][randi() % 2] = 14
-		Playfield[randi() % 12][randi() % 2] = 20
+		Playfield[randi() % 12][randi() % 3] = 0
+		Playfield[randi() % 12][randi() % 3] = 4
+		Playfield[randi() % 12][randi() % 3] = 8
+		Playfield[randi() % 12][randi() % 3] = 14
+		Playfield[randi() % 12][randi() % 3] = 20
 
-		Playfield[randi() % 12][randi() % 2] = 26
-		Playfield[randi() % 12][randi() % 2] = 27
+		Playfield[randi() % 12][randi() % 3] = 0
+		Playfield[randi() % 12][randi() % 3] = 4
+		Playfield[randi() % 12][randi() % 3] = 8
+		Playfield[randi() % 12][randi() % 3] = 14
+		Playfield[randi() % 12][randi() % 3] = 20
 
-		ShownA = false
-		ShownE = false
-		ShownI = false
-		ShownO = false
-		ShownU = false
+		Playfield[randi() % 12][randi() % 3] = 26
+		Playfield[randi() % 12][randi() % 3] = 27
+
+		ShownA = 0
+		ShownE = 0
+		ShownI = 0
+		ShownO = 0
+		ShownU = 0
 		ShownApostrophe = false
 		ShownHyphen = false
 		for y in range(0, 12):
 			for x in range(0, 18):
-				if (Playfield[x][y] == 0):  ShownA = true
-				if (Playfield[x][y] == 4):  ShownE = true
-				if (Playfield[x][y] == 8):  ShownI = true
-				if (Playfield[x][y] == 17):  ShownO = true
-				if (Playfield[x][y] == 20):  ShownU = true
+				if (Playfield[x][y] == 0):  ShownA+=1
+				if (Playfield[x][y] == 4):  ShownE+=1
+				if (Playfield[x][y] == 8):  ShownI+=1
+				if (Playfield[x][y] == 14):  ShownO+=1
+				if (Playfield[x][y] == 20):  ShownU+=1
 
 				if (Playfield[x][y] == 26):  ShownApostrophe = true
 				if (Playfield[x][y] == 27):  ShownHyphen = true
 
-		if (ShownA == true and ShownE == true and ShownI == true and ShownO == true and ShownU == true and ShownApostrophe == true and ShownHyphen == true):
+		if (ShownA > 1 and ShownE > 1 and ShownI > 1 and ShownO > 1 and ShownU > 1 and ShownApostrophe == true and ShownHyphen == true):
 			allTilesShown = true
 
 	FallingTileX = 0
@@ -250,6 +256,8 @@ func SetupForNewGame():
 
 	FramesSinceLastPlayerInput = 0
 
+#	print(ShownA, " / ", ShownE, " / ", ShownI, " / ", ShownO, " / ", ShownU)
+
 	pass
 
 #----------------------------------------------------------------------------------------
@@ -283,20 +291,20 @@ func SetUpNextFallingTile():
 
 	FallingTile = ( randi() % (28-2) )
 
-	ShownA = false
-	ShownE = false
-	ShownI = false
-	ShownO = false
-	ShownU = false
+	ShownA = 0
+	ShownE = 0
+	ShownI = 0
+	ShownO = 0
+	ShownU = 0
 	ShownApostrophe = false
 	ShownHyphen = false
 	for y in range(0, 12):
 		for x in range(0, 18):
-			if (Playfield[x][y] == 0):  ShownA = true
-			if (Playfield[x][y] == 4):  ShownE = true
-			if (Playfield[x][y] == 8):  ShownI = true
-			if (Playfield[x][y] == 17):  ShownO = true
-			if (Playfield[x][y] == 20):  ShownU = true
+			if (Playfield[x][y] == 0):  ShownA+=1
+			if (Playfield[x][y] == 4):  ShownE+=1
+			if (Playfield[x][y] == 8):  ShownI+=1
+			if (Playfield[x][y] == 14):  ShownO+=1
+			if (Playfield[x][y] == 20):  ShownU+=1
 
 			if (Playfield[x][y] == 26):  ShownApostrophe = true
 			if (Playfield[x][y] == 27):  ShownHyphen = true
@@ -304,11 +312,17 @@ func SetUpNextFallingTile():
 	if (ShownApostrophe == false):  FallingTile = 26
 	elif (ShownHyphen == false):  FallingTile = 27
 
-	elif (ShownA == false):  FallingTile = 0
-	elif (ShownE == false):  FallingTile = 4
-	elif (ShownI == false):  FallingTile = 8
-	elif (ShownO == false):  FallingTile = 17
-	elif (ShownU == false):  FallingTile = 20
+	elif (ShownA < 1):  FallingTile = 0
+	elif (ShownE < 1):  FallingTile = 4
+	elif (ShownI < 1):  FallingTile = 8
+	elif (ShownO < 1):  FallingTile = 14
+	elif (ShownU < 1):  FallingTile = 20
+
+	elif (ShownA < 2):  FallingTile = 0
+	elif (ShownE < 2):  FallingTile = 4
+	elif (ShownI < 2):  FallingTile = 8
+	elif (ShownO < 2):  FallingTile = 14
+	elif (ShownU < 2):  FallingTile = 20
 
 	pass
 
@@ -529,7 +543,7 @@ func RunGameplayCore():
 		if (Level < 10):
 			FallingTileYoffset+=(2+Level)
 
-		if (CurrentHeightOfPlayfield < 4):
+		if (CurrentHeightOfPlayfield < 5):
 			FallingTileYoffset+=35
 			FramesSinceLastPlayerInput = 0
 
