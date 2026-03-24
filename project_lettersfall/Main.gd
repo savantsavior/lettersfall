@@ -17,7 +17,7 @@
 #
 # ------------------------------------------------------------------------------
 #                    Cross-Platform / M.I.T. Open-Source
-#      "Grand National GNX" v2 Godot Engine 4.5.2+ 2D Video Game Framework
+#      "Grand National GNX" v2 Godot Engine 4.6.1+ 2D Video Game Framework
 # ------------------------------------------------------------------------------
 #                                               TM
 #                            "Learn To Have Fun!"
