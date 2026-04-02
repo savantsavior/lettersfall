@@ -115,6 +115,9 @@ var StarColorR = []
 var StarColorG = []
 var StarColorB = []
 
+var ScreenIsDirty = false
+var ScreenIsDirtyFrame = 0
+
 #----------------------------------------------------------------------------------------
 func _ready():
 	for _index in range(0, 10):
@@ -168,12 +171,17 @@ func _ready():
 	Sprites.SpriteImage[23] = load("res://media/images/backgrounds/BG_Title_Logo.png")
 	Sprites.SpriteActive[23] = true
 
-	for index in range(30, 40):
-		Sprites.SpriteImage[index] = load("res://media/images/gui/ScreenLine2.png")
+#	Sprites.SpriteActive.fill(true) <- Not sure what this does?
+	Sprites.SpriteImage[30] = load("res://media/images/gui/ScreenLine2.png")
+	Sprites.SpriteActive[30] = true
+	for index in range(31, 40):
+		Sprites.SpriteImage[index] = Sprites.SpriteImage[30].duplicate()
 		Sprites.SpriteActive[index] = true
 
-	for index in range(40, 50):
-		Sprites.SpriteImage[index] = load("res://media/images/gui/Button2.png")
+	Sprites.SpriteImage[40] = load("res://media/images/gui/Button2.png")
+	Sprites.SpriteActive[40] = true
+	for index in range(41, 50):
+		Sprites.SpriteImage[index] = Sprites.SpriteImage[40].duplicate()
 		Sprites.SpriteActive[index] = true
 
 	Sprites.SpriteImage[50] = load("res://media/images/gui/ButtonSelectorLeft.png")
@@ -184,10 +192,14 @@ func _ready():
 	Sprites.SpriteImage[60] = load("res://media/images/gui/SelectorLine.png")
 	Sprites.SpriteActive[60] = true
 
-	for index in range(70, 100, 2):
-		Sprites.SpriteImage[index] = load("res://media/images/gui/ButtonSelectorLeft.png")
+	Sprites.SpriteImage[70] = load("res://media/images/gui/ButtonSelectorLeft.png")
+	Sprites.SpriteActive[70] = true
+	Sprites.SpriteImage[71] = load("res://media/images/gui/ButtonSelectorRight.png")
+	Sprites.SpriteActive[71] = true
+	for index in range(72, 100, 2):
+		Sprites.SpriteImage[index] = Sprites.SpriteImage[70].duplicate()
 		Sprites.SpriteActive[index] = true
-		Sprites.SpriteImage[index+1] = load("res://media/images/gui/ButtonSelectorRight.png")
+		Sprites.SpriteImage[index+1] = Sprites.SpriteImage[71].duplicate()
 		Sprites.SpriteActive[index+1] = true
 
 	Sprites.SpriteImage[110] = load("res://media/images/gui/SpeakerOFF.png")
@@ -212,124 +224,40 @@ func _ready():
 	Sprites.SpriteImage[190] = load("res://media/images/gui/Play2.png")
 	Sprites.SpriteActive[190] = true
 
-	for index in range(0, 100):
-		Sprites.SpriteImage[200+index] = load("res://media/images/gui/NameInputButton2.png")
+	Sprites.SpriteImage[200] = load("res://media/images/gui/NameInputButton2.png")
+	Sprites.SpriteActive[200] = true
+	for index in range(1, 100):
+		Sprites.SpriteImage[200+index] = Sprites.SpriteImage[200].duplicate()
 		Sprites.SpriteActive[200+index] = true
 
-	for index in range(0, 999):
-		Sprites.SpriteImage[20000+index] = load("res://media/images/playing/A2-Tile.png")
-		Sprites.SpriteActive[20000+index] = true
+	var fileName
+	var asciiValue = 65
+	for number in range(0, 26):
+		fileName = "res://media/images/playing/"+String.chr(asciiValue)+"-Tile.png"
+		Sprites.SpriteImage[20000+(number*1000)] = load(fileName)
+		Sprites.SpriteActive[20000+(number*1000)] = true
+		for index in range(1, 999):
+			Sprites.SpriteImage[20000+(number*1000)+index] = Sprites.SpriteImage[20000+(number*1000)].duplicate()
+			Sprites.SpriteActive[20000+(number*1000)+index] = true
 
-	for index in range(0, 999):
-		Sprites.SpriteImage[21000+index] = load("res://media/images/playing/B-Tile.png")
-		Sprites.SpriteActive[21000+index] = true
+		asciiValue+=1
 
-	for index in range(0, 999):
-		Sprites.SpriteImage[22000+index] = load("res://media/images/playing/C-Tile.png")
-		Sprites.SpriteActive[22000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[23000+index] = load("res://media/images/playing/D-Tile.png")
-		Sprites.SpriteActive[23000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[24000+index] = load("res://media/images/playing/E2-Tile.png")
-		Sprites.SpriteActive[24000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[25000+index] = load("res://media/images/playing/F-Tile.png")
-		Sprites.SpriteActive[25000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[26000+index] = load("res://media/images/playing/G-Tile.png")
-		Sprites.SpriteActive[26000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[27000+index] = load("res://media/images/playing/H-Tile.png")
-		Sprites.SpriteActive[27000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[28000+index] = load("res://media/images/playing/I2-Tile.png")
-		Sprites.SpriteActive[28000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[29000+index] = load("res://media/images/playing/J-Tile.png")
-		Sprites.SpriteActive[29000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[30000+index] = load("res://media/images/playing/K-Tile.png")
-		Sprites.SpriteActive[30000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[31000+index] = load("res://media/images/playing/L-Tile.png")
-		Sprites.SpriteActive[31000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[32000+index] = load("res://media/images/playing/M-Tile.png")
-		Sprites.SpriteActive[32000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[33000+index] = load("res://media/images/playing/N-Tile.png")
-		Sprites.SpriteActive[33000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[34000+index] = load("res://media/images/playing/O2-Tile.png")
-		Sprites.SpriteActive[34000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[35000+index] = load("res://media/images/playing/P-Tile.png")
-		Sprites.SpriteActive[35000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[36000+index] = load("res://media/images/playing/Q-Tile.png")
-		Sprites.SpriteActive[36000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[37000+index] = load("res://media/images/playing/R-Tile.png")
-		Sprites.SpriteActive[37000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[38000+index] = load("res://media/images/playing/S-Tile.png")
-		Sprites.SpriteActive[38000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[39000+index] = load("res://media/images/playing/T-Tile.png")
-		Sprites.SpriteActive[39000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[40000+index] = load("res://media/images/playing/U2-Tile.png")
-		Sprites.SpriteActive[40000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[41000+index] = load("res://media/images/playing/V-Tile.png")
-		Sprites.SpriteActive[41000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[42000+index] = load("res://media/images/playing/W-Tile.png")
-		Sprites.SpriteActive[42000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[43000+index] = load("res://media/images/playing/X-Tile.png")
-		Sprites.SpriteActive[43000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[44000+index] = load("res://media/images/playing/Y-Tile.png")
-		Sprites.SpriteActive[44000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[45000+index] = load("res://media/images/playing/Z-Tile.png")
-		Sprites.SpriteActive[45000+index] = true
-
-	for index in range(0, 999):
-		Sprites.SpriteImage[46000+index] = load("res://media/images/playing/Apostrophe-Tile.png")
+	Sprites.SpriteImage[46000] = load("res://media/images/playing/Apostrophe-Tile.png")
+	Sprites.SpriteActive[46000] = true
+	for index in range(1, 999):
+		Sprites.SpriteImage[46000+index] = Sprites.SpriteImage[46000].duplicate()
 		Sprites.SpriteActive[46000+index] = true
 
-	for index in range(0, 999):
-		Sprites.SpriteImage[47000+index] = load("res://media/images/playing/Hyphen-Tile.png")
+	Sprites.SpriteImage[47000] = load("res://media/images/playing/Hyphen-Tile.png")
+	Sprites.SpriteActive[47000] = true
+	for index in range(1, 999):
+		Sprites.SpriteImage[47000+index] = Sprites.SpriteImage[47000].duplicate()
 		Sprites.SpriteActive[47000+index] = true
 
-	for index in range(0, 999):
-		Sprites.SpriteImage[48000+index] = load("res://media/images/playing/Selected-S.png")
+	Sprites.SpriteImage[48000] = load("res://media/images/playing/Selected-S.png")
+	Sprites.SpriteActive[48000] = true
+	for index in range(1, 999):
+		Sprites.SpriteImage[48000+index] = Sprites.SpriteImage[48000].duplicate()
 		Sprites.SpriteActive[48000+index] = true
 
 	Sprites.SpriteImage[2001] = load("res://media/images/playing/UndoButton-S.png")
@@ -374,9 +302,11 @@ func _ready():
 	Sprites.SpriteImage[3010] = load("res://media/images/story/Anime9.png")
 	Sprites.SpriteActive[3010] = true
 
-	for indexStar in range(250):
-		Sprites.SpriteImage[4000+indexStar] = load("res://media/images/gui/Star.png")
-		Sprites.SpriteActive[4000+indexStar] = true
+	Sprites.SpriteImage[4000] = load("res://media/images/gui/Star.png")
+	Sprites.SpriteActive[4000] = true
+	for index in range(1, 250):
+		Sprites.SpriteImage[4000+index] = Sprites.SpriteImage[4000].duplicate()
+		Sprites.SpriteActive[4000+index] = true
 
 	Sprites.SpriteImage[5000] = load("res://media/images/backgrounds/BG_Fading_Black.png")
 	Sprites.SpriteActive[5000] = true
@@ -556,19 +486,14 @@ func DrawSprite(index, x, y, scaleX, scaleY, rotationDegree, red, green, blue, a
 #                                   Godot Version 3.5 To 4.0 Conversion By: "flairetic"
 #----------------------------------------------------------------------------------------
 func DeleteAllTexts():
-	var size = (TextCurrentIndex - 1)
-
-	for index in range(size, 9, -1):
+	for index in range(10, 1000):
 		if (TextIsUsed[index] == true):
+			TextIsUsed[index] = false
 			remove_child(Texts.TextImage[index])
-
-	for _index in range(0, TextCurrentIndex):
-		TextIsUsed[_index] = false
 
 	TextCurrentIndex = 10
 
 	pass
-
 #----------------------------------------------------------------------------------------
 func DrawnTextChangeScaleRotation(index, scaleX, scaleY, rotations):
 	var textHeight = Texts.TextImage[index].get_theme_font("normal_font").get_string_size(Texts.TextImage[index].text).y
@@ -706,6 +631,10 @@ func LoadAboutScreenTexts():
 	AddAboutScreenText("The ''Grand National GNX™'' v2 Engine By:", 1.0)
 	AddAboutScreenText("JeZxLee", 1.0)
 	AddAboutScreenText("''flairetic''", 1.0)
+
+	AddAboutScreenText("Special Thanks You To:", 0.0)
+	AddAboutScreenText("''sancho2''", 1.0)
+	AddAboutScreenText("[For Their GDScript Source Code Optimizations]", 1.0)
 
 	AddAboutScreenText("Graphics Core(Texts/Sprites) Ported & Turbocharged By:", 0.0)
 	AddAboutScreenText("''flairetic''", 1.0)
@@ -866,9 +795,7 @@ func LoadAboutScreenTexts():
 	AddAboutScreenText("''hyvernox''", 1.0)
 	AddAboutScreenText("''TokyoFunkScene''", 1.0)
 	AddAboutScreenText("''trizZzle''", 1.0)
-	AddAboutScreenText("''sancho2''", 1.0)
-	AddAboutScreenText("''hasjime''", 1.0)
-	AddAboutScreenText("''conz3d''", 1.0)
+	AddAboutScreenText("''Toxe''", 1.0)
 
 	AddAboutScreenText(" ", 1.0)
 	AddAboutScreenText("''You!''", 1.0)

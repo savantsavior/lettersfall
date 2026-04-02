@@ -30,7 +30,7 @@
 #                                               TM
 #                              "LettersFall 110%"
 #
-#                    Retail Version 1.1.0 Beta 2 Same Story
+#                    Retail Version 1.1.0 Beta 4 Same Story
 #
 #                            Linux Flatpak On Flathub
 #                 HTML5 Enabled Desktop/Laptop Internet Browsers

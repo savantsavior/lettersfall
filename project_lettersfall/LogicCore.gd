@@ -20,7 +20,7 @@ extends Node2D
 
 var HideCopyright = false
 
-var Version = "1.1.0 - Beta 2 Same Story"
+var Version = "1.1.0 - Beta 4 Same Story"
 
 const ChildStoryMode				= 0
 const TeenStoryMode					= 2
