@@ -1875,7 +1875,7 @@ func DisplayNewHighScoreScreen():
 #----------------------------------------------------------------------------------------
 func DisplayCutSceneScreen():
 	if ScreenFadeStatus == FadingFromBlack && ScreenFadeTransparency == 1.0:
-		print("Fired!")
+#		print("Fired!")
 		
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
 
@@ -1932,7 +1932,7 @@ func ProcessScreenToDisplay():
 
 	if (VisualsCore.ScreenIsDirty == true):
 		VisualsCore.ScreenIsDirtyFrame+=1
-		print("Screen Is Dirty Frame = "+str(VisualsCore.ScreenIsDirtyFrame))
+#		print("Screen Is Dirty Frame = "+str(VisualsCore.ScreenIsDirtyFrame))
 		if ScreenToDisplay == HTML5Screen:
 			DisplayHTML5Screen()
 		elif ScreenToDisplay == GodotScreen:
