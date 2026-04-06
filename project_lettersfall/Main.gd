@@ -45,7 +45,7 @@ func _ready():
 	
 	VisualsCore.SetFramesPerSecond(30)
 
-	VisualsCore.KeepAspectRatio = 1
+	VisualsCore.KeepAspectRatio = true
 
 	DataCore.LoadOptionsAndHighScores()
 

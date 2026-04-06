@@ -236,7 +236,7 @@ func _ready():
 		fileName = "res://media/images/playing/"+String.chr(asciiValue)+"-Tile.png"
 		Sprites.SpriteImage[20000+(number*1000)] = load(fileName)
 		Sprites.SpriteActive[20000+(number*1000)] = true
-		for index in range(1, 999):
+		for index in range(1, 250):
 			Sprites.SpriteImage[20000+(number*1000)+index] = Sprites.SpriteImage[20000+(number*1000)].duplicate()
 			Sprites.SpriteActive[20000+(number*1000)+index] = true
 
@@ -244,13 +244,13 @@ func _ready():
 
 	Sprites.SpriteImage[46000] = load("res://media/images/playing/Apostrophe-Tile.png")
 	Sprites.SpriteActive[46000] = true
-	for index in range(1, 999):
+	for index in range(1, 250):
 		Sprites.SpriteImage[46000+index] = Sprites.SpriteImage[46000].duplicate()
 		Sprites.SpriteActive[46000+index] = true
 
 	Sprites.SpriteImage[47000] = load("res://media/images/playing/Hyphen-Tile.png")
 	Sprites.SpriteActive[47000] = true
-	for index in range(1, 999):
+	for index in range(1, 250):
 		Sprites.SpriteImage[47000+index] = Sprites.SpriteImage[47000].duplicate()
 		Sprites.SpriteActive[47000+index] = true
 
@@ -444,9 +444,9 @@ func SetFullScreenMode():
 func SetScreenStretchMode():
 	var window = get_tree().root 
 	window.content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
-	if (VisualsCore.KeepAspectRatio == 1):
+	if (VisualsCore.KeepAspectRatio == true):
 		window.content_scale_aspect = Window.CONTENT_SCALE_ASPECT_KEEP_WIDTH
-	elif (VisualsCore.KeepAspectRatio == 0):
+	elif (VisualsCore.KeepAspectRatio == false):
 		window.content_scale_aspect = Window.CONTENT_SCALE_ASPECT_IGNORE
 
 	pass

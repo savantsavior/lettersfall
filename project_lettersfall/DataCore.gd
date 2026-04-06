@@ -25,7 +25,7 @@ var HighScoreScore = []
 var PlayerWithHighestScore
 var NewHighScoreRank
 
-const FILE_NAME = "user://LettersFall-1_1_0-Beta-3b-game-data.json"
+const FILE_NAME = "user://LettersFall-1_1_0-Beta-3c-game-data.json"
 var godot_Temp_Version = Engine.get_version_info()
 var GODOT_VERSION = godot_Temp_Version.string
 

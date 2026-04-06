@@ -146,7 +146,7 @@ func _ready():
 	ScreenFadeStatus = FadingFromBlack
 	ScreenFadeTransparency = 1.0
 
-	ScreenToDisplay = GodotScreen
+	ScreenToDisplay = HTML5Screen
 
 	ScreenDisplayTimer = -1
 
@@ -157,10 +157,10 @@ func _ready():
 	elif OS.get_name() == "Android":
 		OperatingSys = OSAndroid
 
-	if (OperatingSys == OSHTMLFive):
-		ScreenToDisplay = TitleScreen
-		AudioCore.PlayMusic(0, true)
-		AudioCore.PlayEffect(2)
+	#if (OperatingSys == OSHTMLFive):
+		#ScreenToDisplay = TitleScreen
+		#AudioCore.PlayMusic(0, true)
+		#AudioCore.PlayEffect(2)
 
 	if (VideoAndroid == true):
 		OperatingSys = OSAndroid
@@ -240,19 +240,21 @@ func DisplayHTML5Screen():
 	if ScreenFadeStatus == FadingFromBlack && ScreenFadeTransparency == 1.0:
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
 
-		InterfaceCore.CreateIcon(129, (VisualsCore.ScreenWidth/2.0), (VisualsCore.ScreenHeight/2.0), " ")
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Click/Tap Screen To Continue!", 0, (VisualsCore.ScreenHeight/2)-15, 1, 1, 55, 1.0, 1.0, 0, 0.0, 1.0, 0.0, 1.0, 0.0, .5, 0.0)
 
-		ScreenToDisplayNext = GodotScreen
-		ScreenFadeStatus = FadingToBlack
+		ScreenDisplayTimer = 100
 
-		ScreenDisplayTimer = SCREENDISPLAYTIMER
+	if (ScreenDisplayTimer > 1):
+		ScreenDisplayTimer+=1
 
-	if InterfaceCore.ThisIconWasPressed(0, -1) == true:
-		ScreenDisplayTimer = 1
-		InputCore.DelayAllUserInput = 20
+	if (InputCore.MouseButtonLeftPressed == true):
+		AudioCore.PlayEffect(1)
+		if ( OS.has_feature("web_android") or OS.has_feature("web_ios") ):
+			VisualsCore.KeepAspectRatio = false
+			VisualsCore.FullScreenMode = true
+			VisualsCore.SetScreenStretchMode()
+			VisualsCore.SetFullScreenMode()
 
-	if ScreenDisplayTimer == 1:
-		ScreenToDisplayNext = GodotScreen
 		ScreenFadeStatus = FadingToBlack
 		ScreenDisplayTimer = -1
 
@@ -544,9 +546,9 @@ func DisplayOptionsScreen():
 
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Screen Display Option:", 95, 51+50+50+50, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			InterfaceCore.CreateArrowSet(6, 65+50+50+50)
-			if (VisualsCore.KeepAspectRatio == 0):
+			if (VisualsCore.KeepAspectRatio == false):
 				OptionsTextCompPlayersSys = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Stretch & Fill Screen", -95, 51+50+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif (VisualsCore.KeepAspectRatio == 1):
+			elif (VisualsCore.KeepAspectRatio == true):
 				OptionsTextCompPlayersSys = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Keep Aspect Ratio", -95, 51+50+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 			VisualsCore.DrawSprite(31, VisualsCore.ScreenWidth/2.0, 250, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
@@ -919,25 +921,25 @@ func DisplayOptionsScreen():
 				VisualsCore.DrawText(OptionsTextAspectRatio, "Off", -95, 51+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 		elif InterfaceCore.ThisArrowWasPressed(3.0) == true:
-			if VisualsCore.KeepAspectRatio == 0:
-				VisualsCore.KeepAspectRatio = 1
-			else:  VisualsCore.KeepAspectRatio = 0
+			if VisualsCore.KeepAspectRatio == false:
+				VisualsCore.KeepAspectRatio = true
+			else:  VisualsCore.KeepAspectRatio = false
 
-			if (VisualsCore.KeepAspectRatio == 0):
+			if (VisualsCore.KeepAspectRatio == false):
 				VisualsCore.DrawText(OptionsTextCompPlayersSys, "Stretch & Fill Screen", -95, 51+50+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif (VisualsCore.KeepAspectRatio == 1):
+			elif (VisualsCore.KeepAspectRatio == true):
 				VisualsCore.DrawText(OptionsTextCompPlayersSys, "Keep Aspect Ratio", -95, 51+50+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 			VisualsCore.SetScreenStretchMode()
 
 		elif InterfaceCore.ThisArrowWasPressed(3.5) == true:
-			if VisualsCore.KeepAspectRatio == 0:
-				VisualsCore.KeepAspectRatio = 1
-			else:  VisualsCore.KeepAspectRatio = 0
+			if VisualsCore.KeepAspectRatio == false:
+				VisualsCore.KeepAspectRatio = true
+			else:  VisualsCore.KeepAspectRatio = false
 
-			if (VisualsCore.KeepAspectRatio == 0):
+			if (VisualsCore.KeepAspectRatio == false):
 				VisualsCore.DrawText(OptionsTextCompPlayersSys, "Stretch & Fill Screen", -95, 51+50+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif (VisualsCore.KeepAspectRatio == 1):
+			elif (VisualsCore.KeepAspectRatio == true):
 				VisualsCore.DrawText(OptionsTextCompPlayersSys, "Keep Aspect Ratio", -95, 51+50+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 			VisualsCore.SetScreenStretchMode()
@@ -1534,7 +1536,7 @@ func DisplayPlayingGameScreen():
 		screenX = 99-11-1
 
 		for index in range(16):
-			LogicCore.TileSpriteIndex[index] = 900
+			LogicCore.TileSpriteIndex[index] = 230
 
 		for index in range(16):
 			if (LogicCore.SelectedTilePlayfieldX[index] > -1 and LogicCore.SelectedTilePlayfieldY[index] > -1):
