@@ -1,5 +1,5 @@
 # "LettersFall 110%"
-MIT Open-Source English Word Spelling Puzzle Game Using Godot Engine 4.6.1+
+MIT Open-Source English Word Spelling Puzzle Game Using Godot Engine 4.7.1+
 
 [Download free Godot Engine!](https://godotengine.org/)
 
@@ -7,6 +7,6 @@ MIT Open-Source English Word Spelling Puzzle Game Using Godot Engine 4.6.1+
 
 [Documentation to convert Godot game to Flatpak!](https://cassidyjames.com/blog/publish-godot-engine-game-flathub-flatpak/)
 
-![Title Screenshot](/project_lettersfall/Screen_Shots/First-LF-Title.png " ")
+![Title Screenshot](/Screen_Shots/First-LF-Playing.png " ")
 
-![Playing Screenshot](/project_lettersfall/Screen_Shots/Second-LF-Playing.png " ")
+![Playing Screenshot](/Screen_Shots/Second-LF-Title.png " ")
