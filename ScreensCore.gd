@@ -300,10 +300,10 @@ func DisplayMITScreen():
 #----------------------------------------------------------------------------------------
 func DisplayGodotScreen():
 	if ScreenFadeStatus == FadingFromBlack && ScreenFadeTransparency == 1.0:
-		if (ScreensCore.OperatingSys == OSHTMLFive):
-			if (InputCore.HTML5input == InputCore.InputTouchOne):
-				var window: Window = get_tree().get_root()
-				window.mode = Window.Mode.MODE_FULLSCREEN
+		#if (ScreensCore.OperatingSys == OSHTMLFive):
+			#if (InputCore.HTML5input == InputCore.InputTouchOne):
+				#var window: Window = get_tree().get_root()
+				#window.mode = Window.Mode.MODE_FULLSCREEN
 
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
 		VisualsCore.DrawSprite(5, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
