@@ -7,6 +7,6 @@ MIT Open-Source English Word Spelling Puzzle Game Using Godot Engine 4.7.1+
 
 [Documentation to convert Godot game to Flatpak!](https://cassidyjames.com/blog/publish-godot-engine-game-flathub-flatpak/)
 
-![Title Screenshot](/Screen_Shots/First-LF-Playing.png " ")
+![Title Screenshot](/Flatpak_Info/First-LF-Playing.png " ")
 
-![Playing Screenshot](/Screen_Shots/Second-LF-Title.png " ")
+![Playing Screenshot](/Flatpak_Info/Second-LF-Title.png " ")
