@@ -5,4 +5,4 @@ Short Description:
 Incredible free MIT open-source English word spelling game for Linux.
 
 Long Description:
-When you combine the video game Tetris with the board game Scrabble you get this game.  Letters rapidly fall and you must correctly spell English words to clear them. Features nice graphics, good sound effects, and a great music soundtrack.  Also has easy to play mouse controls and fun and challenging game play. Plus with multiple game modes with varying difficulty and a saved high score table for each mode. Do you have the skill to battle your way to then end and win? "Learn To Have Fun!"
+When you combine the video game Tetris with the board game Scrabble you get this game.  Letters rapidly fall and you must correctly spell English words to clear them.  Features nice graphics, good sound effects, and a great music soundtrack.  Also has easy to play mouse controls and fun and challenging game play.  Plus multiple game modes with varying difficulty and a saved high score table for each mode. Features a 400,000+ word American English dictionary.  Do you have the skills to battle your way to the end and win? "Learn To Have Fun!"

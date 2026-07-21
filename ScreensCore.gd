@@ -1569,7 +1569,7 @@ func DisplayPlayingGameScreen():
 		else:
 			InterfaceCore.Icons.IconScreenY[1] = -99999
 
-		if (LogicCore.SelectedTileIndex > 3):
+		if (LogicCore.SelectedTileIndex > 2):
 			InterfaceCore.Icons.IconScreenX[2] = 99 - 11 + (50*17)
 		else:
 			InterfaceCore.Icons.IconScreenX[2] = -99999
@@ -1909,6 +1909,7 @@ func DisplayCutSceneScreen():
 
 	if (InputCore.MouseButtonLeftPressed == true and InputCore.DelayAllUserInput == -1):
 		InputCore.DelayAllUserInput = 25
+		InputCore.MouseButtonLeftPressed = false
 		ScreenToDisplayNext = PlayingGameScreen
 		ScreenFadeStatus = FadingToBlack
 

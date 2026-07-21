@@ -554,6 +554,8 @@ func RunGameplayCore():
 					if (y > CurrentHeightOfPlayfield):
 						CurrentHeightOfPlayfield = y
 
+		CurrentHeightOfPlayfield+=1
+
 		var allowTileSelection = false
 		var xPos = -1
 		var yPos = -1
@@ -561,7 +563,7 @@ func RunGameplayCore():
 		if (Level < 10):
 			FallingTileYoffset+=(2+Level)
 
-		if (CurrentHeightOfPlayfield < 5):
+		if ( (NumberOfFallingTiles == 1 && CurrentHeightOfPlayfield < 4) || (NumberOfFallingTiles == 2 && CurrentHeightOfPlayfield < 5) || (NumberOfFallingTiles == 3 && CurrentHeightOfPlayfield < 6) ):
 			FallingTileYoffset+=35
 			FramesSinceLastPlayerInput = 0
 
