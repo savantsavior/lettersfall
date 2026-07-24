@@ -67,16 +67,16 @@ var TouchDragDetected
 
 var OldMusicVolume
 
-const InputNone			= -1
-const InputKeyboard		= 0
+const InputNone				= -1
+const InputKeyboard			= 0
 const InputMouse			= 1
-const InputTouchOne		= 2
-const InputTouchTwo		= 3
-const InputJoyOne		= 4
-const InputJoyTwo		= 5
-const InputJoyThree		= 6
-const InputCPU			= 7
-const InputAny			= 8
+const InputTouchOne			= 2
+const InputTouchTwo			= 3
+const InputJoyOne			= 4
+const InputJoyTwo			= 5
+const InputJoyThree			= 6
+const InputCPU				= 7
+const InputAny				= 8
 
 var InputNames = []
 

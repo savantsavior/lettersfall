@@ -217,11 +217,6 @@ func _ready():
 	Sprites.SpriteImage[119] = load("res://media/images/gui/Play.png")
 	Sprites.SpriteActive[119] = true
 
-	Sprites.SpriteImage[180] = load("res://media/images/gui/Keyboard.png")
-	Sprites.SpriteActive[180] = true
-	Sprites.SpriteImage[181] = load("res://media/images/gui/MouseTouch.png")
-	Sprites.SpriteActive[181] = true
-
 	Sprites.SpriteImage[190] = load("res://media/images/gui/Play2.png")
 	Sprites.SpriteActive[190] = true
 
@@ -637,7 +632,7 @@ func LoadAboutScreenTexts():
 	AddAboutScreenText("JeZxLee", 1.0)
 
 	AddAboutScreenText("Godot "+ DataCore.GODOT_VERSION + " 2-D Game Engine Framework:", 0.0)
-	AddAboutScreenText("The ''Grand National GNX™'' v2 Engine By:", 1.0)
+	AddAboutScreenText("The ''Grand National GNX™'' v3 Engine By:", 1.0)
 	AddAboutScreenText("JeZxLee", 1.0)
 	AddAboutScreenText("''flairetic''", 1.0)
 
@@ -706,10 +701,6 @@ func LoadAboutScreenTexts():
 	AddAboutScreenText("Genuine ''GoldWave'' For Windows", 1.0)
 	AddAboutScreenText("[GoldWave.com]", 1.0)
 	AddAboutScreenText("- Free Linux Alternative: ''Audacity'' -", 1.0)
-
-	AddAboutScreenText("OGG Audio Optimized Using:", 0.0)
-	AddAboutScreenText("''OGGResizer''", 1.0)
-	AddAboutScreenText("[SkyShape.com]", 1.0)
 
 	AddAboutScreenText("''LettersFall 110%™'' Logo Created In:", 0.0)
 	AddAboutScreenText("Genuine Canva A.I. Graphic Creation Tool[Paid]", 1.0)

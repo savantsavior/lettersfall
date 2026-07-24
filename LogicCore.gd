@@ -20,17 +20,17 @@ extends Node2D
 
 var HideCopyright = false
 
-var Version = "1.1.0 - RC2"
+var Version = "1.1.0 - RC3"
 
-const ChildStoryMode				= 0
-const TeenStoryMode					= 2
-const AdultStoryMode				= 1
-const TurboStoryMode				= 3
-const ChildNeverMode				= 4
-const TeenNeverMode					= 6
-const AdultNeverMode				= 5
-const TurboNeverMode				= 7
-var GameMode = AdultStoryMode
+const EasyStoryMode					= 0
+const NormalStoryMode				= 1
+const HardStoryMode					= 2
+const VeryHardStoryMode				= 3
+const EasyNeverMode					= 4
+const NormalNeverMode				= 5
+const HardNeverMode					= 6
+const VeryHardNeverMode				= 7
+var GameMode = NormalStoryMode
 
 const Playing				= 1
 const FadingTiles			= 2
@@ -560,8 +560,26 @@ func RunGameplayCore():
 		var xPos = -1
 		var yPos = -1
 
-		if (Level < 10):
-			FallingTileYoffset+=(2+Level)
+		if (Level == 1):
+			FallingTileYoffset += 3
+		elif (Level == 2):
+			FallingTileYoffset += 3+1
+		elif (Level == 3):
+			FallingTileYoffset += 3+2
+		elif (Level == 4):
+			FallingTileYoffset += 3
+		elif (Level == 5):
+			FallingTileYoffset += 3+1
+		elif (Level == 6):
+			FallingTileYoffset += 3+2
+		elif (Level == 7):
+			FallingTileYoffset += 3
+		elif (Level == 8):
+			FallingTileYoffset += 3+1
+		elif (Level == 9):
+			FallingTileYoffset += 3+2
+		elif (Level > 9):
+			FallingTileYoffset += 3+3
 
 		if ( (NumberOfFallingTiles == 1 && CurrentHeightOfPlayfield < 4) || (NumberOfFallingTiles == 2 && CurrentHeightOfPlayfield < 5) || (NumberOfFallingTiles == 3 && CurrentHeightOfPlayfield < 6) ):
 			FallingTileYoffset+=35
@@ -665,14 +683,14 @@ func _ready():
 	NumberOfFallingTiles = 1
 
 	LevelAdvance.resize(8)
-	LevelAdvance[ChildStoryMode] = 7
-	LevelAdvance[TeenStoryMode]  = (7 * 3)
-	LevelAdvance[AdultStoryMode] = (7 * 2)
-	LevelAdvance[TurboStoryMode] = (7 * 4)
-	LevelAdvance[ChildNeverMode] = 7
-	LevelAdvance[TeenNeverMode]  = (7 * 3)
-	LevelAdvance[AdultNeverMode] = (7 * 2)
-	LevelAdvance[TurboNeverMode] = (7 * 4)
+	LevelAdvance[EasyStoryMode] 		= 7
+	LevelAdvance[NormalStoryMode] 		= (7 * 2)
+	LevelAdvance[HardStoryMode]  		= (7 * 3)
+	LevelAdvance[VeryHardStoryMode] 	= (7 * 4)
+	LevelAdvance[EasyNeverMode] 		= 7
+	LevelAdvance[NormalNeverMode] 		= (7 * 2)
+	LevelAdvance[HardNeverMode]  		= (7 * 3)
+	LevelAdvance[VeryHardNeverMode] 	= (7 * 4)
 
 	Playfield.resize(18)
 	for x in range(18):

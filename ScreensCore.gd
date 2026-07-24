@@ -300,11 +300,6 @@ func DisplayMITScreen():
 #----------------------------------------------------------------------------------------
 func DisplayGodotScreen():
 	if ScreenFadeStatus == FadingFromBlack && ScreenFadeTransparency == 1.0:
-		#if (ScreensCore.OperatingSys == OSHTMLFive):
-			#if (InputCore.HTML5input == InputCore.InputTouchOne):
-				#var window: Window = get_tree().get_root()
-				#window.mode = Window.Mode.MODE_FULLSCREEN
-
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
 		VisualsCore.DrawSprite(5, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
 
@@ -554,21 +549,21 @@ func DisplayOptionsScreen():
 
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Game Mode:", 95, 51+50+50+50+65-7+5, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			InterfaceCore.CreateArrowSet(4, 70+50+50+50+65-7)
-			if LogicCore.GameMode == LogicCore.ChildStoryMode:
+			if LogicCore.GameMode == LogicCore.EasyStoryMode:
 				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Easy Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.TeenStoryMode:
-				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Hard Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.AdultStoryMode:
+			elif LogicCore.GameMode == LogicCore.NormalStoryMode:
 				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Normal Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.TurboStoryMode:
+			elif LogicCore.GameMode == LogicCore.HardStoryMode:
+				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Hard Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			elif LogicCore.GameMode == LogicCore.VeryHardStoryMode:
 				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Very Hard Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.ChildNeverMode:
+			elif LogicCore.GameMode == LogicCore.EasyNeverMode:
 				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Easy Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.TeenNeverMode:
-				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Hard Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.AdultNeverMode:
+			elif LogicCore.GameMode == LogicCore.NormalNeverMode:
 				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Normal Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.TurboNeverMode:
+			elif LogicCore.GameMode == LogicCore.HardNeverMode:
+				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Hard Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			elif LogicCore.GameMode == LogicCore.VeryHardNeverMode:
 				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Very Hard Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Undo Button Action:", 95, 70+50+50+50+65+50-14-13+2, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
@@ -948,42 +943,42 @@ func DisplayOptionsScreen():
 				LogicCore.GameMode-=1
 			else:  LogicCore.GameMode = 7
 			
-			if LogicCore.GameMode == LogicCore.ChildStoryMode:
+			if LogicCore.GameMode == LogicCore.EasyStoryMode:
 				VisualsCore.DrawText(OptionsTextGameMode, "Easy Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.TeenStoryMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Hard Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.AdultStoryMode:
+			elif LogicCore.GameMode == LogicCore.NormalStoryMode:
 				VisualsCore.DrawText(OptionsTextGameMode, "Normal Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.TurboStoryMode:
+			elif LogicCore.GameMode == LogicCore.HardStoryMode:
+				VisualsCore.DrawText(OptionsTextGameMode, "Hard Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			elif LogicCore.GameMode == LogicCore.VeryHardStoryMode:
 				VisualsCore.DrawText(OptionsTextGameMode, "Very Hard Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.ChildNeverMode:
+			elif LogicCore.GameMode == LogicCore.EasyNeverMode:
 				VisualsCore.DrawText(OptionsTextGameMode, "Easy Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.TeenNeverMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Hard Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.AdultNeverMode:
+			elif LogicCore.GameMode == LogicCore.NormalNeverMode:
 				VisualsCore.DrawText(OptionsTextGameMode, "Normal Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.TurboNeverMode:
+			elif LogicCore.GameMode == LogicCore.HardNeverMode:
+				VisualsCore.DrawText(OptionsTextGameMode, "Hard Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			elif LogicCore.GameMode == LogicCore.VeryHardNeverMode:
 				VisualsCore.DrawText(OptionsTextGameMode, "Very Hard Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif InterfaceCore.ThisArrowWasPressed(4.5) == true:
 			if LogicCore.GameMode < 7:
 				LogicCore.GameMode+=1
 			else:  LogicCore.GameMode = 0
 			
-			if LogicCore.GameMode == LogicCore.ChildStoryMode:
+			if LogicCore.GameMode == LogicCore.EasyStoryMode:
 				VisualsCore.DrawText(OptionsTextGameMode, "Easy Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.TeenStoryMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Hard Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.AdultStoryMode:
+			elif LogicCore.GameMode == LogicCore.NormalStoryMode:
 				VisualsCore.DrawText(OptionsTextGameMode, "Normal Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.TurboStoryMode:
+			elif LogicCore.GameMode == LogicCore.HardStoryMode:
+				VisualsCore.DrawText(OptionsTextGameMode, "Hard Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			elif LogicCore.GameMode == LogicCore.VeryHardStoryMode:
 				VisualsCore.DrawText(OptionsTextGameMode, "Very Hard Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.ChildNeverMode:
+			elif LogicCore.GameMode == LogicCore.EasyNeverMode:
 				VisualsCore.DrawText(OptionsTextGameMode, "Easy Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.TeenNeverMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Hard Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.AdultNeverMode:
+			elif LogicCore.GameMode == LogicCore.NormalNeverMode:
 				VisualsCore.DrawText(OptionsTextGameMode, "Normal Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif LogicCore.GameMode == LogicCore.TurboNeverMode:
+			elif LogicCore.GameMode == LogicCore.HardNeverMode:
+				VisualsCore.DrawText(OptionsTextGameMode, "Hard Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			elif LogicCore.GameMode == LogicCore.VeryHardNeverMode:
 				VisualsCore.DrawText(OptionsTextGameMode, "Very Hard Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif InterfaceCore.ThisArrowWasPressed(5.0) == true:
 			if (LogicCore.UndoAction == 0):
@@ -1165,21 +1160,21 @@ func DisplayHighScoresScreen():
 
 		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, " ", 0, 0, 0, 0, 25, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 
-		if LogicCore.GameMode == LogicCore.ChildStoryMode:
+		if LogicCore.GameMode == LogicCore.EasyStoryMode:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Easy Story Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
-		elif LogicCore.GameMode == LogicCore.TeenStoryMode:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Hard Story Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
-		elif LogicCore.GameMode == LogicCore.AdultStoryMode:
+		elif LogicCore.GameMode == LogicCore.NormalStoryMode:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Normal Story Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
-		elif LogicCore.GameMode == LogicCore.TurboStoryMode:
+		elif LogicCore.GameMode == LogicCore.HardStoryMode:
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Hard Story Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+		elif LogicCore.GameMode == LogicCore.VeryHardStoryMode:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Very Hard Story Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
-		elif LogicCore.GameMode == LogicCore.ChildNeverMode:
+		elif LogicCore.GameMode == LogicCore.EasyNeverMode:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Easy Never End Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
-		elif LogicCore.GameMode == LogicCore.TeenNeverMode:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Hard Never End Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
-		elif LogicCore.GameMode == LogicCore.AdultNeverMode:
+		elif LogicCore.GameMode == LogicCore.NormalNeverMode:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Normal Never End Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
-		elif LogicCore.GameMode == LogicCore.TurboNeverMode:
+		elif LogicCore.GameMode == LogicCore.HardNeverMode:
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Hard Never End Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+		elif LogicCore.GameMode == LogicCore.VeryHardNeverMode:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Very Hard Never End Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "NAME:", 55+26, 120, 0, 0, 25, 1.0, 1.0, 0, 0.7, 0.7, 0.7, 1.0, 0.0, 0.0, 0.0)
 		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "LEVEL:", 690, 120, 0, 0, 25, 1.0, 1.0, 0, 0.7, 0.7, 0.7, 1.0, 0.0, 0.0, 0.0)
@@ -1198,7 +1193,7 @@ func DisplayHighScoresScreen():
 			var level = int(DataCore.HighScoreLevel[LogicCore.GameMode][rank])
 			if level < 10:
 				VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(DataCore.HighScoreLevel[LogicCore.GameMode][rank]), 690, screenY, 0, 0, 35, 1.0, 1.0, 0, 1.0, blue, blue, 1.0, 0.0, 0.0, 0.0)
-			elif (LogicCore.GameMode == LogicCore.ChildStoryMode || LogicCore.GameMode == LogicCore.TeenStoryMode || LogicCore.GameMode == LogicCore.AdultStoryMode || LogicCore.GameMode == LogicCore.TurboStoryMode):
+			elif (LogicCore.GameMode == LogicCore.EasyStoryMode || LogicCore.GameMode == LogicCore.NormalStoryMode || LogicCore.GameMode == LogicCore.HardStoryMode || LogicCore.GameMode == LogicCore.VeryHardStoryMode):
 				VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "WON!", 690, screenY, 0, 0, 35, 1.0, 1.0, 0, 1.0, blue, blue, 1.0, 0.0, 0.0, 0.0)
 			else:
 				VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(DataCore.HighScoreLevel[LogicCore.GameMode][rank]), 690, screenY, 0, 0, 35, 1.0, 1.0, 0, 1.0, blue, blue, 1.0, 0.0, 0.0, 0.0)
@@ -1341,7 +1336,7 @@ func DisplayAboutScreen():
 			VisualsCore.DrawSprite(23, VisualsCore.ScreenWidth/2.0, TS1ScreenY, StaffScreenTSOneScale, StaffScreenTSOneScale, 0, 1.0, 1.0, 1.0, 1.0)
 
 	if ScreenFadeStatus == FadingToBlack && ScreenFadeTransparency == 0.5:
-		if (LogicCore.GameWon == true and LogicCore.GameMode == LogicCore.TurboStoryMode and LogicCore.SecretCodeCombined != 2778):
+		if (LogicCore.GameWon == true and LogicCore.GameMode == LogicCore.VeryHardStoryMode and LogicCore.SecretCodeCombined != 2778):
 			LogicCore.SecretCode[0] = 5
 			LogicCore.SecretCode[1] = 4
 			LogicCore.SecretCode[2] = 3
@@ -1447,13 +1442,13 @@ func DisplayMusicTestScreen():
 #----------------------------------------------------------------------------------------
 func DisplayPlayingGameScreen():
 	if ScreenFadeStatus == FadingFromBlack && ScreenFadeTransparency == 1.0:
-		if (LogicCore.GameMode == LogicCore.ChildStoryMode or LogicCore.GameMode == LogicCore.ChildNeverMode):
+		if (LogicCore.GameMode == LogicCore.EasyStoryMode or LogicCore.GameMode == LogicCore.EasyNeverMode):
 			VisualsCore.SetFramesPerSecond(20)
-		elif (LogicCore.GameMode == LogicCore.TeenStoryMode or LogicCore.GameMode == LogicCore.TeenNeverMode):
+		elif (LogicCore.GameMode == LogicCore.NormalStoryMode or LogicCore.GameMode == LogicCore.NormalNeverMode):
 			VisualsCore.SetFramesPerSecond(45)
-		elif (LogicCore.GameMode == LogicCore.AdultStoryMode or LogicCore.GameMode == LogicCore.AdultNeverMode):
+		elif (LogicCore.GameMode == LogicCore.HardStoryMode or LogicCore.GameMode == LogicCore.HardNeverMode):
 			VisualsCore.SetFramesPerSecond(30)
-		elif (LogicCore.GameMode == LogicCore.TurboStoryMode or LogicCore.GameMode == LogicCore.TurboNeverMode):
+		elif (LogicCore.GameMode == LogicCore.VeryHardStoryMode or LogicCore.GameMode == LogicCore.VeryHardNeverMode):
 			VisualsCore.SetFramesPerSecond(60)
 
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
@@ -1690,6 +1685,9 @@ func DisplayPlayingGameScreen():
 			LogicCore.CutSceneTimer = 0
 			LogicCore.CutSceneBlackBackgroundAlpha = 1.0
 			ScreenToDisplayNext = CutSceneScreen
+
+		InputCore.DelayAllUserInput = 25
+		InputCore.MouseButtonLeftPressed = false
 
 	pass
 

@@ -17,7 +17,7 @@
 #
 # ------------------------------------------------------------------------------
 #                    Cross-Platform / M.I.T. Open-Source
-#      "Grand National GNX" v2 Godot Engine 4.7.1+ 2D Video Game Framework
+#      "Grand National GNX" v3 Godot Engine 4.7.1+ 2D Video Game Framework
 # ------------------------------------------------------------------------------
 #                                               TM
 #                            "Learn To Have Fun!"
@@ -30,7 +30,7 @@
 #                                               TM
 #                              "LettersFall 110%"
 #
-#                  Retail Version 1.1.0 Release Candidate # 2
+#                  Retail Version 1.1.0 Release Candidate # 3
 #
 #                            Linux Flatpak On Flathub
 #                 HTML5 Enabled Desktop/Laptop Internet Browsers
