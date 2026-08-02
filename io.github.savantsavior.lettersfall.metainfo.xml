@@ -1,64 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2026 savantsavior -->
 <component type="desktop-application">
   <id>io.github.savantsavior.lettersfall</id>
 
-  <metadata_license>CC0-1.0</metadata_license>
-  <project_license>MIT</project_license>
+    <!-- AppStream licenses: metadata is CC0; project is MIT -->
+    <metadata_license>CC0-1.0</metadata_license>
+    <project_license>MIT</project_license>
 
-  <name>LettersFall 110%</name>
-  <summary>Educational American English word spelling game with falling letters</summary>
+    <name>LettersFall 110%</name>
+    <summary>Educational American English word spelling game with falling letters</summary>
 
-  <description>
+    <description>
     <p>
-      When you combine the video game Tetris with the board game Scrabble you get LettersFall 110%! Letters rapidly fall and you must correctly spell American English words to clear them.
+    When you combine the video game Tetris with the board game Scrabble you get LettersFall 110%! Letters rapidly fall and you must correctly spell American English words to clear them.
     </p>
+
     <p>
-      Features nice graphics, good sound effects, and a great music soundtrack. Also has easy to play mouse controls and fun and challenging gameplay. Plus multiple game modes with varying difficulty and a saved high score table for each mode.
+    LettersFall 110% is a free, open-source educational word puzzle arcade game for Linux. Features nice graphics, good sound effects, and a great music soundtrack. Also has easy to play mouse controls and fun and challenging gameplay.
     </p>
+
     <p>
-      Includes a 450,000+ word American English dictionary. Do you have the skills to battle your way to the end and win? "Learn To Have Fun!"
+    Plus multiple game modes with varying difficulty and a saved high score table for each mode. Features a 450,000+ word American English dictionary. Do you have the skills to battle your way to the end and win? "Learn To Have Fun!"
     </p>
-  </description>
+    </description>
 
-  <developer id="io.github.savantsavior">
-    <name>savantsavior</name>
-  </developer>
+    <launchable type="desktop-id">io.github.savantsavior.lettersfall.desktop</launchable>
 
-  <launchable type="desktop-id">io.github.savantsavior.lettersfall.desktop</launchable>
+    <provides>
+        <binary>godot-runner</binary>
+    </provides>
 
-  <provides>
-    <binary>godot-runner</binary>
-  </provides>
+    <categories>
+        <category>Game</category>
+        <category>ArcadeGame</category>
+        <category>Education</category>
+    </categories>
 
-  <categories>
-    <category>Game</category>
-    <category>ArcadeGame</category>
-    <category>Education</category>
-  </categories>
+    <keywords>
+        <keyword>tetris</keyword>
+        <keyword>scrabble</keyword>
+        <keyword>word</keyword>
+        <keyword>spelling</keyword>
+        <keyword>puzzle</keyword>
+        <keyword>educational</keyword>
+        <keyword>falling-blocks</keyword>
+        <keyword>arcade</keyword>
+        <keyword>dictionary</keyword>
+        <keyword>game</keyword>
+    </keywords>
 
-  <keywords>
-    <keyword>tetris</keyword>
-    <keyword>scrabble</keyword>
-    <keyword>word</keyword>
-    <keyword>spelling</keyword>
-    <keyword>puzzle</keyword>
-    <keyword>educational</keyword>
-  </keywords>
+    <!-- Reverse-DNS developer id per guidelines -->
+    <developer id="io.github.savantsavior">
+        <name>Team BetaMax Heroes</name>
+    </developer>
 
-  <screenshots>
-    <screenshot type="default">
-      <caption>LettersFall 110% gameplay</caption>
-      <image>https://raw.githubusercontent.com/savantsavior/lettersfall/main/Flatpak_Info/First-LF-Playing.png</image>
-    </screenshot>
-    <screenshot>
-      <caption>LettersFall 110% title screen</caption>
-      <image>https://raw.githubusercontent.com/savantsavior/lettersfall/main/Flatpak_Info/Second-LF-Title.png</image>
-    </screenshot>
-  </screenshots>
+    <!-- Helpful links -->
+    <url type="homepage">https://github.com/savantsavior/lettersfall</url>
+    <url type="vcs-browser">https://github.com/savantsavior/lettersfall</url>
+    <url type="bugtracker">https://github.com/savantsavior/lettersfall/issues</url>
 
-  <url type="homepage">https://github.com/savantsavior/lettersfall</url>
-  <url type="bugtracker">https://github.com/savantsavior/lettersfall/issues</url>
+    <!-- OARS 1.1: suitable for all ages -->
+    <content_rating type="oars-1.1">
+        <content_attribute id="violence-cartoon">none</content_attribute>
+        <content_attribute id="violence-fantasy">none</content_attribute>
+        <content_attribute id="violence-realistic">none</content_attribute>
+        <content_attribute id="violence-bloodshed">none</content_attribute>
+        <content_attribute id="violence-sexual">none</content_attribute>
+        <content_attribute id="drugs-alcohol">none</content_attribute>
+        <content_attribute id="drugs-narcotics">none</content_attribute>
+        <content_attribute id="drugs-tobacco">none</content_attribute>
+        <content_attribute id="sex-nudity">none</content_attribute>
+        <content_attribute id="sex-themes">none</content_attribute>
+        <content_attribute id="language-profanity">none</content_attribute>
+        <content_attribute id="language-humor">none</content_attribute>
+        <content_attribute id="language-discrimination">none</content_attribute>
+        <content_attribute id="social-chat">none</content_attribute>
+        <content_attribute id="social-info">none</content_attribute>
+        <content_attribute id="social-audio">none</content_attribute>
+        <content_attribute id="social-location">none</content_attribute>
+        <content_attribute id="social-contacts">none</content_attribute>
+        <content_attribute id="money-purchasing">none</content_attribute>
+        <content_attribute id="money-gambling">none</content_attribute>
+    </content_rating>
 
-  <content_rating type="oars-1.1" />
+    <branding>
+        <color type="primary" scheme_preference="light">#4A90E2</color>
+        <color type="primary" scheme_preference="dark">#2E5C8A</color>
+    </branding>
+
+    <screenshots>
+        <screenshot type="default">
+            <image>https://raw.githubusercontent.com/savantsavior/lettersfall/1d554f90875338ec76a0c3e512e70a7fca025131/Flatpak_Info/First-LF-Playing.png</image>
+            <caption>Educational word spelling gameplay with falling letters</caption>
+        </screenshot>
+        <screenshot>
+            <image>https://raw.githubusercontent.com/savantsavior/lettersfall/1d554f90875338ec76a0c3e512e70a7fca025131/Flatpak_Info/Second-LF-Title.png</image>
+            <caption>Title screen with game modes and dictionary support</caption>
+        </screenshot>
+    </screenshots>
+
+    <releases>
+        <release version="1.0.0" date="2026-08-02">
+            <description>
+                <p>Initial release of LettersFall 110% with Flatpak support!</p>
+                <ul>
+                    <li>First official Flatpak distribution on Flathub</li>
+                    <li>Over 450,000+ word American English dictionary included</li>
+                    <li>Built with Godot Engine 4.5</li>
+                </ul>
+            </description>
+        </release>
+    </releases>
 </component>
