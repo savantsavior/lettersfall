@@ -47,4 +47,11 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
+# Godot build artifacts and executables
+.godot/
+Linux_EXEs/
+*.pck
+*.x86_64
+*.arm64
+*.import
 
