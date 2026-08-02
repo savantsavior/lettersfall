@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2026 savantsavior -->
+<component type="desktop-application">
+  <id>io.github.savantsavior.lettersfall</id>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+
+  <name>LettersFall 110%</name>
+  <summary>Educational American English word spelling game with falling letters</summary>
+
+  <description>
+    <p>
+      When you combine the video game Tetris with the board game Scrabble you get LettersFall 110%! Letters rapidly fall and you must correctly spell American English words to clear them.
+    </p>
+    <p>
+      Features nice graphics, good sound effects, and a great music soundtrack. Also has easy to play mouse controls and fun and challenging gameplay. Plus multiple game modes with varying difficulty and a saved high score table for each mode.
+    </p>
+    <p>
+      Includes a 450,000+ word American English dictionary. Do you have the skills to battle your way to the end and win? "Learn To Have Fun!"
+    </p>
+  </description>
+
+  <developer id="io.github.savantsavior">
+    <name>savantsavior</name>
+  </developer>
+
+  <launchable type="desktop-id">io.github.savantsavior.lettersfall.desktop</launchable>
+
+  <provides>
+    <binary>godot-runner</binary>
+  </provides>
+
+  <categories>
+    <category>Game</category>
+    <category>ArcadeGame</category>
+    <category>Education</category>
+  </categories>
+
+  <keywords>
+    <keyword>tetris</keyword>
+    <keyword>scrabble</keyword>
+    <keyword>word</keyword>
+    <keyword>spelling</keyword>
+    <keyword>puzzle</keyword>
+    <keyword>educational</keyword>
+  </keywords>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>LettersFall 110% gameplay</caption>
+      <image>https://raw.githubusercontent.com/savantsavior/lettersfall/main/Flatpak_Info/First-LF-Playing.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>LettersFall 110% title screen</caption>
+      <image>https://raw.githubusercontent.com/savantsavior/lettersfall/main/Flatpak_Info/Second-LF-Title.png</image>
+    </screenshot>
+  </screenshots>
+
+  <url type="homepage">https://github.com/savantsavior/lettersfall</url>
+  <url type="bugtracker">https://github.com/savantsavior/lettersfall/issues</url>
+
+  <content_rating type="oars-1.1" />
+</component>

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=LettersFall 110%
+GenericName=Word Puzzle Game
+Comment=Educational free open-source American English word spelling puzzle game
+Exec=godot-runner
+Icon=io.github.savantsavior.lettersfall
+Categories=Game;ArcadeGame;Education;
+Keywords=tetris;scrabble;word;spelling;puzzle;educational;
