@@ -1,4 +1,4 @@
-# Copyright 2026 "TeamJeZxLee.Itch.io"
+# Copyright 2026 "TeamJeZxLee.itch.io"
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 # and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -20,7 +20,7 @@ extends Node2D
 
 var HideCopyright = false
 
-var Version = "1.1.0 - RC3"
+var Version = "1.1.0 - Retail 1"
 
 const EasyStoryMode					= 0
 const NormalStoryMode				= 1

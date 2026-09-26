@@ -1,4 +1,4 @@
-# Copyright 2026 "TeamJeZxLee.Itch.io"
+# Copyright 2026 "TeamJeZxLee.itch.io"
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 # and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -17,7 +17,7 @@
 #
 # ------------------------------------------------------------------------------
 #                    Cross-Platform / M.I.T. Open-Source
-#      "Grand National GNX" v3 Godot Engine 4.7.1+ 2D Video Game Framework
+#      "Grand National GNX" v3 Godot Engine 4.7.2+ 2D Video Game Framework
 # ------------------------------------------------------------------------------
 #                                               TM
 #                            "Learn To Have Fun!"
@@ -30,20 +30,18 @@
 #                                               TM
 #                              "LettersFall 110%"
 #
-#                  Retail Version 1.1.0 Release Candidate # 3
+#                             Retail Version 1.1.0
 #
 #                            Linux Flatpak On Flathub
 #                 HTML5 Enabled Desktop/Laptop Internet Browsers
 #
-#                     (C)opyright 2026 - TeamJeZxLee.Itch.io
+#                     (C)opyright 2026 - TeamJeZxLee.itch.io
 # ------------------------------------------------------------------------------------------------
 extends Node2D
 
 #----------------------------------------------------------------------------------------
 func _ready():
 	VisualsCore.SetFramesPerSecond(30)
-
-	VisualsCore.KeepAspectRatio = true
 
 	DataCore.LoadOptionsAndHighScores()
 
@@ -62,4 +60,4 @@ func _process(_delta):
 
 	pass
 
-# A 110% By "TeamJeZxLee.Itch.io" !
+# A 110% By "TeamJeZxLee.itch.io" !

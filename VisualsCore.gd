@@ -1,4 +1,4 @@
-# Copyright 2026 "TeamJeZxLee.Itch.io"
+# Copyright 2026 "TeamJeZxLee.itch.io"
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 # and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -416,6 +416,8 @@ func _ready():
 	FramesPerSecondText.TextImage[0].scale = Vector2(1.0, 1.0)
 	FramesPerSecondText.TextImage[0].rotation = 0.0
 
+	KeepAspectRatio = true
+
 	FullScreenMode = false
 	if (ScreensCore.OperatingSys == ScreensCore.OSDesktop):  FullScreenMode = true
 
@@ -599,7 +601,7 @@ func LoadAboutScreenTexts():
 	if (LogicCore.HideCopyright == false):
 		AddAboutScreenText("''TeamJeZxLee.itch.io''", 1.0)
 	elif (LogicCore.HideCopyright == true):
-		AddAboutScreenText("''SavantSavior.Itch.io''", 1.0)
+		AddAboutScreenText("''SavantSavior.itch.io''", 1.0)
 
 	AddAboutScreenText("Original Concept By:", 0.0)
 	AddAboutScreenText("JeZxLee", 1.0)
@@ -679,8 +681,44 @@ func LoadAboutScreenTexts():
 	AddAboutScreenText("''Oshi Bobo''", 1.0)
 
 	AddAboutScreenText("Music Soundtrack By:", 0.0)
-	AddAboutScreenText("Suno A.I. Created Music With Vocals[Paid]", 1.0)
-	AddAboutScreenText("[Suno.com]", 1.0)
+	AddAboutScreenText("Jamendo", 1.0)
+	AddAboutScreenText("[Jamendo.com]", 1.0)
+
+	AddAboutScreenText("BGM: Title", 0.0)
+	AddAboutScreenText("''Awakening''", 1.0)
+	AddAboutScreenText("Kirill Kharchenko", 1.0)
+
+	AddAboutScreenText("BGM: InGame 1", 0.0)
+	AddAboutScreenText("''The Crash Night''", 1.0)
+	AddAboutScreenText("Higgins", 1.0)
+
+	AddAboutScreenText("BGM: InGame 2", 0.0)
+	AddAboutScreenText("''Hold On To Dreams''", 1.0)
+	AddAboutScreenText("zeropage", 1.0)
+
+	AddAboutScreenText("BGM: InGame 3", 0.0)
+	AddAboutScreenText("''We Are Alive''", 1.0)
+	AddAboutScreenText("GroovyVoxx", 1.0)
+
+	AddAboutScreenText("BGM: InGame 4", 0.0)
+	AddAboutScreenText("''Springtime''", 1.0)
+	AddAboutScreenText("Pokki DJ", 1.0)
+
+	AddAboutScreenText("BGM: InGame 5", 0.0)
+	AddAboutScreenText("''Swedish Groove''", 1.0)
+	AddAboutScreenText("Melatronic", 1.0)
+
+	AddAboutScreenText("BGM: InGame Never Ending", 0.0)
+	AddAboutScreenText("''Beyond Stars''", 1.0)
+	AddAboutScreenText("Higgins", 1.0)
+
+	AddAboutScreenText("BGM: New High Score", 0.0)
+	AddAboutScreenText("''Energy''", 1.0)
+	AddAboutScreenText("Pokki DJ", 1.0)
+
+	AddAboutScreenText("BGM: Ending", 0.0)
+	AddAboutScreenText("''Out Of My Head''", 1.0)
+	AddAboutScreenText("Jon Worthy", 1.0)
 
 	AddAboutScreenText("Sound Effects Compiled & Edited By:", 0.0)
 	AddAboutScreenText("JeZxLee", 1.0)
@@ -703,8 +741,8 @@ func LoadAboutScreenTexts():
 	AddAboutScreenText("- Free Linux Alternative: ''Audacity'' -", 1.0)
 
 	AddAboutScreenText("''LettersFall 110%™'' Logo Created In:", 0.0)
-	AddAboutScreenText("Genuine Canva A.I. Graphic Creation Tool[Paid]", 1.0)
-	AddAboutScreenText("[https://www.Canva.com]", 1.0)
+	AddAboutScreenText("Genuine Inkscape on Linux", 1.0)
+	AddAboutScreenText("[Inkscape.org]", 1.0)
 
 	AddAboutScreenText("Game Created On A:", 0.0)
 	AddAboutScreenText("Hyper-Custom ''JeZxLee'' Pro-Built Desktop", 1.0)
@@ -802,9 +840,9 @@ func LoadAboutScreenTexts():
 	AddAboutScreenText("''You!''", 1.0)
 
 	if (LogicCore.HideCopyright == false):
-		AddAboutScreenText("A 110% By ''TeamJeZxLee.Itch.io'' !", 0.0)
+		AddAboutScreenText("A 110% By ''TeamJeZxLee.itch.io'' !", 0.0)
 	elif (LogicCore.HideCopyright == true):
-		AddAboutScreenText("A 110% By ''SavantSavior.Itch.io'' !", 0.0)
+		AddAboutScreenText("A 110% By ''SavantSavior.itch.io'' !", 0.0)
 
 	AddAboutScreenText(" ", 1.0)
 

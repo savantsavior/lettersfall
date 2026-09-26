@@ -1,4 +1,4 @@
-# Copyright 2026 "TeamJeZxLee.Itch.io"
+# Copyright 2026 "TeamJeZxLee.itch.io"
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 # and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -25,7 +25,7 @@ var HighScoreScore = []
 var PlayerWithHighestScore
 var NewHighScoreRank
 
-const FILE_NAME = "user://LettersFall-1_1_0-RC3f-game-data.json"
+const FILE_NAME = "user://LettersFall-1_1_0-d-game-data.json"
 var godot_Temp_Version = Engine.get_version_info()
 var GODOT_VERSION = godot_Temp_Version.string
 
@@ -61,8 +61,8 @@ func ClearHighScores():
 		HighScoreName[mode][5] = "theweirdn8"
 		HighScoreName[mode][6] = "mattmatteh"
 		HighScoreName[mode][7] = "Godot Engine "+GODOT_VERSION+"+"
-		HighScoreName[mode][8] = "''Suno.com'' A.I. Music + Lyrics"
-		HighScoreName[mode][9] = "''OpenArt.ai'' A.I. Images"
+		HighScoreName[mode][8] = "FlatHub.org"
+		HighScoreName[mode][9] = "You!"
 
 		HighScoreLevel[mode][0] = 10
 		HighScoreLevel[mode][1] = 9

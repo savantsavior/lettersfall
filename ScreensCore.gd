@@ -1,4 +1,4 @@
-# Copyright 2026 "TeamJeZxLee.Itch.io"
+# Copyright 2026 "TeamJeZxLee.itch.io"
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 # and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -277,7 +277,6 @@ func DisplayMITScreen():
 		ScreenDisplayTimer = SCREENDISPLAYTIMER
 
 		if (OperatingSys == OSDesktop && LogicCore.SecretCodeCombined != 1998 && LogicCore.SecretCodeCombined != 2001):
-			get_window().mode = Window.MODE_MAXIMIZED
 			VisualsCore.FullScreenMode = true
 
 	if (InputCore.DelayAllUserInput == -1 && (InputCore.MouseButtonLeftPressed == true || InputCore.KeyboardSpacebarPressed == true || InputCore.KeyboardEnterPressed == true || InputCore.JoyButtonOne[InputCore.InputAny] == InputCore.Pressed)) && ScreenDisplayTimer > 1:
@@ -347,9 +346,11 @@ func DisplayTitleScreen():
 		InterfaceCore.CreateIcon(117, VisualsCore.ScreenWidth-40, 40, " ")
 
 		if (OperatingSys != OSAndroid):
-			VisualsCore.DrawSprite(20, VisualsCore.ScreenWidth/2.0, 103.0, 0.95, 0.75, 0, 1.0, 1.0, 1.0, 1.0)
+			VisualsCore.DrawSprite(20, VisualsCore.ScreenWidth/2.0, 103.0+10, 0.7, 0.5, 0, 1.0, 1.0, 1.0, 1.0)
 		elif (OperatingSys == OSAndroid):
-			VisualsCore.DrawSprite(20, VisualsCore.ScreenWidth/2.0, 103.0, 0.95, 0.75, 0, 1.0, 1.0, 1.0, 1.0)
+			VisualsCore.DrawSprite(20, VisualsCore.ScreenWidth/2.0, 1103.0+10, 0.7, 0.5, 0, 1.0, 1.0, 1.0, 1.0)
+
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "™", VisualsCore.ScreenWidth-135, 20, 0, 1, 30, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 		var highScoreFullText
 		highScoreFullText = "''"+DataCore.HighScoreName[LogicCore.GameMode][0]+"'' Scored: "+str(DataCore.HighScoreScore[LogicCore.GameMode][0])
@@ -374,9 +375,9 @@ func DisplayTitleScreen():
 		buttonY+=buttonOffsetY
 
 		if (LogicCore.HideCopyright == false):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''TeamJeZxLee.Itch.io''", 0, 640-19-4-15+10, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''TeamJeZxLee.itch.io''", 0, 640-19-4-15+10, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif (LogicCore.HideCopyright == true):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''SavantSavior.Itch.io''", 0, 640-19-4-15+10, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''SavantSavior.itch.io''", 0, 640-19-4-15+10, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, LogicCore.Version, 10, VisualsCore.ScreenHeight-15, 0, 1, 15, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
@@ -1369,27 +1370,46 @@ func DisplayMusicTestScreen():
 		InterfaceCore.CreateArrowSet( 0, (VisualsCore.ScreenHeight/2.0)-85 )
 		if AudioCore.MusicCurrentlyPlaying == 0:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: Title", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Awakening''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Kirill Kharchenko", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		if AudioCore.MusicCurrentlyPlaying == 1:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame 1", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''The Crash Night''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Higgins", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif AudioCore.MusicCurrentlyPlaying == 2:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame 2", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Hold On To Dreams''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "zeropage", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif AudioCore.MusicCurrentlyPlaying == 3:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame 3", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''We Are Alive''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "GroovyVoxx", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif AudioCore.MusicCurrentlyPlaying == 4:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame 4", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Springtime''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Pokki DJ", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif AudioCore.MusicCurrentlyPlaying == 5:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame 5", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Swedish Groove''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Melatronic", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif AudioCore.MusicCurrentlyPlaying == 6:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame Never Ending", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Beyond Stars''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Higgins", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif AudioCore.MusicCurrentlyPlaying == 7:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: New High Score", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Energy''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Pokki DJ", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif AudioCore.MusicCurrentlyPlaying == 8:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: Ending", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM Music Soundtrack By Suno.com", 0, 395, 1, 0, 57, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Out Of My Head''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Jon Worthy", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 		VisualsCore.DrawSprite(31, VisualsCore.ScreenWidth/2.0, 583, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
 		InterfaceCore.CreateButton (6, (VisualsCore.ScreenWidth/2.0), VisualsCore.ScreenHeight-25.0)
+
+		InputCore.MouseButtonLeftPressed = false
+		InputCore.DelayAllUserInput = 30
 
 	if InterfaceCore.ThisArrowWasPressed(0.0):
 		if AudioCore.MusicCurrentlyPlaying > 0:

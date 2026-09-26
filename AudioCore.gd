@@ -1,4 +1,4 @@
-# Copyright 2026 "TeamJeZxLee.Itch.io"
+# Copyright 2026 "TeamJeZxLee.itch.io"
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 # and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -76,15 +76,15 @@ func PlayMusic(index, loop):
 	
 	MusicCurrentlyPlaying = index
 
-	if index == 0:  MusicPlayer.stream = load("res://media/music/BGM-Title.ogg")
-	elif index == 1:  MusicPlayer.stream = load("res://media/music/BGM-InGame1.ogg")
-	elif index == 2:  MusicPlayer.stream = load("res://media/music/BGM-InGame2.ogg")
-	elif index == 3:  MusicPlayer.stream = load("res://media/music/BGM-InGame3.ogg")
-	elif index == 4:  MusicPlayer.stream = load("res://media/music/BGM-InGame4.ogg")
-	elif index == 5:  MusicPlayer.stream = load("res://media/music/BGM-InGame5.ogg")
-	elif index == 6:  MusicPlayer.stream = load("res://media/music/BGM-NeverEnding.ogg")
-	elif index == 7:  MusicPlayer.stream = load("res://media/music/BGM-NewHighScore.ogg")
-	elif index == 8:  MusicPlayer.stream = load("res://media/music/BGM-Ending.ogg")
+	if index == 0:  MusicPlayer.stream = load("res://media/music/BGM-Title-New.ogg")
+	elif index == 1:  MusicPlayer.stream = load("res://media/music/BGM-InGame1-New.ogg")
+	elif index == 2:  MusicPlayer.stream = load("res://media/music/BGM-InGame2-New.ogg")
+	elif index == 3:  MusicPlayer.stream = load("res://media/music/BGM-InGame3-New.ogg")
+	elif index == 4:  MusicPlayer.stream = load("res://media/music/BGM-InGame4-New.ogg")
+	elif index == 5:  MusicPlayer.stream = load("res://media/music/BGM-InGame5-New.ogg")
+	elif index == 6:  MusicPlayer.stream = load("res://media/music/BGM-NeverEnding-New.ogg")
+	elif index == 7:  MusicPlayer.stream = load("res://media/music/BGM-NewHighScore-New.ogg")
+	elif index == 8:  MusicPlayer.stream = load("res://media/music/BGM-Ending-New.ogg")
 
 	MusicPlayer.set_volume_db(ConvertLinearToDB(MusicVolume))
 	MusicPlayer.stream.set_loop(loop)
