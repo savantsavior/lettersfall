@@ -48,3 +48,9 @@ Thumbs.db
 *.mov
 *.wmv
 
+# Godot build artifacts and editor cache
+.godot/
+Linux_EXEs/
+*.pck
+*.x86_64
+*.arm64
