@@ -29,14 +29,9 @@ var EffectPlayer = []
 var EffectsTotal = 9
 
 #----------------------------------------------------------------------------------------
-func ConvertLinearToDB(volume):
-	var returnValue = log(volume) * 8.6858896380650365530225783783321
-	return(returnValue)
-
-#----------------------------------------------------------------------------------------
 func _ready():
-	MusicVolume = 0.5
-	EffectsVolume = 0.25
+	MusicVolume = 0.75
+	EffectsVolume = 0.5
 
 	MusicPlayer = AudioStreamPlayer.new()
 	add_child(MusicPlayer)
@@ -54,16 +49,16 @@ func _ready():
 		elif index == 8:  EffectPlayer[index].stream = load("res://media/sound/SND-LevelUp.wav")
 
 		add_child(EffectPlayer[index])
-		EffectPlayer[index].set_volume_db(ConvertLinearToDB(EffectsVolume))
+		EffectPlayer[index].set_volume_db(linear_to_db(EffectsVolume))
 
 	pass
 
 #----------------------------------------------------------------------------------------
 func SetMusicAndEffectsVolume(musicVolume, effectsVolume):
-	MusicPlayer.set_volume_db(ConvertLinearToDB(musicVolume))
+	MusicPlayer.set_volume_db(linear_to_db(musicVolume))
 
 	for index in range(0, EffectsTotal):
-		EffectPlayer[index].set_volume_db(ConvertLinearToDB(effectsVolume))
+		EffectPlayer[index].set_volume_db(linear_to_db(effectsVolume))
 
 	pass
 
@@ -86,7 +81,7 @@ func PlayMusic(index, loop):
 	elif index == 7:  MusicPlayer.stream = load("res://media/music/BGM-NewHighScore-New.ogg")
 	elif index == 8:  MusicPlayer.stream = load("res://media/music/BGM-Ending-New.ogg")
 
-	MusicPlayer.set_volume_db(ConvertLinearToDB(MusicVolume))
+	MusicPlayer.set_volume_db(linear_to_db(MusicVolume))
 	MusicPlayer.stream.set_loop(loop)
 	MusicPlayer.play(0.0)
 
@@ -96,7 +91,7 @@ func PlayMusic(index, loop):
 func PlayEffect(index):
 	if index < 0 || index > (EffectsTotal-1):  return
 
-	EffectPlayer[index].set_volume_db(ConvertLinearToDB(EffectsVolume))
+	EffectPlayer[index].set_volume_db(linear_to_db(EffectsVolume))
 	EffectPlayer[index].play(0.0)
 
 	pass

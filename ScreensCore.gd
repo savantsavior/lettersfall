@@ -141,6 +141,9 @@ var CutSceneClickTextFlash
 
 const SCREENDISPLAYTIMER = (120*2)
 
+var KeyboardModeKeysText
+var KeyboardModeKeysAlpha
+
 #----------------------------------------------------------------------------------------
 func _ready():
 	ScreenFadeStatus = FadingFromBlack
@@ -162,6 +165,8 @@ func _ready():
 
 	if (OperatingSys == OSHTMLFive):
 		ScreenToDisplay = HTML5Screen
+
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 
 	CutSceneTextIndex.resize(7)
 	CutSceneTextScale.resize(7)
@@ -185,7 +190,7 @@ func _ready():
 	CutSceneSceneTotal[8] = 3
 	CutSceneSceneTotal[9] = 1
 
-	fps.resize(8)
+	fps.resize(9)
 	fps[0] = 20
 	fps[2] = 45
 	fps[1] = 30
@@ -194,6 +199,7 @@ func _ready():
 	fps[6] = 45
 	fps[5] = 30
 	fps[7] = 60
+	fps[8] = 60
 
 	TitleScreenOldMusicVol = -1
 	TitleScreenOldEffectsVol = -1
@@ -238,7 +244,7 @@ func DisplayHTML5Screen():
 	if ScreenFadeStatus == FadingFromBlack && ScreenFadeTransparency == 1.0:
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
 
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Click Screen To Continue!", 0, (VisualsCore.ScreenHeight/2.0)-15, 1, 1, 55, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.5, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Click Screen To Continue!", 0, (VisualsCore.ScreenHeight/2.0)-15, 3, 1, 1, 55, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.5, 0.0)
 
 		ScreenDisplayTimer = 100
 
@@ -247,11 +253,6 @@ func DisplayHTML5Screen():
 
 	if (InputCore.MouseButtonLeftPressed == true && ScreenFadeStatus == FadingIdle):
 		AudioCore.PlayEffect(1)
-		if ( OS.has_feature("web_android") or OS.has_feature("web_ios") ):
-			VisualsCore.KeepAspectRatio = false
-			VisualsCore.FullScreenMode = true
-			VisualsCore.SetScreenStretchMode()
-			VisualsCore.SetFullScreenMode()
 
 		ScreenFadeStatus = FadingToBlack
 		ScreenDisplayTimer = -1
@@ -272,12 +273,9 @@ func DisplayMITScreen():
 
 		RenderingServer.set_default_clear_color(Color(0.1, 0.1, 0.1, 1.0))
 
-		VisualsCore.DrawSprite(3, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
+		VisualsCore.DrawSprite(3, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
 
 		ScreenDisplayTimer = SCREENDISPLAYTIMER
-
-		if (OperatingSys == OSDesktop && LogicCore.SecretCodeCombined != 1998 && LogicCore.SecretCodeCombined != 2001):
-			VisualsCore.FullScreenMode = true
 
 	if (InputCore.DelayAllUserInput == -1 && (InputCore.MouseButtonLeftPressed == true || InputCore.KeyboardSpacebarPressed == true || InputCore.KeyboardEnterPressed == true || InputCore.JoyButtonOne[InputCore.InputAny] == InputCore.Pressed)) && ScreenDisplayTimer > 1:
 		ScreenDisplayTimer = 1
@@ -300,9 +298,9 @@ func DisplayMITScreen():
 func DisplayGodotScreen():
 	if ScreenFadeStatus == FadingFromBlack && ScreenFadeTransparency == 1.0:
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
-		VisualsCore.DrawSprite(5, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
+		VisualsCore.DrawSprite(5, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
 
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, DataCore.GODOT_VERSION, 445+10, 185+20+15-5-14, 0, 1, 35, 1.0, 1.0, 0, 0.7, 0.7, 0.7, 1.0, 0.9, 0.9, 0.9)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, DataCore.GODOT_VERSION, 445+10, 185+20+15-5-14, 3, 0, 1, 35, 1.0, 1.0, 0, 0.7, 0.7, 0.7, 1.0, 0.9, 0.9, 0.9)
 
 		ScreenDisplayTimer = SCREENDISPLAYTIMER
 
@@ -335,8 +333,8 @@ func DisplayTitleScreen():
 		DataCore.SaveOptionsAndHighScores()
 		
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
-		VisualsCore.DrawSprite(10, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "   Learn To Have Fun! ™", 0, 12+2+8-15-3+2, 1, 0, 30, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawSprite(10, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "   Learn To Have Fun! ™", 0, 12+2+8-15-3+2, 3, 1, 0, 30, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 		if (AudioCore.MusicVolume == 0.0 && AudioCore.EffectsVolume == 0.0):
 			InterfaceCore.CreateIcon(110, 40, 40, " ")
@@ -346,15 +344,19 @@ func DisplayTitleScreen():
 		InterfaceCore.CreateIcon(117, VisualsCore.ScreenWidth-40, 40, " ")
 
 		if (OperatingSys != OSAndroid):
-			VisualsCore.DrawSprite(20, VisualsCore.ScreenWidth/2.0, 103.0+10, 0.7, 0.5, 0, 1.0, 1.0, 1.0, 1.0)
+			VisualsCore.DrawSprite(20, VisualsCore.ScreenWidth/2.0, 103.0+10, 4, 0.7, 0.5, 0, 1.0, 1.0, 1.0, 1.0)
 		elif (OperatingSys == OSAndroid):
-			VisualsCore.DrawSprite(20, VisualsCore.ScreenWidth/2.0, 1103.0+10, 0.7, 0.5, 0, 1.0, 1.0, 1.0, 1.0)
+			VisualsCore.DrawSprite(20, VisualsCore.ScreenWidth/2.0, 1103.0+10, 4, 0.7, 0.5, 0, 1.0, 1.0, 1.0, 1.0)
 
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "™", VisualsCore.ScreenWidth-135, 20, 0, 1, 30, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "™", VisualsCore.ScreenWidth-135, 20, 3, 0, 1, 30, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "110%", 740, 124-5, 3, 0, 1, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "110%", 740, 124+5, 3, 0, 1, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "110%", 740, 124, 4, 0, 1, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 		var highScoreFullText
 		highScoreFullText = "''"+DataCore.HighScoreName[LogicCore.GameMode][0]+"'' Scored: "+str(DataCore.HighScoreScore[LogicCore.GameMode][0])
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, highScoreFullText, 0, 170+35+15-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, highScoreFullText, 0, 170+35+15-12, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 
 		if (OperatingSys != OSAndroid):
 			RenderingServer.canvas_item_set_modulate(VisualsCore.Sprites.ci_rid[15], Color(1.0, 1.0, 1.0, 1.0))
@@ -375,11 +377,11 @@ func DisplayTitleScreen():
 		buttonY+=buttonOffsetY
 
 		if (LogicCore.HideCopyright == false):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''TeamJeZxLee.itch.io''", 0, 640-19-4-15+10, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''TeamJeZxLee.itch.io''", 0, 640-19-4-15+10, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif (LogicCore.HideCopyright == true):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''SavantSavior.itch.io''", 0, 640-19-4-15+10, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''SavantSavior.itch.io''", 0, 640-19-4-15+10, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, LogicCore.Version, 10, VisualsCore.ScreenHeight-15, 0, 1, 15, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, LogicCore.Version, 10, VisualsCore.ScreenHeight-15, 3, 0, 1, 15, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 		InterfaceCore.ArrowSetSelectedByKeyboardLast = -1
 
@@ -402,6 +404,7 @@ func DisplayTitleScreen():
 
 			RenderingServer.canvas_item_set_transform(VisualsCore.Sprites.ci_rid[110], Transform2D(0.0, Vector2(1.0, 1.0), 0.0, Vector2(-99999, -99999)))
 			InterfaceCore.Icons.IconSprite[0]  = 111
+			RenderingServer.canvas_item_set_z_index(VisualsCore.Sprites.ci_rid[111], 4)
 		else:
 			TitleScreenOldMusicVol =AudioCore.MusicVolume
 			AudioCore.MusicVolume = 0.0
@@ -411,7 +414,8 @@ func DisplayTitleScreen():
 
 			RenderingServer.canvas_item_set_transform(VisualsCore.Sprites.ci_rid[111], Transform2D(0.0, Vector2(1.0, 1.0), 0.0, Vector2(-99999, -99999)))
 			InterfaceCore.Icons.IconSprite[0]  = 110
-			
+			RenderingServer.canvas_item_set_z_index(VisualsCore.Sprites.ci_rid[110], 4)
+
 		AudioCore.SetMusicAndEffectsVolume(AudioCore.MusicVolume, AudioCore.EffectsVolume)
 		DataCore.SaveOptionsAndHighScores()
 	elif InterfaceCore.ThisIconWasPressed(1, -1) == true:
@@ -423,7 +427,7 @@ func DisplayTitleScreen():
 		ScreenFadeStatus = FadingToBlack
 	#
 		if AudioCore.MusicVolume == 0.0:
-			AudioCore.MusicVolume = 0.5
+			AudioCore.MusicVolume = 0.75
 			AudioCore.EffectsVolume = 0.5
 			AudioCore.SetMusicAndEffectsVolume(AudioCore.MusicVolume, AudioCore.EffectsVolume)
 			AudioCore.PlayMusic(0, true)
@@ -460,189 +464,169 @@ func DisplayTitleScreen():
 	pass
 
 #----------------------------------------------------------------------------------------
-func DisplayInputScreen():
-	if ScreenFadeStatus == FadingFromBlack && ScreenFadeTransparency == 1.0:
-		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
-
-		InterfaceCore.CreateIcon(180, (VisualsCore.ScreenWidth/2.0), (VisualsCore.ScreenHeight/2.0)-160, " ")
-		InterfaceCore.CreateIcon(181, (VisualsCore.ScreenWidth/2.0), (VisualsCore.ScreenHeight/2.0)+160, " ")
-
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "CHOOSE YOUR INPUT!", 0, (VisualsCore.ScreenHeight/2.0)-40-9, 1, 1, 80, 1.0, 1.0, 0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
-
-		ScreenDisplayTimer = 100
-
-	if InterfaceCore.ThisIconWasPressed(0, -1) == true:
-		ScreenDisplayTimer = 1
-		InputCore.DelayAllUserInput = 20
-	elif InterfaceCore.ThisIconWasPressed(1, -1) == true:
-		VisualsCore.FullScreenMode = true
-		VisualsCore.SetFullScreenMode()
-
-		ScreenDisplayTimer = 1
-		InputCore.DelayAllUserInput = 20
-
-	if ScreenDisplayTimer == 1:
-		ScreenToDisplayNext = GodotScreen
-		ScreenFadeStatus = FadingToBlack
-		ScreenDisplayTimer = -1
-		if InputCore.MouseButtonLeftPressed == true || InputCore.KeyboardSpacebarPressed == true || InputCore.JoyButtonOne[InputCore.InputAny] == InputCore.Pressed:  AudioCore.PlayEffect(1)
-
-	if ScreenFadeStatus == FadingToBlack && ScreenFadeTransparency == 0.5:
-		ScreenToDisplayNext = GodotScreen
-		InputCore.DelayAllUserInput = 15
-
-	pass
-
-#----------------------------------------------------------------------------------------
 func DisplayOptionsScreen():
+	var window
+
 	if ScreenFadeStatus == FadingFromBlack && ScreenFadeTransparency == 1.0:
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
 		if (JoystickSetupIndex == JoySetupNotStarted):
-			VisualsCore.DrawSprite(10, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
+			VisualsCore.DrawSprite(10, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
 	
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "O  P  T  I  O  N  S:", 0, 12-8, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawSprite(30, VisualsCore.ScreenWidth/2.0, 30+8, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "O  P  T  I  O  N  S:", 0, 12-8, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawSprite(30, VisualsCore.ScreenWidth/2.0, 30+8, 1, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
 
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, " ", 0, 0, 0, 0, 25, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, " ", 0, 0, 3, 0, 0, 25, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Music Volume:", 95, 51, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Music Volume:", 95, 51, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 	
 			InterfaceCore.CreateArrowSet(0, 65)
 			if AudioCore.MusicVolume == 1.0:
-				OptionsTextMusicVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "100% Volume", -95, 51, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextMusicVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "100% Volume", -95, 51, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.MusicVolume == 0.75:
-				OptionsTextMusicVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "75% Volume", -95, 51, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextMusicVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "75% Volume", -95, 51, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.MusicVolume == 0.5:
-				OptionsTextMusicVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "50% Volume", -95, 51, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextMusicVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "50% Volume", -95, 51, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.MusicVolume == 0.25:
-				OptionsTextMusicVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "25% Volume", -95, 51, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextMusicVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "25% Volume", -95, 51, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.MusicVolume == 0.0:
-				OptionsTextMusicVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "0% Volume", -95, 51, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextMusicVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "0% Volume", -95, 51, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Sound Effects Volume:", 95, 51+50, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Sound Effects Volume:", 95, 51+50, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			InterfaceCore.CreateArrowSet(1, 65+50)
 			if AudioCore.EffectsVolume == 1.0:
-				OptionsTextEffectsVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "100% Volume", -95, 51+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextEffectsVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "100% Volume", -95, 51+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.EffectsVolume == 0.75:
-				OptionsTextEffectsVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "75% Volume", -95, 51+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextEffectsVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "75% Volume", -95, 51+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.EffectsVolume == 0.5:
-				OptionsTextEffectsVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "50% Volume", -95, 51+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextEffectsVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "50% Volume", -95, 51+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.EffectsVolume == 0.25:
-				OptionsTextEffectsVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "25% Volume", -95, 51+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextEffectsVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "25% Volume", -95, 51+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.EffectsVolume == 0.0:
-				OptionsTextEffectsVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "0% Volume", -95, 51+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextEffectsVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "0% Volume", -95, 51+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Full Screen Mode:", 95, 51+50+50, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			#window = get_window()
+			#if window.mode == Window.MODE_MAXIMIZED:
+				#VisualsCore.FullScreenMode = 1
+			#elif window.mode == Window.MODE_WINDOWED:
+				#VisualsCore.FullScreenMode = 0
+			#elif window.mode == Window.MODE_FULLSCREEN:
+				#VisualsCore.FullScreenMode = 2
+
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Full Screen Mode:", 95, 51+50+50, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			InterfaceCore.CreateArrowSet(2, 65+50+50)
-			if (VisualsCore.FullScreenMode == true or OperatingSys == OSAndroid):
-				OptionsTextAspectRatio = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "On", -95, 51+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif (VisualsCore.FullScreenMode == false):
-				OptionsTextAspectRatio = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Off", -95, 51+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			if (VisualsCore.FullScreenMode == 2):
+				OptionsTextAspectRatio = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "On", -95, 51+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			elif (VisualsCore.FullScreenMode == 1):
+				OptionsTextAspectRatio = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Maximized", -95, 51+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			elif (VisualsCore.FullScreenMode == 0):
+				OptionsTextAspectRatio = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Off", -95, 51+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Screen Display Option:", 95, 51+50+50+50, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Screen Display Option:", 95, 51+50+50+50, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			InterfaceCore.CreateArrowSet(6, 65+50+50+50)
 			if (VisualsCore.KeepAspectRatio == false):
-				OptionsTextCompPlayersSys = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Stretch & Fill Screen", -95, 51+50+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextCompPlayersSys = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Stretch & Fill Screen", -95, 51+50+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif (VisualsCore.KeepAspectRatio == true):
-				OptionsTextCompPlayersSys = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Keep Aspect Ratio", -95, 51+50+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextCompPlayersSys = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Keep Aspect Ratio", -95, 51+50+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-			VisualsCore.DrawSprite(31, VisualsCore.ScreenWidth/2.0, 250, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
+			VisualsCore.DrawSprite(31, VisualsCore.ScreenWidth/2.0, 250, 1, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
 
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Game Mode:", 95, 51+50+50+50+65-7+5, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Game Mode:", 95, 51+50+50+50+65-7+5, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			InterfaceCore.CreateArrowSet(4, 70+50+50+50+65-7)
 			if LogicCore.GameMode == LogicCore.EasyStoryMode:
-				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Easy Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Easy Story Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.NormalStoryMode:
-				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Normal Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Normal Story Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.HardStoryMode:
-				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Hard Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Hard Story Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.VeryHardStoryMode:
-				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Very Hard Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Very Hard Story Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.EasyNeverMode:
-				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Easy Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Easy Never End Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.NormalNeverMode:
-				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Normal Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Normal Never End Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.HardNeverMode:
-				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Hard Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Hard Never End Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.VeryHardNeverMode:
-				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Very Hard Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Very Hard Never End Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			elif LogicCore.GameMode == LogicCore.TypingOnKeyboardMode:
+				OptionsTextGameMode = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Typing On Keyboard Never End Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Undo Button Action:", 95, 70+50+50+50+65+50-14-13+2, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Undo Button Action:", 95, 70+50+50+50+65+50-14-13+2, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			InterfaceCore.CreateArrowSet(5, 70+50+50+50+65+50-14+2)
 			if LogicCore.UndoAction == 1:
-				OptionsTextUndoAction = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Clear All Tiles", -95, 70+50+50+50+65+50-14-13+2, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextUndoAction = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Clear All Tiles", -95, 70+50+50+50+65+50-14-13+2, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.UndoAction == 0:
-				OptionsTextUndoAction = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Clear One Tile At A Time", -95, 70+50+50+50+65+50-14-13+2, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextUndoAction = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Clear One Tile At A Time", -95, 70+50+50+50+65+50-14-13+2, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Right Mouse Buttton Action:", 95, 70+50+50+50+65+50-14+50-2-14, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Right Mouse Buttton Action:", 95, 70+50+50+50+65+50-14+50-2-14, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			InterfaceCore.CreateArrowSet(5, 70+50+50+50+65+50-14+50-2)
 			if LogicCore.EnableRightClick == 1:
-				OptionsTextRightMouseButtonAction = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Clear One Tile", -95, 70+50+50+50+65+50-14+50-2-14, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextRightMouseButtonAction = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Clear One Tile", -95, 70+50+50+50+65+50-14+50-2-14, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.EnableRightClick == 0:
-				OptionsTextRightMouseButtonAction = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Disabled", -95, 70+50+50+50+65+50-14+50-2-14, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				OptionsTextRightMouseButtonAction = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Disabled", -95, 70+50+50+50+65+50-14+50-2-14, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-			VisualsCore.DrawSprite(32, VisualsCore.ScreenWidth/2.0, 318+47+3+21+5, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
+			VisualsCore.DrawSprite(32, VisualsCore.ScreenWidth/2.0, 318+47+3+21+5, 1, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
 
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Secret Code #1:", 95, 51+50+65+50+50+70+47+21+5, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Secret Code #1:", 95, 51+50+65+50+50+70+47+21+5, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			InterfaceCore.CreateArrowSet(7, 70+50+65+50+50+70+47+21)
-			OptionsTextCodeOne = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(LogicCore.SecretCode[0]), -95, 51+50+65+50+50+70+47+21+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			OptionsTextCodeOne = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(LogicCore.SecretCode[0]), -95, 51+50+65+50+50+70+47+21+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Secret Code #2:", 95, 51+50+65+50+50+70+50+47+14+5, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Secret Code #2:", 95, 51+50+65+50+50+70+50+47+14+5, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			InterfaceCore.CreateArrowSet(8, 70+50+65+50+50+70+50+47+14)
-			OptionsTextCodeTwo = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(LogicCore.SecretCode[1]), -95, 51+50+65+50+50+70+50+47+14+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			OptionsTextCodeTwo = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(LogicCore.SecretCode[1]), -95, 51+50+65+50+50+70+50+47+14+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Secret Code #3:", 95, 51+50+65+50+50+70+50+50+47+7+5, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Secret Code #3:", 95, 51+50+65+50+50+70+50+50+47+7+5, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			InterfaceCore.CreateArrowSet(9, 70+50+65+50+50+70+50+50+47+7)
-			OptionsTextCodeThree = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(LogicCore.SecretCode[2]), -95, 51+50+65+50+50+70+50+50+47+7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			OptionsTextCodeThree = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(LogicCore.SecretCode[2]), -95, 51+50+65+50+50+70+50+50+47+7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Secret Code #4:", 95, 51+50+65+50+50+70+50+50+50+47+5, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Secret Code #4:", 95, 51+50+65+50+50+70+50+50+50+47+5, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			InterfaceCore.CreateArrowSet(10, 70+50+65+50+50+70+50+50+50+47)
-			OptionsTextCodeFour = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(LogicCore.SecretCode[3]), -95, 51+50+65+50+50+70+50+50+50+47+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			OptionsTextCodeFour = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(LogicCore.SecretCode[3]), -95, 51+50+65+50+50+70+50+50+50+47+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 			DataCore.SaveOptionsAndHighScores()
 
-			VisualsCore.DrawSprite(33, VisualsCore.ScreenWidth/2.0, 583, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
+			VisualsCore.DrawSprite(33, VisualsCore.ScreenWidth/2.0, 583, 4, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
 			InterfaceCore.CreateButton (6, (VisualsCore.ScreenWidth/2.0), VisualsCore.ScreenHeight-25)
 		elif (JoystickSetupIndex == JoySetup1Up):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [UP] ON GAMEPAD 1", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [UP] ON GAMEPAD 1", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif (JoystickSetupIndex == JoySetup1Down):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [DOWN] ON GAMEPAD 1", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [DOWN] ON GAMEPAD 1", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif (JoystickSetupIndex == JoySetup1Left):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [LEFT] ON GAMEPAD 1", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [LEFT] ON GAMEPAD 1", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif (JoystickSetupIndex == JoySetup1Right):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [RIGHT] ON GAMEPAD 1", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [RIGHT] ON GAMEPAD 1", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif (JoystickSetupIndex == JoySetup1Button1):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [BUTTON 1] ON GAMEPAD 1", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [BUTTON 1] ON GAMEPAD 1", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif (JoystickSetupIndex == JoySetup1Button2):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [BUTTON 2] ON GAMEPAD 1", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [BUTTON 2] ON GAMEPAD 1", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif (JoystickSetupIndex == JoySetup2Up):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [UP] ON GAMEPAD 2", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [UP] ON GAMEPAD 2", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif (JoystickSetupIndex == JoySetup2Down):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [DOWN] ON GAMEPAD 2", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [DOWN] ON GAMEPAD 2", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif (JoystickSetupIndex == JoySetup2Left):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [LEFT] ON GAMEPAD 2", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [LEFT] ON GAMEPAD 2", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif (JoystickSetupIndex == JoySetup2Right):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [RIGHT] ON GAMEPAD 2", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [RIGHT] ON GAMEPAD 2", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif (JoystickSetupIndex == JoySetup2Button1):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [BUTTON 1] ON GAMEPAD 2", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [BUTTON 1] ON GAMEPAD 2", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif (JoystickSetupIndex == JoySetup2Button2):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [BUTTON 2] ON GAMEPAD 2", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [BUTTON 2] ON GAMEPAD 2", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif (JoystickSetupIndex == JoySetup3Up):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [UP] ON GAMEPAD 3", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [UP] ON GAMEPAD 3", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif (JoystickSetupIndex == JoySetup3Down):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [DOWN] ON GAMEPAD 3", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [DOWN] ON GAMEPAD 3", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif (JoystickSetupIndex == JoySetup3Left):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [LEFT] ON GAMEPAD 3", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [LEFT] ON GAMEPAD 3", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif (JoystickSetupIndex == JoySetup3Right):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [RIGHT] ON GAMEPAD 3", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [RIGHT] ON GAMEPAD 3", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif (JoystickSetupIndex == JoySetup3Button1):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [BUTTON 1] ON GAMEPAD 3", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [BUTTON 1] ON GAMEPAD 3", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif (JoystickSetupIndex == JoySetup3Button2):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [BUTTON 2] ON GAMEPAD 3", 0.0, VisualsCore.ScreenHeight/2.0, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [BUTTON 2] ON GAMEPAD 3", 0.0, VisualsCore.ScreenHeight/2.0, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 
 		if (JoystickSetupIndex > JoySetupNotStarted):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [F1] TO QUIT[Resetting Config]", 0.0, (VisualsCore.ScreenHeight/2.0)+75, 1, 0, 25, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [Esc] TO QUIT[Keeping Config]", 0.0, (VisualsCore.ScreenHeight/2.0)+75+45, 1, 0, 25, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [F1] TO QUIT[Resetting Config]", 0.0, (VisualsCore.ScreenHeight/2.0)+75, 3, 1, 0, 25, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "PRESS [Esc] TO QUIT[Keeping Config]", 0.0, (VisualsCore.ScreenHeight/2.0)+75+45, 3, 1, 0, 25, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 	if InputCore.DelayAllUserInput == -1 and Input.is_action_pressed("ConfigureJaoysticks"):
 		InputCore.DelayAllUserInput = 50
@@ -830,15 +814,15 @@ func DisplayOptionsScreen():
 			else:  AudioCore.MusicVolume = 1.0
 			
 			if AudioCore.MusicVolume == 1.0:
-				VisualsCore.DrawText(OptionsTextMusicVol, "100% Volume", -95, 51, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextMusicVol, "100% Volume", -95, 51, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.MusicVolume == 0.75:
-				VisualsCore.DrawText(OptionsTextMusicVol, "75% Volume", -95, 51, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextMusicVol, "75% Volume", -95, 51, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.MusicVolume == 0.5:
-				VisualsCore.DrawText(OptionsTextMusicVol, "50% Volume", -95, 51, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextMusicVol, "50% Volume", -95, 51, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.MusicVolume == 0.25:
-				VisualsCore.DrawText(OptionsTextMusicVol, "25% Volume", -95, 51, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextMusicVol, "25% Volume", -95, 51, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.MusicVolume == 0.0:
-				VisualsCore.DrawText(OptionsTextMusicVol, "0% Volume", -95, 51, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextMusicVol, "0% Volume", -95, 51, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			
 			AudioCore.SetMusicAndEffectsVolume(AudioCore.MusicVolume, AudioCore.EffectsVolume)
 		elif InterfaceCore.ThisArrowWasPressed(0.5) == true:
@@ -847,15 +831,15 @@ func DisplayOptionsScreen():
 			else:  AudioCore.MusicVolume = 0.0
 			
 			if AudioCore.MusicVolume == 1.0:
-				VisualsCore.DrawText(OptionsTextMusicVol, "100% Volume", -95, 51, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextMusicVol, "100% Volume", -95, 51, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.MusicVolume == 0.75:
-				VisualsCore.DrawText(OptionsTextMusicVol, "75% Volume", -95, 51, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextMusicVol, "75% Volume", -95, 51, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.MusicVolume == 0.5:
-				VisualsCore.DrawText(OptionsTextMusicVol, "50% Volume", -95, 51, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextMusicVol, "50% Volume", -95, 51, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.MusicVolume == 0.25:
-				VisualsCore.DrawText(OptionsTextMusicVol, "25% Volume", -95, 51, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextMusicVol, "25% Volume", -95, 51, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.MusicVolume == 0.0:
-				VisualsCore.DrawText(OptionsTextMusicVol, "0% Volume", -95, 51, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextMusicVol, "0% Volume", -95, 51, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 			AudioCore.SetMusicAndEffectsVolume(AudioCore.MusicVolume, AudioCore.EffectsVolume)
 		elif InterfaceCore.ThisArrowWasPressed(1.0) == true:
@@ -864,15 +848,15 @@ func DisplayOptionsScreen():
 			else:  AudioCore.EffectsVolume = 1.0
 			
 			if AudioCore.EffectsVolume == 1.0:
-				VisualsCore.DrawText(OptionsTextEffectsVol, "100% Volume", -95, 51+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextEffectsVol, "100% Volume", -95, 51+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.EffectsVolume == 0.75:
-				VisualsCore.DrawText(OptionsTextEffectsVol, "75% Volume", -95, 51+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextEffectsVol, "75% Volume", -95, 51+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.EffectsVolume == 0.5:
-				VisualsCore.DrawText(OptionsTextEffectsVol, "50% Volume", -95, 51+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextEffectsVol, "50% Volume", -95, 51+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.EffectsVolume == 0.25:
-				VisualsCore.DrawText(OptionsTextEffectsVol, "25% Volume", -95, 51+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextEffectsVol, "25% Volume", -95, 51+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.EffectsVolume == 0.0:
-				VisualsCore.DrawText(OptionsTextEffectsVol, "0% Volume", -95, 51+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextEffectsVol, "0% Volume", -95, 51+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 			AudioCore.SetMusicAndEffectsVolume(AudioCore.MusicVolume, AudioCore.EffectsVolume)
 		elif InterfaceCore.ThisArrowWasPressed(1.5) == true:
@@ -881,49 +865,56 @@ func DisplayOptionsScreen():
 			else:  AudioCore.EffectsVolume = 0.0
 
 			if AudioCore.EffectsVolume == 1.0:
-				VisualsCore.DrawText(OptionsTextEffectsVol, "100% Volume", -95, 51+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextEffectsVol, "100% Volume", -95, 51+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.EffectsVolume == 0.75:
-				VisualsCore.DrawText(OptionsTextEffectsVol, "75% Volume", -95, 51+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextEffectsVol, "75% Volume", -95, 51+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.EffectsVolume == 0.5:
-				VisualsCore.DrawText(OptionsTextEffectsVol, "50% Volume", -95, 51+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextEffectsVol, "50% Volume", -95, 51+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.EffectsVolume == 0.25:
-				VisualsCore.DrawText(OptionsTextEffectsVol, "25% Volume", -95, 51+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextEffectsVol, "25% Volume", -95, 51+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.EffectsVolume == 0.0:
-				VisualsCore.DrawText(OptionsTextEffectsVol, "0% Volume", -95, 51+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextEffectsVol, "0% Volume", -95, 51+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			
 			AudioCore.SetMusicAndEffectsVolume(AudioCore.MusicVolume, AudioCore.EffectsVolume)
 		elif InterfaceCore.ThisArrowWasPressed(2.0) == true and OperatingSys != OSAndroid:
-			if VisualsCore.FullScreenMode == true:
-				VisualsCore.FullScreenMode = false
-			else:  VisualsCore.FullScreenMode = true
+			if VisualsCore.FullScreenMode > 0:
+				VisualsCore.FullScreenMode-=1
+			else:  VisualsCore.FullScreenMode = 2
+
+			if (OperatingSys == OSHTMLFive && VisualsCore.FullScreenMode == 1):  VisualsCore.FullScreenMode = 0
 
 			VisualsCore.SetFullScreenMode()
 
-			if (VisualsCore.FullScreenMode == true):
-				VisualsCore.DrawText(OptionsTextAspectRatio, "On", -95, 51+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif (VisualsCore.FullScreenMode == false):
-				VisualsCore.DrawText(OptionsTextAspectRatio, "Off", -95, 51+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			if (VisualsCore.FullScreenMode == 2):
+				VisualsCore.DrawText(OptionsTextAspectRatio, "On", -95, 51+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			elif (VisualsCore.FullScreenMode == 1):
+				VisualsCore.DrawText(OptionsTextAspectRatio, "Maximized", -95, 51+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			elif (VisualsCore.FullScreenMode == 0):
+				VisualsCore.DrawText(OptionsTextAspectRatio, "Off", -95, 51+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif InterfaceCore.ThisArrowWasPressed(2.5) == true and OperatingSys != OSAndroid:
-			if VisualsCore.FullScreenMode == false:
-				VisualsCore.FullScreenMode = true
-			else:  VisualsCore.FullScreenMode = false
+			if VisualsCore.FullScreenMode < 2:
+				VisualsCore.FullScreenMode+=1
+			else:  VisualsCore.FullScreenMode = 0
+
+			if (OperatingSys == OSHTMLFive && VisualsCore.FullScreenMode == 1):  VisualsCore.FullScreenMode = 2
 
 			VisualsCore.SetFullScreenMode()
 
-			if (VisualsCore.FullScreenMode == true):
-				VisualsCore.DrawText(OptionsTextAspectRatio, "On", -95, 51+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			elif (VisualsCore.FullScreenMode == false):
-				VisualsCore.DrawText(OptionsTextAspectRatio, "Off", -95, 51+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-
+			if (VisualsCore.FullScreenMode == 2):
+				VisualsCore.DrawText(OptionsTextAspectRatio, "On", -95, 51+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			elif (VisualsCore.FullScreenMode == 1):
+				VisualsCore.DrawText(OptionsTextAspectRatio, "Maximized", -95, 51+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			elif (VisualsCore.FullScreenMode == 0):
+				VisualsCore.DrawText(OptionsTextAspectRatio, "Off", -95, 51+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif InterfaceCore.ThisArrowWasPressed(3.0) == true:
 			if VisualsCore.KeepAspectRatio == false:
 				VisualsCore.KeepAspectRatio = true
 			else:  VisualsCore.KeepAspectRatio = false
 
 			if (VisualsCore.KeepAspectRatio == false):
-				VisualsCore.DrawText(OptionsTextCompPlayersSys, "Stretch & Fill Screen", -95, 51+50+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextCompPlayersSys, "Stretch & Fill Screen", -95, 51+50+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif (VisualsCore.KeepAspectRatio == true):
-				VisualsCore.DrawText(OptionsTextCompPlayersSys, "Keep Aspect Ratio", -95, 51+50+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextCompPlayersSys, "Keep Aspect Ratio", -95, 51+50+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 			VisualsCore.SetScreenStretchMode()
 
@@ -933,54 +924,58 @@ func DisplayOptionsScreen():
 			else:  VisualsCore.KeepAspectRatio = false
 
 			if (VisualsCore.KeepAspectRatio == false):
-				VisualsCore.DrawText(OptionsTextCompPlayersSys, "Stretch & Fill Screen", -95, 51+50+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextCompPlayersSys, "Stretch & Fill Screen", -95, 51+50+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif (VisualsCore.KeepAspectRatio == true):
-				VisualsCore.DrawText(OptionsTextCompPlayersSys, "Keep Aspect Ratio", -95, 51+50+50+50, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextCompPlayersSys, "Keep Aspect Ratio", -95, 51+50+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 			VisualsCore.SetScreenStretchMode()
 
 		elif InterfaceCore.ThisArrowWasPressed(4.0) == true:
 			if LogicCore.GameMode > 0:
 				LogicCore.GameMode-=1
-			else:  LogicCore.GameMode = 7
+			else:  LogicCore.GameMode = 8
 			
 			if LogicCore.GameMode == LogicCore.EasyStoryMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Easy Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextGameMode, "Easy Story Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.NormalStoryMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Normal Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextGameMode, "Normal Story Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.HardStoryMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Hard Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextGameMode, "Hard Story Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.VeryHardStoryMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Very Hard Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextGameMode, "Very Hard Story Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.EasyNeverMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Easy Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextGameMode, "Easy Never End Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.NormalNeverMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Normal Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextGameMode, "Normal Never End Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.HardNeverMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Hard Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextGameMode, "Hard Never End Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.VeryHardNeverMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Very Hard Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextGameMode, "Very Hard Never End Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			elif LogicCore.GameMode == LogicCore.TypingOnKeyboardMode:
+				VisualsCore.DrawText(OptionsTextGameMode, "Typing On Keyboard Never End Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif InterfaceCore.ThisArrowWasPressed(4.5) == true:
-			if LogicCore.GameMode < 7:
+			if LogicCore.GameMode < 8:
 				LogicCore.GameMode+=1
 			else:  LogicCore.GameMode = 0
 			
 			if LogicCore.GameMode == LogicCore.EasyStoryMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Easy Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextGameMode, "Easy Story Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.NormalStoryMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Normal Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextGameMode, "Normal Story Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.HardStoryMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Hard Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextGameMode, "Hard Story Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.VeryHardStoryMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Very Hard Story Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextGameMode, "Very Hard Story Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.EasyNeverMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Easy Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextGameMode, "Easy Never End Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.NormalNeverMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Normal Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextGameMode, "Normal Never End Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.HardNeverMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Hard Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextGameMode, "Hard Never End Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.GameMode == LogicCore.VeryHardNeverMode:
-				VisualsCore.DrawText(OptionsTextGameMode, "Very Hard Never End Mode", -95, 51+50+50+50+65-7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextGameMode, "Very Hard Never End Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			elif LogicCore.GameMode == LogicCore.TypingOnKeyboardMode:
+				VisualsCore.DrawText(OptionsTextGameMode, "Typing On Keyboard Never End Mode", -95, 51+50+50+50+65-7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif InterfaceCore.ThisArrowWasPressed(5.0) == true:
 			if (LogicCore.UndoAction == 0):
 				LogicCore.UndoAction = 1
@@ -988,9 +983,9 @@ func DisplayOptionsScreen():
 				LogicCore.UndoAction = 0
 
 			if LogicCore.UndoAction == 1:
-				VisualsCore.DrawText(OptionsTextUndoAction, "Clear All Tiles", -95, 70+50+50+50+65+50-14-13+2, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextUndoAction, "Clear All Tiles", -95, 70+50+50+50+65+50-14-13+2, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.UndoAction == 0:
-				VisualsCore.DrawText(OptionsTextUndoAction, "Clear One Tile At A Time", -95, 70+50+50+50+65+50-14-13+2, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextUndoAction, "Clear One Tile At A Time", -95, 70+50+50+50+65+50-14-13+2, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif InterfaceCore.ThisArrowWasPressed(5.5) == true:
 			if (LogicCore.UndoAction == 0):
 				LogicCore.UndoAction = 1
@@ -998,9 +993,9 @@ func DisplayOptionsScreen():
 				LogicCore.UndoAction = 0
 
 			if LogicCore.UndoAction == 1:
-				VisualsCore.DrawText(OptionsTextUndoAction, "Clear All Tiles", -95, 70+50+50+50+65+50-14-13+2, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextUndoAction, "Clear All Tiles", -95, 70+50+50+50+65+50-14-13+2, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.UndoAction == 0:
-				VisualsCore.DrawText(OptionsTextUndoAction, "Clear One Tile At A Time", -95, 70+50+50+50+65+50-14-13+2, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextUndoAction, "Clear One Tile At A Time", -95, 70+50+50+50+65+50-14-13+2, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif InterfaceCore.ThisArrowWasPressed(6.0) == true:
 			if (LogicCore.EnableRightClick == 0):
 				LogicCore.EnableRightClick = 1
@@ -1008,9 +1003,9 @@ func DisplayOptionsScreen():
 				LogicCore.EnableRightClick = 0
 
 			if LogicCore.EnableRightClick == 1:
-				VisualsCore.DrawText(OptionsTextRightMouseButtonAction, "Clear One Tile", -95, 70+50+50+50+65+50-14+50-2-14, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextRightMouseButtonAction, "Clear One Tile", -95, 70+50+50+50+65+50-14+50-2-14, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.EnableRightClick == 0:
-				VisualsCore.DrawText(OptionsTextRightMouseButtonAction, "Disabled", -95, 70+50+50+50+65+50-14+50-2-14, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextRightMouseButtonAction, "Disabled", -95, 70+50+50+50+65+50-14+50-2-14, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif InterfaceCore.ThisArrowWasPressed(6.5) == true:
 			if (LogicCore.EnableRightClick == 0):
 				LogicCore.EnableRightClick = 1
@@ -1018,57 +1013,57 @@ func DisplayOptionsScreen():
 				LogicCore.EnableRightClick = 0
 
 			if LogicCore.EnableRightClick == 1:
-				VisualsCore.DrawText(OptionsTextRightMouseButtonAction, "Clear One Tile", -95, 70+50+50+50+65+50-14+50-2-14, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextRightMouseButtonAction, "Clear One Tile", -95, 70+50+50+50+65+50-14+50-2-14, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif LogicCore.EnableRightClick == 0:
-				VisualsCore.DrawText(OptionsTextRightMouseButtonAction, "Disabled", -95, 70+50+50+50+65+50-14+50-2-14, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(OptionsTextRightMouseButtonAction, "Disabled", -95, 70+50+50+50+65+50-14+50-2-14, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif InterfaceCore.ThisArrowWasPressed(7.0) == true:
 			if LogicCore.SecretCode[0] > 0:
 				LogicCore.SecretCode[0]-=1
 			else:  LogicCore.SecretCode[0] = 9
 
-			VisualsCore.DrawText(OptionsTextCodeOne, str(LogicCore.SecretCode[0]), -95, 51+50+65+50+50+70+47+21+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(OptionsTextCodeOne, str(LogicCore.SecretCode[0]), -95, 51+50+65+50+50+70+47+21+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif InterfaceCore.ThisArrowWasPressed(7.5) == true:
 			if LogicCore.SecretCode[0] < 9:
 				LogicCore.SecretCode[0]+=1
 			else:  LogicCore.SecretCode[0] = 0
 
-			VisualsCore.DrawText(OptionsTextCodeOne, str(LogicCore.SecretCode[0]), -95, 51+50+65+50+50+70+47+21+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(OptionsTextCodeOne, str(LogicCore.SecretCode[0]), -95, 51+50+65+50+50+70+47+21+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif InterfaceCore.ThisArrowWasPressed(8.0) == true:
 			if LogicCore.SecretCode[1] > 0:
 				LogicCore.SecretCode[1]-=1
 			else:  LogicCore.SecretCode[1] = 9
 
-			VisualsCore.DrawText(OptionsTextCodeTwo, str(LogicCore.SecretCode[1]), -95, 51+50+65+50+50+70+50+47+14+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(OptionsTextCodeTwo, str(LogicCore.SecretCode[1]), -95, 51+50+65+50+50+70+50+47+14+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif InterfaceCore.ThisArrowWasPressed(8.5) == true:
 			if LogicCore.SecretCode[1] < 9:
 				LogicCore.SecretCode[1]+=1
 			else:  LogicCore.SecretCode[1] = 0
 
-			VisualsCore.DrawText(OptionsTextCodeTwo, str(LogicCore.SecretCode[1]), -95, 51+50+65+50+50+70+50+47+14+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(OptionsTextCodeTwo, str(LogicCore.SecretCode[1]), -95, 51+50+65+50+50+70+50+47+14+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif InterfaceCore.ThisArrowWasPressed(9.0) == true:
 			if LogicCore.SecretCode[2] > 0:
 				LogicCore.SecretCode[2]-=1
 			else:  LogicCore.SecretCode[2] = 9
 
-			VisualsCore.DrawText(OptionsTextCodeThree, str(LogicCore.SecretCode[2]), -95, 51+50+65+50+50+70+50+50+47+7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(OptionsTextCodeThree, str(LogicCore.SecretCode[2]), -95, 51+50+65+50+50+70+50+50+47+7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif InterfaceCore.ThisArrowWasPressed(9.5) == true:
 			if LogicCore.SecretCode[2] < 9:
 				LogicCore.SecretCode[2]+=1
 			else:  LogicCore.SecretCode[2] = 0
 
-			VisualsCore.DrawText(OptionsTextCodeThree, str(LogicCore.SecretCode[2]), -95, 51+50+65+50+50+70+50+50+47+7+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(OptionsTextCodeThree, str(LogicCore.SecretCode[2]), -95, 51+50+65+50+50+70+50+50+47+7+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif InterfaceCore.ThisArrowWasPressed(10.0) == true:
 			if LogicCore.SecretCode[3] > 0:
 				LogicCore.SecretCode[3]-=1
 			else:  LogicCore.SecretCode[3] = 9
 
-			VisualsCore.DrawText(OptionsTextCodeFour, str(LogicCore.SecretCode[3]), -95, 51+50+65+50+50+70+50+50+50+47+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(OptionsTextCodeFour, str(LogicCore.SecretCode[3]), -95, 51+50+65+50+50+70+50+50+50+47+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif InterfaceCore.ThisArrowWasPressed(10.5) == true:
 			if LogicCore.SecretCode[3] < 9:
 				LogicCore.SecretCode[3]+=1
 			else:  LogicCore.SecretCode[3] = 0
 
-			VisualsCore.DrawText(OptionsTextCodeFour, str(LogicCore.SecretCode[3]), -95, 51+50+65+50+50+70+50+50+50+47+5, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(OptionsTextCodeFour, str(LogicCore.SecretCode[3]), -95, 51+50+65+50+50+70+50+50+50+47+5, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 		if (InterfaceCore.ThisButtonWasPressed(0) == true):
 			ScreenToDisplayNext = TitleScreen
@@ -1096,35 +1091,41 @@ func DisplayOptionsScreen():
 func DisplayHowToPlayScreen():
 	if ScreenFadeStatus == FadingFromBlack && ScreenFadeTransparency == 1.0:
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
-		VisualsCore.DrawSprite(10, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "H  O  W   T  O   P  L  A  Y:", 0, 12-8, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
-		VisualsCore.DrawSprite(30, VisualsCore.ScreenWidth/2.0, 30+8, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
+		VisualsCore.DrawSprite(10, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "H  O  W   T  O   P  L  A  Y:", 0, 12-8, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawSprite(30, VisualsCore.ScreenWidth/2.0, 30+8, 1, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
 
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, " ", 0, 0, 0, 0, 25, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, " ", 0, 0, 3, 0, 0, 25, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Pieces will fall from the top of the playfield.", 0, 35+30-10, 1, 0, 42, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Select pieces that have fell and form valid:", 0, 35+30+40-10, 1, 0, 42, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Pieces will fall from the top of the playfield.", 0, 35+30-10, 3, 1, 0, 42, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Select pieces that have fell and form valid:", 0, 35+30+40-10, 3, 1, 0, 42, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-		VisualsCore.DrawSprite(20000+22000, VisualsCore.ScreenWidth/2.0 - 100, 173, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
-		VisualsCore.DrawSprite(20000+14000, VisualsCore.ScreenWidth/2.0 - 50, 173, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
-		VisualsCore.DrawSprite(20000+17000, VisualsCore.ScreenWidth/2.0 , 173, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
-		VisualsCore.DrawSprite(20000+3000, VisualsCore.ScreenWidth/2.0 + 50, 173, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
-		VisualsCore.DrawSprite(20000+18000, VisualsCore.ScreenWidth/2.0 + 100, 173, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
+		RenderingServer.canvas_item_set_modulate(VisualsCore.Sprites.ci_rid[20000+22000], Color(1.0, 1.0, 1.0, 1.0))
+		RenderingServer.canvas_item_set_modulate(VisualsCore.Sprites.ci_rid[20000+14000], Color(1.0, 1.0, 1.0, 1.0))
+		RenderingServer.canvas_item_set_modulate(VisualsCore.Sprites.ci_rid[20000+17000], Color(1.0, 1.0, 1.0, 1.0))
+		RenderingServer.canvas_item_set_modulate(VisualsCore.Sprites.ci_rid[20000+3000], Color(1.0, 1.0, 1.0, 1.0))
+		RenderingServer.canvas_item_set_modulate(VisualsCore.Sprites.ci_rid[20000+18000], Color(1.0, 1.0, 1.0, 1.0))
 
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Valid words will be removed from the playfield.", 0, 35+30+40+40+70, 1, 0, 42, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "As you form words, new pieces will fall from top.", 0, 35+30+40+40+70+40, 1, 0, 42, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawSprite(20000+22000, VisualsCore.ScreenWidth/2.0 - 100, 173, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
+		VisualsCore.DrawSprite(20000+14000, VisualsCore.ScreenWidth/2.0 - 50, 173, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
+		VisualsCore.DrawSprite(20000+17000, VisualsCore.ScreenWidth/2.0 , 173, 1.0, 1, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
+		VisualsCore.DrawSprite(20000+3000, VisualsCore.ScreenWidth/2.0 + 50, 173, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
+		VisualsCore.DrawSprite(20000+18000, VisualsCore.ScreenWidth/2.0 + 100, 173, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
 
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Keep an eye on the height of the playfield.", 0, 35+30+40+40+70+40+70, 1, 0, 42, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "The game will be over if the pieces reach the top.", 0, 35+30+40+40+70+40+70+40, 1, 0, 42, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Valid words will be removed from the playfield.", 0, 35+30+40+40+70, 3, 1, 0, 42, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "As you form words, new pieces will fall from top.", 0, 35+30+40+40+70+40, 3, 1, 0, 42, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Keep an eye on the height of the playfield.", 0, 35+30+40+40+70+40+70, 3, 1, 0, 42, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "The game will be over if the pieces reach the top.", 0, 35+30+40+40+70+40+70+40, 3, 1, 0, 42, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 		if (LogicCore.GameMode < 4):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Do you have the skill to beat this spelling game?", 0, 35+30+40+40+70+40+70+40+70, 1, 0, 42, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Do you have the skill to beat this spelling game?", 0, 35+30+40+40+70+40+70+40+70, 3, 1, 0, 42, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		else:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Do you have the skill to get a new high score?", 0, 35+30+40+40+70+40+70+40+70, 1, 0, 42, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Do you have the skill to get a new high score?", 0, 35+30+40+40+70+40+70+40+70, 3, 1, 0, 42, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "    Learn To Have Fun! ™", 0, 35+30+40+40+70+40+70+40+70+60, 1, 0, 77, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "    Learn To Have Fun! ™", 0, 35+30+40+40+70+40+70+40+70+60, 3, 1, 0, 77, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-		VisualsCore.DrawSprite(32, VisualsCore.ScreenWidth/2.0, 583, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
+		VisualsCore.DrawSprite(32, VisualsCore.ScreenWidth/2.0, 583, 4, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
 		InterfaceCore.CreateButton (6, (VisualsCore.ScreenWidth/2.0), VisualsCore.ScreenHeight-25.0)
 
 	if InterfaceCore.ThisButtonWasPressed(0) == true:
@@ -1144,13 +1145,13 @@ func DisplayHowToPlayScreen():
 func DisplayHighScoresScreen():
 	if ScreenFadeStatus == FadingFromBlack && ScreenFadeTransparency == 1.0:
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
-		VisualsCore.DrawSprite(10, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "H  I  G  H    S  C  O  R  E  S:", 0, 12-8, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
-		VisualsCore.DrawSprite(30, VisualsCore.ScreenWidth/2.0, 30+8, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
+		VisualsCore.DrawSprite(10, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "H  I  G  H    S  C  O  R  E  S:", 0, 12-8, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawSprite(30, VisualsCore.ScreenWidth/2.0, 30+8, 1, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
 
 		InterfaceCore.CreateArrowSet(0, 70)
 
-		VisualsCore.DrawSprite(31, VisualsCore.ScreenWidth/2.0, 583, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
+		VisualsCore.DrawSprite(31, VisualsCore.ScreenWidth/2.0, 583, 4, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
 
 		if (LogicCore.SecretCodeCombined != 2777 && LogicCore.SecretCodeCombined != 8888):
 			InterfaceCore.CreateButton (6, (VisualsCore.ScreenWidth/2.0), VisualsCore.ScreenHeight-25)
@@ -1159,27 +1160,30 @@ func DisplayHighScoresScreen():
 			InterfaceCore.CreateButton (7, (VisualsCore.ScreenWidth/2.0), VisualsCore.ScreenHeight-25-67)
 			InterfaceCore.ButtonSelectedByKeyboard = 1
 
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, " ", 0, 0, 0, 0, 25, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, " ", 0, 0, 3, 0, 0, 25, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 
 		if LogicCore.GameMode == LogicCore.EasyStoryMode:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Easy Story Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Easy Story Mode''", 0, 70-14, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif LogicCore.GameMode == LogicCore.NormalStoryMode:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Normal Story Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Normal Story Mode''", 0, 70-14, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif LogicCore.GameMode == LogicCore.HardStoryMode:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Hard Story Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Hard Story Mode''", 0, 70-14, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif LogicCore.GameMode == LogicCore.VeryHardStoryMode:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Very Hard Story Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Very Hard Story Mode''", 0, 70-14, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif LogicCore.GameMode == LogicCore.EasyNeverMode:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Easy Never End Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Easy Never End Mode''", 0, 70-14, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif LogicCore.GameMode == LogicCore.NormalNeverMode:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Normal Never End Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Normal Never End Mode''", 0, 70-14, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif LogicCore.GameMode == LogicCore.HardNeverMode:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Hard Never End Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Hard Never End Mode''", 0, 70-14, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 		elif LogicCore.GameMode == LogicCore.VeryHardNeverMode:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Very Hard Never End Mode''", 0, 70-14, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "NAME:", 55+26, 120, 0, 0, 25, 1.0, 1.0, 0, 0.7, 0.7, 0.7, 1.0, 0.0, 0.0, 0.0)
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "LEVEL:", 690, 120, 0, 0, 25, 1.0, 1.0, 0, 0.7, 0.7, 0.7, 1.0, 0.0, 0.0, 0.0)
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "SCORE:", 820, 120, 0, 0, 25, 1.0, 1.0, 0, 0.7, 0.7, 0.7, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Very Hard Never End Mode''", 0, 70-14, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+		elif LogicCore.GameMode == LogicCore.TypingOnKeyboardMode:
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Typing On Keyboard Never End Mode''", 0, 70-14, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "NAME:", 55+26, 120, 3, 0, 0, 25, 1.0, 1.0, 0, 0.7, 0.7, 0.7, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "LEVEL:", 690, 120, 3, 0, 0, 25, 1.0, 1.0, 0, 0.7, 0.7, 0.7, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "SCORE:", 820-30, 120, 3, 0, 0, 25, 1.0, 1.0, 0, 0.7, 0.7, 0.7, 1.0, 0.0, 0.0, 0.0)
 	
 		var screenY = 154
 		var blue
@@ -1188,30 +1192,30 @@ func DisplayHighScoresScreen():
 			if (LogicCore.Score == DataCore.HighScoreScore[LogicCore.GameMode][rank] and LogicCore.Level == DataCore.HighScoreLevel[LogicCore.GameMode][rank]):
 				blue = 0
 	
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(1+rank)+".", 15-4+26, screenY, 0, 0, 35, 1.0, 1.0, 0, 1.0, blue, blue, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, DataCore.HighScoreName[LogicCore.GameMode][rank], 55+26, screenY, 0, 0, 35, 1.0, 1.0, 0, 1.0, blue, blue, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(1+rank)+".", 15-4+26, screenY, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, blue, blue, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, DataCore.HighScoreName[LogicCore.GameMode][rank], 55+26, screenY, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, blue, blue, 1.0, 0.0, 0.0, 0.0)
 
 			var level = int(DataCore.HighScoreLevel[LogicCore.GameMode][rank])
 			if level < 10:
-				VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(DataCore.HighScoreLevel[LogicCore.GameMode][rank]), 690, screenY, 0, 0, 35, 1.0, 1.0, 0, 1.0, blue, blue, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(DataCore.HighScoreLevel[LogicCore.GameMode][rank]), 690, screenY, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, blue, blue, 1.0, 0.0, 0.0, 0.0)
 			elif (LogicCore.GameMode == LogicCore.EasyStoryMode || LogicCore.GameMode == LogicCore.NormalStoryMode || LogicCore.GameMode == LogicCore.HardStoryMode || LogicCore.GameMode == LogicCore.VeryHardStoryMode):
-				VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "WON!", 690, screenY, 0, 0, 35, 1.0, 1.0, 0, 1.0, blue, blue, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "WON!", 690, screenY, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, blue, blue, 1.0, 0.0, 0.0, 0.0)
 			else:
-				VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(DataCore.HighScoreLevel[LogicCore.GameMode][rank]), 690, screenY, 0, 0, 35, 1.0, 1.0, 0, 1.0, blue, blue, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(DataCore.HighScoreLevel[LogicCore.GameMode][rank]), 690, screenY, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, blue, blue, 1.0, 0.0, 0.0, 0.0)
 
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(DataCore.HighScoreScore[LogicCore.GameMode][rank]), 820, screenY, 0, 0, 35, 1.0, 1.0, 0, 1.0, blue, blue, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, str(DataCore.HighScoreScore[LogicCore.GameMode][rank]), 820-30, screenY, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, blue, blue, 1.0, 0.0, 0.0, 0.0)
 
 			screenY+=37
 
 	if InterfaceCore.ThisArrowWasPressed(0) == true:
 		if LogicCore.GameMode > 0:
 			LogicCore.GameMode-=1
-		else:  LogicCore.GameMode = 7
+		else:  LogicCore.GameMode = 8
 		
 		ScreenToDisplayNext = HighScoresScreen
 		ScreenFadeStatus = FadingToBlack
 	elif InterfaceCore.ThisArrowWasPressed(0.5) == true:
-		if LogicCore.GameMode < 7:
+		if LogicCore.GameMode < 8:
 			LogicCore.GameMode+=1
 		else:  LogicCore.GameMode = 0
 		
@@ -1251,7 +1255,7 @@ func SetupAboutScreenStars():
 		VisualsCore.StarColorG[index] = (randf() * 1.0)
 		VisualsCore.StarColorB[index] = (randf() * 1.0)
 
-		VisualsCore.DrawSprite(4000+index, VisualsCore.StarX[index], VisualsCore.StarY[index], VisualsCore.StarScale[index], VisualsCore.StarScale[index], VisualsCore.StarRotation[index], VisualsCore.StarColorR[index], VisualsCore.StarColorG[index], VisualsCore.StarColorB[index], VisualsCore.StarAlpha[index])
+		VisualsCore.DrawSprite(4000+index, VisualsCore.StarX[index], VisualsCore.StarY[index], 1, VisualsCore.StarScale[index], VisualsCore.StarScale[index], VisualsCore.StarRotation[index], VisualsCore.StarColorR[index], VisualsCore.StarColorG[index], VisualsCore.StarColorB[index], VisualsCore.StarAlpha[index])
 
 	pass
 
@@ -1263,15 +1267,15 @@ func DisplayAboutScreen():
 		SetupAboutScreenStars()
 
 		if (LogicCore.GameWon == true):
-			VisualsCore.DrawSprite(3010, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
+			VisualsCore.DrawSprite(3010, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
 		else:
-			VisualsCore.DrawSprite(10, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
+			VisualsCore.DrawSprite(10, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
 
 		VisualsCore.LoadAboutScreenTexts()
 
 		TS1ScreenY = (VisualsCore.Texts.TextImage[VisualsCore.AboutTextsEndIndex-1].global_position.y + 390+150)
 		StaffScreenTSOneScale = 1.0
-		VisualsCore.DrawSprite(23, VisualsCore.ScreenWidth/2.0, TS1ScreenY, StaffScreenTSOneScale, StaffScreenTSOneScale, 0, 1.0, 1.0, 1.0, 1.0)
+		VisualsCore.DrawSprite(23, VisualsCore.ScreenWidth/2.0, TS1ScreenY, 1, StaffScreenTSOneScale, StaffScreenTSOneScale, 0, 1.0, 1.0, 1.0, 1.0)
 
 		TSOneDisplayTimer = 125
 		
@@ -1296,7 +1300,7 @@ func DisplayAboutScreen():
 				VisualsCore.StarRotation[index]+=0.01
 			else:
 				VisualsCore.StarRotation[index] = 0.0
-			VisualsCore.DrawSprite(4000+index, VisualsCore.StarX[index], VisualsCore.StarY[index], VisualsCore.StarScale[index], VisualsCore.StarScale[index], VisualsCore.StarRotation[index], VisualsCore.StarColorR[index], VisualsCore.StarColorG[index], VisualsCore.StarColorB[index], VisualsCore.StarAlpha[index])
+			VisualsCore.DrawSprite(4000+index, VisualsCore.StarX[index], VisualsCore.StarY[index], 1, VisualsCore.StarScale[index], VisualsCore.StarScale[index], VisualsCore.StarRotation[index], VisualsCore.StarColorR[index], VisualsCore.StarColorG[index], VisualsCore.StarColorB[index], VisualsCore.StarAlpha[index])
 
 		var textScrollSpeed = (1.32*2.0)
 		if (LogicCore.GameWon == false):
@@ -1334,7 +1338,7 @@ func DisplayAboutScreen():
 					InputCore.DelayAllUserInput = 30
 
 		if (TS1ScreenY < 1000 and LogicCore.GameWon == false):
-			VisualsCore.DrawSprite(23, VisualsCore.ScreenWidth/2.0, TS1ScreenY, StaffScreenTSOneScale, StaffScreenTSOneScale, 0, 1.0, 1.0, 1.0, 1.0)
+			VisualsCore.DrawSprite(23, VisualsCore.ScreenWidth/2.0, TS1ScreenY, 1, StaffScreenTSOneScale, StaffScreenTSOneScale, 0, 1.0, 1.0, 1.0, 1.0)
 
 	if ScreenFadeStatus == FadingToBlack && ScreenFadeTransparency == 0.5:
 		if (LogicCore.GameWon == true and LogicCore.GameMode == LogicCore.VeryHardStoryMode and LogicCore.SecretCodeCombined != 2778):
@@ -1361,51 +1365,51 @@ func DisplayAboutScreen():
 func DisplayMusicTestScreen():
 	if ScreenFadeStatus == FadingFromBlack && ScreenFadeTransparency == 1.0:
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
-		VisualsCore.DrawSprite(10, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "B . G . M .   M  U  S  I  C   T  E  S  T:", 0, 12-8, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
-		VisualsCore.DrawSprite(30, VisualsCore.ScreenWidth/2.0, 30+8, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
+		VisualsCore.DrawSprite(10, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "B . G . M .   M  U  S  I  C   T  E  S  T:", 0, 12-8, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawSprite(30, VisualsCore.ScreenWidth/2.0, 30+8, 1, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
 
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, " ", 0, 0, 0, 0, 25, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, " ", 0, 0, 3, 0, 0, 25, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 
 		InterfaceCore.CreateArrowSet( 0, (VisualsCore.ScreenHeight/2.0)-85 )
 		if AudioCore.MusicCurrentlyPlaying == 0:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: Title", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Awakening''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Kirill Kharchenko", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-		if AudioCore.MusicCurrentlyPlaying == 1:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame 1", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''The Crash Night''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Higgins", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: Title", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Awakening''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 3, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Kirill Kharchenko", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		elif AudioCore.MusicCurrentlyPlaying == 1:
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame 1", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''The Crash Night''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 3, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Higgins", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif AudioCore.MusicCurrentlyPlaying == 2:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame 2", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Hold On To Dreams''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "zeropage", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame 2", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Revival''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 3, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Kirill Kharchenko", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif AudioCore.MusicCurrentlyPlaying == 3:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame 3", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''We Are Alive''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "GroovyVoxx", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame 3", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''We Are Alive''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 3, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "GroovyVoxx", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif AudioCore.MusicCurrentlyPlaying == 4:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame 4", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Springtime''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Pokki DJ", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame 4", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''The Dark Protector''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 3, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Grégoire Lourme", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif AudioCore.MusicCurrentlyPlaying == 5:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame 5", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Swedish Groove''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Melatronic", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame 5", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Raid of Pirates (With Choir)''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 3, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Grégoire Lourme", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif AudioCore.MusicCurrentlyPlaying == 6:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame Never Ending", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Beyond Stars''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Higgins", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame Never Ending", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Beyond Stars''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 3, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Higgins", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif AudioCore.MusicCurrentlyPlaying == 7:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: New High Score", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Energy''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Pokki DJ", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: New High Score", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Energy''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 3, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Pokki DJ", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif AudioCore.MusicCurrentlyPlaying == 8:
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: Ending", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Out Of My Head''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Jon Worthy", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: Ending", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Out Of My Head''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 3, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Jon Worthy", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-		VisualsCore.DrawSprite(31, VisualsCore.ScreenWidth/2.0, 583, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
+		VisualsCore.DrawSprite(31, VisualsCore.ScreenWidth/2.0, 583, 4, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
 		InterfaceCore.CreateButton (6, (VisualsCore.ScreenWidth/2.0), VisualsCore.ScreenHeight-25.0)
 
 		InputCore.MouseButtonLeftPressed = false
@@ -1468,12 +1472,12 @@ func DisplayPlayingGameScreen():
 			VisualsCore.SetFramesPerSecond(45)
 		elif (LogicCore.GameMode == LogicCore.HardStoryMode or LogicCore.GameMode == LogicCore.HardNeverMode):
 			VisualsCore.SetFramesPerSecond(30)
-		elif (LogicCore.GameMode == LogicCore.VeryHardStoryMode or LogicCore.GameMode == LogicCore.VeryHardNeverMode):
+		elif (LogicCore.GameMode == LogicCore.VeryHardStoryMode or LogicCore.GameMode == LogicCore.VeryHardNeverMode or LogicCore.GameMode == LogicCore.TypingOnKeyboardMode):
 			VisualsCore.SetFramesPerSecond(60)
 
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
-		VisualsCore.DrawSprite(10, (VisualsCore.ScreenWidth/2.0), (VisualsCore.ScreenHeight/2.0), 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
-		VisualsCore.DrawSprite(2000, (VisualsCore.ScreenWidth/2.0), (VisualsCore.ScreenHeight/2.0), 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
+		VisualsCore.DrawSprite(10, (VisualsCore.ScreenWidth/2.0), (VisualsCore.ScreenHeight/2.0), 0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
+		VisualsCore.DrawSprite(2000, (VisualsCore.ScreenWidth/2.0), (VisualsCore.ScreenHeight/2.0), 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
 
 		InterfaceCore.CreateIcon(117, 31, VisualsCore.ScreenHeight-31, " ")
 
@@ -1486,7 +1490,7 @@ func DisplayPlayingGameScreen():
 
 		var scoreFullText
 		scoreFullText = "Score: "+str(LogicCore.Score)
-		LogicCore.ScoreText = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, scoreFullText, 75, 600, 0, 0, 40, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		LogicCore.ScoreText = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, scoreFullText, 75, 600, 3, 0, 0, 40, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 		var levelFullText
 		levelFullText = "Level: "+str(LogicCore.Level)
@@ -1494,22 +1498,30 @@ func DisplayPlayingGameScreen():
 		if (LogicCore.GameMode < 4 and LogicCore.Level == 9):
 			levelFullText = "Level: Final!"
 
-		LogicCore.LevelText = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, levelFullText, 0, 600, 1, 0, 40, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		LogicCore.LevelText = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, levelFullText, -75, 600, 3, 2, 0, 40, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 		InputCore.DelayAllUserInput = 35
+
+		if (LogicCore.GameMode == LogicCore.TypingOnKeyboardMode):
+			KeyboardModeKeysText = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Type (a)-(z), ('), (-), (Back Space), And (Enter)", 0, 100, 3, 1, 0, 40, 1.0, 1.0, 0, 1.0, 1.0, 1.0, KeyboardModeKeysAlpha, 0.0, 0.0, 0.0)
 
 	LogicCore.CutSceneScale = 0.0
 	if (LogicCore.CutSceneScale < 0.85 or LogicCore.CutSceneScale == 0.0):
 		if (LogicCore.PAUSEgame == false):  LogicCore.RunGameplayCore()
 
+		if (LogicCore.GameMode == LogicCore.TypingOnKeyboardMode):
+			if (KeyboardModeKeysAlpha > 0.0):
+				KeyboardModeKeysAlpha-=0.001
+				VisualsCore.DrawText(KeyboardModeKeysText, "Type (a)-(z), ('), (-), (Back Space), And (Enter)", 0, 100, 3, 1, 0, 40, 1.0, 1.0, 0, 1.0, 1.0, 1.0, KeyboardModeKeysAlpha, 0.0, 0.0, 0.0)
+
 		if (LogicCore.Level > 0 and LogicCore.Level < 10):
-			VisualsCore.DrawSprite(3000+LogicCore.Level, (VisualsCore.ScreenWidth/2.0), (VisualsCore.ScreenHeight/2.0), LogicCore.CutSceneScale, LogicCore.CutSceneScale, 0, 1.0, 1.0, 1.0, LogicCore.CutSceneAlpha)
+			VisualsCore.DrawSprite(3000+LogicCore.Level, (VisualsCore.ScreenWidth/2.0), (VisualsCore.ScreenHeight/2.0), 1, LogicCore.CutSceneScale, LogicCore.CutSceneScale, 0, 1.0, 1.0, 1.0, LogicCore.CutSceneAlpha)
 	
 		if (LogicCore.CutSceneScale < 0.0):
 			LogicCore.CutSceneScale = 0.0
 
 			if (LogicCore.Level > 0 and LogicCore.Level < 10):
-				VisualsCore.DrawSprite(3000+LogicCore.Level, (VisualsCore.ScreenWidth/2.0), (VisualsCore.ScreenHeight/2.0), LogicCore.CutSceneScale, LogicCore.CutSceneScale, 0, 1.0, 1.0, 1.0, LogicCore.CutSceneAlpha)
+				VisualsCore.DrawSprite(3000+LogicCore.Level, (VisualsCore.ScreenWidth/2.0), (VisualsCore.ScreenHeight/2.0), 1, LogicCore.CutSceneScale, LogicCore.CutSceneScale, 0, 1.0, 1.0, 1.0, LogicCore.CutSceneAlpha)
 
 	if (LogicCore.DrawEverything == true):
 		for index in range(28):
@@ -1526,16 +1538,16 @@ func DisplayPlayingGameScreen():
 		for y in range(12):
 			for x in range(18):
 				if (LogicCore.Playfield[x][y] > -1):
-					VisualsCore.DrawSprite(20000+LogicCore.TileSpriteIndex[LogicCore.Playfield[x][y]] + (1000*LogicCore.Playfield[x][y]), screenX, screenY, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
+					VisualsCore.DrawSprite(20000+LogicCore.TileSpriteIndex[LogicCore.Playfield[x][y]] + (1000*LogicCore.Playfield[x][y]), screenX, screenY, 3, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
 
 					for index in range(0, LogicCore.SelectedTileIndex):
 						if (LogicCore.SelectedTilePlayfieldX[index] == x and LogicCore.SelectedTilePlayfieldY[index] == y):
-							VisualsCore.DrawSprite(20000+LogicCore.TileSpriteIndex[LogicCore.Playfield[x][y]] + (1000*LogicCore.Playfield[x][y]), screenX, screenY, 1.0, 1.0, 0, 1.0, 1.0, 1.0, LogicCore.SelectedTilesAlpha)
+							VisualsCore.DrawSprite(20000+LogicCore.TileSpriteIndex[LogicCore.Playfield[x][y]] + (1000*LogicCore.Playfield[x][y]), screenX, screenY, 3, 1.0, 1.0, 0, 1.0, 1.0, 1.0, LogicCore.SelectedTilesAlpha)
 
 							if (LogicCore.GameState != LogicCore.FadingTiles):
-								VisualsCore.DrawSprite(48000+selectedIndex, screenX, screenY, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
+								VisualsCore.DrawSprite(48000+selectedIndex, screenX, screenY, 5, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
 							elif (LogicCore.GameState == LogicCore.FadingTiles):
-								VisualsCore.DrawSprite(48000+selectedIndex, screenX, screenY, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.0)
+								VisualsCore.DrawSprite(48000+selectedIndex, screenX, screenY, 5, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.0)
 
 							selectedIndex+=1
 
@@ -1551,7 +1563,7 @@ func DisplayPlayingGameScreen():
 
 		for index in range(16):
 			if (LogicCore.SelectedTilePlayfieldX[index] > -1 and LogicCore.SelectedTilePlayfieldY[index] > -1):
-				VisualsCore.DrawSprite(20000+LogicCore.TileSpriteIndex[LogicCore.Playfield[LogicCore.SelectedTilePlayfieldX[index]][LogicCore.SelectedTilePlayfieldY[index]]] + (1000*LogicCore.Playfield[LogicCore.SelectedTilePlayfieldX[index]][LogicCore.SelectedTilePlayfieldY[index]]), screenX, screenY, 1.0, 1.0, 0, 1.0, 1.0, 1.0, LogicCore.SelectedTilesAlpha)
+				VisualsCore.DrawSprite(20000+LogicCore.TileSpriteIndex[LogicCore.Playfield[LogicCore.SelectedTilePlayfieldX[index]][LogicCore.SelectedTilePlayfieldY[index]]] + (1000*LogicCore.Playfield[LogicCore.SelectedTilePlayfieldX[index]][LogicCore.SelectedTilePlayfieldY[index]]), screenX, screenY, 3, 1.0, 1.0, 0, 1.0, 1.0, 1.0, LogicCore.SelectedTilesAlpha)
 				LogicCore.TileSpriteIndex[LogicCore.Playfield[LogicCore.SelectedTilePlayfieldX[index]][LogicCore.SelectedTilePlayfieldY[index]]]+=1
 
 			screenX+=50
@@ -1568,13 +1580,13 @@ func DisplayPlayingGameScreen():
 
 	if (LogicCore.GameWon == false):
 		if (LogicCore.GameOver == false):
-			VisualsCore.DrawSprite(20000 + (1000*LogicCore.FallingTile[0] + LogicCore.FallingLetterTileIndex[0]), LogicCore.FallingTileScreenX, LogicCore.FallingTileScreenY+LogicCore.FallingTileYoffset, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
+			VisualsCore.DrawSprite(20000 + (1000*LogicCore.FallingTile[0] + LogicCore.FallingLetterTileIndex[0]), LogicCore.FallingTileScreenX, LogicCore.FallingTileScreenY+LogicCore.FallingTileYoffset, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
 
 			if (LogicCore.NumberOfFallingTiles > 1 && LogicCore.FallingTile[1] != -1):
-				VisualsCore.DrawSprite(20000 + (1000*LogicCore.FallingTile[1] + LogicCore.FallingLetterTileIndex[1]), LogicCore.FallingTileScreenX, LogicCore.FallingTileScreenY+LogicCore.FallingTileYoffset-50, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
+				VisualsCore.DrawSprite(20000 + (1000*LogicCore.FallingTile[1] + LogicCore.FallingLetterTileIndex[1]), LogicCore.FallingTileScreenX, LogicCore.FallingTileScreenY+LogicCore.FallingTileYoffset-50, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
 
 			if (LogicCore.NumberOfFallingTiles > 2 && LogicCore.FallingTile[2] != -1):
-				VisualsCore.DrawSprite(20000 + (1000*LogicCore.FallingTile[2] + LogicCore.FallingLetterTileIndex[2]), LogicCore.FallingTileScreenX, LogicCore.FallingTileScreenY+LogicCore.FallingTileYoffset-50-50, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
+				VisualsCore.DrawSprite(20000 + (1000*LogicCore.FallingTile[2] + LogicCore.FallingLetterTileIndex[2]), LogicCore.FallingTileScreenX, LogicCore.FallingTileScreenY+LogicCore.FallingTileYoffset-50-50, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
 
 		if (LogicCore.GameOver == true):
 			ScreenFadeStatus = FadingToBlack
@@ -1644,11 +1656,11 @@ func DisplayPlayingGameScreen():
 						LogicCore.PauseWasJustPressed = true
 
 						InputCore.OldMusicVolume = AudioCore.MusicVolume
-						AudioCore.MusicPlayer.set_volume_db(AudioCore.ConvertLinearToDB(0.0))
+						AudioCore.MusicPlayer.set_volume_db(linear_to_db(0.0))
 
 						InputCore.DelayAllUserInput = 25
 
-		if (LogicCore.EnableRightClick == 1 and InputCore.MouseButtonRightPressed == true and LogicCore.UndoButtonDelay == 0):
+		if (LogicCore.EnableRightClick == 1 and InputCore.MouseButtonRightPressed == true and LogicCore.UndoButtonDelay == 0 and LogicCore.GameMode < 8):
 			if (LogicCore.SelectedTileIndex > 0):
 				LogicCore.SelectedTileIndex-=1
 				LogicCore.SelectedTilePlayfieldX[LogicCore.SelectedTileIndex] = -1
@@ -1662,7 +1674,7 @@ func DisplayPlayingGameScreen():
 		if (LogicCore.ScoreChanged == true):
 			var scoreFullText
 			scoreFullText = "Score: "+str(LogicCore.Score)
-			VisualsCore.DrawText(LogicCore.ScoreText, scoreFullText, 75, 600, 0, 0, 40, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(LogicCore.ScoreText, scoreFullText, 75, 600, 3, 0, 0, 40, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 			var levelFullText
 			levelFullText = "Level: "+str(LogicCore.Level)
@@ -1670,7 +1682,7 @@ func DisplayPlayingGameScreen():
 			if (LogicCore.GameMode < 4 and LogicCore.Level == 9):
 				levelFullText = "Level: Final!"
 
-			VisualsCore.DrawText(LogicCore.LevelText, levelFullText, 0, 600, 1, 0, 40, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(LogicCore.LevelText, levelFullText, -75, 600, 3, 2, 0, 40, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 			LogicCore.ScoreChanged = false
 	elif (LogicCore.GameWon == true):
@@ -1678,7 +1690,7 @@ func DisplayPlayingGameScreen():
 
 	if (LogicCore.PAUSEgame == true && LogicCore.SecretCodeCombined != 2776):
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
-		VisualsCore.DrawSprite(2, (VisualsCore.ScreenWidth/2.0), (VisualsCore.ScreenHeight/2.0), 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
+		VisualsCore.DrawSprite(2, (VisualsCore.ScreenWidth/2.0), (VisualsCore.ScreenHeight/2.0), 10, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
 
 	if ScreenFadeStatus == FadingToBlack && ScreenFadeTransparency == 0.5:
 		VisualsCore.SetFramesPerSecond(30)
@@ -1723,13 +1735,13 @@ func DisplayNewHighScoreScreen():
 		NewHighScoreString = NewHighScoreString.left(-1)
 
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
-		VisualsCore.DrawSprite(10, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "N E W  H I G H  S C O R E  N A M E  I N P U T:", 0, 12-8, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
-		VisualsCore.DrawSprite(30, VisualsCore.ScreenWidth/2.0, 30+8, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
+		VisualsCore.DrawSprite(10, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "N E W  H I G H  S C O R E  N A M E  I N P U T:", 0, 12-8, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawSprite(30, VisualsCore.ScreenWidth/2.0, 30+8, 1, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
 
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, " ", 0, 0, 0, 0, 25, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, " ", 0, 0, 3, 0, 0, 25, 1.0, 1.0, 0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0)
 
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "You Achieved A New High Score! Please Enter Your Name:", 0, 70, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "You Achieved A New High Score! Please Enter Your Name:", 0, 70, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 		var screenY = 230
 		var screenX = 68
@@ -1776,9 +1788,9 @@ func DisplayNewHighScoreScreen():
 
 		InterfaceCore.CreateIcon( 200+(spriteIndex+1), screenX+75+75, screenY, "<" )
 
-		var _lastIndex = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, NewHighScoreString, 0, 70+55, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+		var _lastIndex = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, NewHighScoreString, 0, 70+55, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-		VisualsCore.DrawSprite(32, VisualsCore.ScreenWidth/2.0, 583, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
+		VisualsCore.DrawSprite(32, VisualsCore.ScreenWidth/2.0, 583, 4, 2.85, 2.0, 0, 1.0, 1.0, 0.0, 1.0)
 		InterfaceCore.CreateButton (5, (VisualsCore.ScreenWidth/2.0), VisualsCore.ScreenHeight-25.0)
 
 	var highScoreNameTextIndex = 77
@@ -1837,7 +1849,7 @@ func DisplayNewHighScoreScreen():
 		if (NewHighScoreStringIndex > 0):
 			NewHighScoreString = NewHighScoreString.left(-1)
 			NewHighScoreStringIndex-=1
-			VisualsCore.DrawText(highScoreNameTextIndex, NewHighScoreString, 0, 70+55, 1, 0, 35, 1.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(highScoreNameTextIndex, NewHighScoreString, 0, 70+55, 3, 1, 0, 35, 1.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 	if (InputCore.JoystickDirection[InputCore.InputAny] == InputCore.JoyUp):
 		InputCore.DelayAllUserInput = 5
@@ -1875,20 +1887,20 @@ func DisplayNewHighScoreScreen():
 				NewHighScoreStringIndex+=1
 				if (InputCore.MouseButtonLeftPressed == true || InputCore.TouchTwoPressed == true):  InputCore.DelayAllUserInput = 10
 				AudioCore.PlayEffect(0)
-				VisualsCore.DrawText(highScoreNameTextIndex, NewHighScoreString, 0, 70+55, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(highScoreNameTextIndex, NewHighScoreString, 0, 70+55, 3, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif (index == 63 && NewHighScoreStringIndex < 20):
 				NewHighScoreString+=" "
 				NewHighScoreStringIndex+=1
 				if (InputCore.MouseButtonLeftPressed == true || InputCore.TouchTwoPressed == true):  InputCore.DelayAllUserInput = 10
 				AudioCore.PlayEffect(0)
-				VisualsCore.DrawText(highScoreNameTextIndex, NewHighScoreString, 0, 70+55, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+				VisualsCore.DrawText(highScoreNameTextIndex, NewHighScoreString, 0, 70+55, 3, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif (index == 65):
 				if (NewHighScoreStringIndex > 0):
 					NewHighScoreString = NewHighScoreString.left(-1)
 					NewHighScoreStringIndex-=1
 					if (InputCore.MouseButtonLeftPressed == true || InputCore.TouchTwoPressed == true):  InputCore.DelayAllUserInput = 10
 					AudioCore.PlayEffect(0)
-					VisualsCore.DrawText(highScoreNameTextIndex, NewHighScoreString, 0, 70+55, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+					VisualsCore.DrawText(highScoreNameTextIndex, NewHighScoreString, 0, 70+55, 3, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 	if InterfaceCore.ThisButtonWasPressed(0) == true:
 		ScreenFadeStatus = FadingToBlack
@@ -1914,12 +1926,12 @@ func DisplayCutSceneScreen():
 	if ScreenFadeStatus == FadingFromBlack && ScreenFadeTransparency == 1.0:
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
 
-		VisualsCore.DrawSprite(10, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
-		VisualsCore.DrawSprite( 3000+(LogicCore.Level), VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0 )
+		VisualsCore.DrawSprite(10, VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.5)
+		VisualsCore.DrawSprite( 3000+(LogicCore.Level), VisualsCore.ScreenWidth/2.0, VisualsCore.ScreenHeight/2.0, 10, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0 )
 
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Level # "+str(LogicCore.Level)+" Of 9", 0, 9, 1, 0, 50, 1.0, 1.0, 0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Level # "+str(LogicCore.Level)+" Of 9", 0, 9, 11, 1, 0, 50, 1.0, 1.0, 0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0)
 
-		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Mouse Left Button Click To Continue!", 0,(VisualsCore.ScreenHeight - 50), 1, 0, 50, 1.0, 1.0, 0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0)
+		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Mouse Left Button Click To Continue!", 0,(VisualsCore.ScreenHeight - 50), 11, 1, 0, 50, 1.0, 1.0, 0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0)
 
 		CutSceneClickTextFlash = 0
 
@@ -1935,6 +1947,26 @@ func DisplayCutSceneScreen():
 
 #----------------------------------------------------------------------------------------
 func ProcessScreenToDisplay():
+	if (ScreenToDisplay == OptionsScreen && ScreenFadeStatus == FadingIdle):
+		var fullScreenModeOld = VisualsCore.FullScreenMode
+		var window = get_window()
+		if window.mode == Window.MODE_WINDOWED:
+			VisualsCore.FullScreenMode = 0
+		elif window.mode == Window.MODE_MAXIMIZED:
+			VisualsCore.FullScreenMode = 1
+		elif window.mode == Window.MODE_FULLSCREEN:
+			VisualsCore.FullScreenMode = 2
+
+		if (fullScreenModeOld != VisualsCore.FullScreenMode):
+			if (VisualsCore.FullScreenMode == 2):
+				VisualsCore.DrawText(OptionsTextAspectRatio, "On", -95, 51+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			elif (VisualsCore.FullScreenMode == 1):
+				VisualsCore.DrawText(OptionsTextAspectRatio, "Maximized", -95, 51+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			elif (VisualsCore.FullScreenMode == 0):
+				VisualsCore.DrawText(OptionsTextAspectRatio, "Off", -95, 51+50+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+
+			VisualsCore.ScreenIsDirty = true
+
 	if (InputCore.InputDetected == true):  VisualsCore.ScreenIsDirty = true
 
 	if (InterfaceCore.Buttons.ButtonAnimationTimer[InterfaceCore.ButtonSelectedByKeyboard] > -1):  VisualsCore.ScreenIsDirty = true
@@ -1971,8 +2003,6 @@ func ProcessScreenToDisplay():
 			DisplayGodotScreen()
 		elif ScreenToDisplay == TitleScreen:
 			DisplayTitleScreen()
-		elif ScreenToDisplay == InputScreen:
-			DisplayInputScreen()
 		elif ScreenToDisplay == OptionsScreen:
 			DisplayOptionsScreen()
 		elif ScreenToDisplay == HowToPlayScreen:

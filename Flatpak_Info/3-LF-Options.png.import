@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcuwbc6ms1a11"
-path="res://.godot/imported/First-LF-Playing.png-73b423c16ceeaffaa570cc35b5efb45c.ctex"
+uid="uid://c3yft6hxe5nbp"
+path="res://.godot/imported/3-LF-Options.png-bc4a0e21f28845c63b761263441837b1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Flatpak_Info/First-LF-Playing.png"
-dest_files=["res://.godot/imported/First-LF-Playing.png-73b423c16ceeaffaa570cc35b5efb45c.ctex"]
+source_file="res://Flatpak_Info/3-LF-Options.png"
+dest_files=["res://.godot/imported/3-LF-Options.png-bc4a0e21f28845c63b761263441837b1.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvpuehj8rka75"
-path="res://.godot/imported/Second-LF-Title.png-e5c60bb77febb00bf0d680d3248302ba.ctex"
+uid="uid://evp1kajqxdvh"
+path="res://.godot/imported/Cursor.png-f56706c36feae00445af2b4d21416eff.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Flatpak_Info/Second-LF-Title.png"
-dest_files=["res://.godot/imported/Second-LF-Title.png-e5c60bb77febb00bf0d680d3248302ba.ctex"]
+source_file="res://media/images/Cursor.png"
+dest_files=["res://.godot/imported/Cursor.png-f56706c36feae00445af2b4d21416eff.ctex"]
 
 [params]
 
