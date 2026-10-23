@@ -17,7 +17,7 @@
 #
 # ------------------------------------------------------------------------------
 #                    Cross-Platform / M.I.T. Open-Source
-#      "Grand National GNX" v3 Godot Engine 4.7.2+ 2D Video Game Framework
+#      "Grand National GNX" v4 Godot Engine 4.8+ 2D Video Game Framework
 # ------------------------------------------------------------------------------
 #                                               TM
 #                            "Learn To Have Fun!"
@@ -30,7 +30,7 @@
 #                                               TM
 #                              "LettersFall 110%"
 #
-#                             Retail Version 1.1.0
+#                            Version 1.1.1 - Retail 2
 #
 #                            Linux Flatpak On Flathub
 #                 HTML5 Enabled Desktop/Laptop Internet Browsers
@@ -42,6 +42,14 @@ extends Node2D
 #----------------------------------------------------------------------------------------
 func _ready():
 	VisualsCore.SetFramesPerSecond(30)
+
+	if (ScreensCore.OperatingSys == ScreensCore.OSHTMLFive):  VisualsCore.FullScreenMode = 0
+
+	#LogicCore.SecretCode[0] = 5
+	#LogicCore.SecretCode[1] = 4
+	#LogicCore.SecretCode[2] = 3
+	#LogicCore.SecretCode[3] = 1
+	#LogicCore.SecretCodeCombined = 5431
 
 	DataCore.LoadOptionsAndHighScores()
 
@@ -57,6 +65,8 @@ func _ready():
 func _process(_delta):
 
 	ScreensCore.ProcessScreenToDisplay()
+
+	VisualsCore.DrawSprite(100000, InputCore.MouseScreenX+25, InputCore.MouseScreenY+25, 999, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
 
 	pass
 

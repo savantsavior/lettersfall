@@ -25,7 +25,7 @@ var HighScoreScore = []
 var PlayerWithHighestScore
 var NewHighScoreRank
 
-const FILE_NAME = "user://LettersFall-1_1_0-d-game-data.json"
+const FILE_NAME = "user://LettersFall-1_1_1-cba.json"
 var godot_Temp_Version = Engine.get_version_info()
 var GODOT_VERSION = godot_Temp_Version.string
 
@@ -52,7 +52,7 @@ func CheckForNewHighScore():
 
 #----------------------------------------------------------------------------------------
 func ClearHighScores():
-	for mode in range(0, 8):
+	for mode in range(0, 9):
 		HighScoreName[mode][0] = "JeZxLee"
 		HighScoreName[mode][1] = "junaid_develops - Fiverr.com"
 		HighScoreName[mode][2] = "flairetic"
@@ -93,8 +93,7 @@ func LoadOptionsAndHighScores():
 
 	var err = config.load(FILE_NAME)
 
-	if err != OK:
-		return
+	if err != OK:  return
 
 	AudioCore.MusicVolume = config.get_value("Options", "MusicVolume")
 	AudioCore.EffectsVolume = config.get_value("Options", "EffectsVolume")
@@ -144,25 +143,25 @@ func SaveOptionsAndHighScores():
 
 	config.set_value("Options", "UndoAction", LogicCore.UndoAction)
 
-	var _warnErase = config.save(FILE_NAME)
+	config.save(FILE_NAME)
 
 	pass
 
 #----------------------------------------------------------------------------------------
 func _ready():
-	for x in range(8):
+	for x in range(9):
 		HighScoreName.append([])
 		HighScoreName[x].resize(10)
 		for y in range(10):
 			HighScoreName[x][y] = null
 
-	for xL in range(8):
+	for xL in range(9):
 		HighScoreLevel.append([])
 		HighScoreLevel[xL].resize(10)
 		for yL in range(10):
 			HighScoreLevel[xL][yL] = null
 
-	for xS in range(8):
+	for xS in range(9):
 		HighScoreScore.append([])
 		HighScoreScore[xS].resize(10)
 		for yS in range(10):
