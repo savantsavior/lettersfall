@@ -20,7 +20,7 @@ extends Node2D
 
 var HideCopyright = false
 
-var Version = "1.1.0 - Retail 1"
+var Version = "v1.1.1 - Retail 2 Final"
 
 const EasyStoryMode					= 0
 const NormalStoryMode				= 1
@@ -30,6 +30,7 @@ const EasyNeverMode					= 4
 const NormalNeverMode				= 5
 const HardNeverMode					= 6
 const VeryHardNeverMode				= 7
+const TypingOnKeyboardMode			= 8
 var GameMode = NormalStoryMode
 
 const Playing				= 1
@@ -132,8 +133,15 @@ var EndOfWordsFile = 0
 
 var FallingLetterTileIndex = []
 
+var CurrentLetterTyped = "`"
+var LastLetterTyped = "`"
+
 #---------------------------------------------------------------------------------------
 func SetupForNewGame():
+	InputCore.KeyTypedOnKeyboard = "`"
+	CurrentLetterTyped = "`"
+	LastLetterTyped = "`"
+
 	PAUSEgame = false
 
 	GameState = Playing
@@ -242,7 +250,6 @@ func SetupForNewGame():
 		CutSceneScale = 1.0
 		CutSceneTimer = 0
 		CutSceneBlackBackgroundAlpha = 1.0
-		
 	else:
 		CutSceneAlpha = 0.0
 		CutSceneScale = 0.0
@@ -264,6 +271,11 @@ func SetupForNewGame():
 		Playfield[8][1] = 24
 
 	FramesSinceLastPlayerInput = 0
+
+	if (GameMode == TypingOnKeyboardMode):
+		ScreensCore.KeyboardModeKeysAlpha = 1.0
+	else:
+		ScreensCore.KeyboardModeKeysAlpha = 0.0
 
 	pass
 
@@ -455,7 +467,11 @@ func CheckWordIsCorrect():
 
 	for index in range(0, EndOfWordsFile):
 		if (WordDictionary[index] == ValueToCheck):
-			Score+=( (ScoreAddPointsOnWord*SelectedTileIndex) + (100*Level) )
+			if (Level < 10):
+				Score+=( (ScoreAddPointsOnWord*SelectedTileIndex) + (100*Level) )
+			else:
+				Score+=( (ScoreAddPointsOnWord*SelectedTileIndex) + (100*10) )
+
 			ScoreChanged = true
 
 			TotalClearedTiles+=SelectedTileIndex
@@ -603,7 +619,7 @@ func RunGameplayCore():
 				Playfield[FallingTileX][FallingTileY] = FallingTile[0]
 				SetUpNextFallingTile()
 
-		if (InputCore.MouseButtonLeftPressed == true and InputCore.DelayAllUserInput == -1 and CutSceneScale == 0.0 and TouchChooseOnlyOne == false):
+		if (GameMode < 8 && InputCore.MouseButtonLeftPressed == true and InputCore.DelayAllUserInput == -1 and CutSceneScale == 0.0 and TouchChooseOnlyOne == false):
 			ConvertTilesToString()
 			var screenY = 500-37+11
 			var screenX = 99-11
@@ -633,6 +649,232 @@ func RunGameplayCore():
 				screenY-=50
 		elif (InputCore.MouseButtonLeftPressed == false):
 			TouchChooseOnlyOne = false
+
+		if (GameMode == 8):
+			var exitDoubleForLoop = false
+
+			if (InputCore.KeyTypedOnKeyboard != "`" && InputCore.DelayAllUserInput == -1):# && CurrentLetterTyped != LastLetterTyped):
+				DrawEverything = true
+				if (SelectedTileIndex < 16):
+					for y in range(0, 12):
+						for x in range(0, 18):
+							if (exitDoubleForLoop == false):
+								var part = Playfield[x][y]
+								if (InputCore.KeyTypedOnKeyboard == "a" && part ==  0 && LastLetterTyped != "a"):
+									ValueToCheck+="a"
+									ScoreAddPointsOnWord+=1
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "a"
+								elif (InputCore.KeyTypedOnKeyboard == "b" && part ==  1 && LastLetterTyped != "b"):
+									ValueToCheck+="b"
+									ScoreAddPointsOnWord+=3
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "b"
+								elif (InputCore.KeyTypedOnKeyboard == "c" && part ==  2 && LastLetterTyped != "c"):
+									ValueToCheck+="c"
+									ScoreAddPointsOnWord+=3
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "c"
+								elif (InputCore.KeyTypedOnKeyboard == "d" && part ==  3 && LastLetterTyped != "d"):
+									ValueToCheck+="d"
+									ScoreAddPointsOnWord+=2
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "d"
+								elif (InputCore.KeyTypedOnKeyboard == "e" && part ==  4 && LastLetterTyped != "e"):
+									ValueToCheck+="e"
+									ScoreAddPointsOnWord+=1
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "e"
+								elif (InputCore.KeyTypedOnKeyboard == "f" && part ==  5 && LastLetterTyped != "f"):
+									ValueToCheck+="f"
+									ScoreAddPointsOnWord+=4
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "f"
+								elif (InputCore.KeyTypedOnKeyboard == "g" && part ==  6 && LastLetterTyped != "g"):
+									ValueToCheck+="g"
+									ScoreAddPointsOnWord+=2
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "g"
+								elif (InputCore.KeyTypedOnKeyboard == "h" && part ==  7 && LastLetterTyped != "h"):
+									ValueToCheck+="h"
+									ScoreAddPointsOnWord+=4
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "h"
+								elif (InputCore.KeyTypedOnKeyboard == "i" && part ==  8 && LastLetterTyped != "i"):
+									ValueToCheck+="i"
+									ScoreAddPointsOnWord+=1
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "i"
+								elif (InputCore.KeyTypedOnKeyboard == "j" && part ==  9 && LastLetterTyped != "j"):
+									ValueToCheck+="j"
+									ScoreAddPointsOnWord+=8
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "j"
+								elif (InputCore.KeyTypedOnKeyboard == "k" && part == 10 && LastLetterTyped != "k"):
+									ValueToCheck+="k"
+									ScoreAddPointsOnWord+=5
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "k"
+								elif (InputCore.KeyTypedOnKeyboard == "l" && part == 11 && LastLetterTyped != "l"):
+									ValueToCheck+="l"
+									ScoreAddPointsOnWord+=1
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "l"
+								elif (InputCore.KeyTypedOnKeyboard == "m" && part == 12 && LastLetterTyped != "m"):
+									ValueToCheck+="m"
+									ScoreAddPointsOnWord+=3
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "m"
+								elif (InputCore.KeyTypedOnKeyboard == "n" && part == 13 && LastLetterTyped != "n"):
+									ValueToCheck+="n"
+									ScoreAddPointsOnWord+=1
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "n"
+								elif (InputCore.KeyTypedOnKeyboard == "o" && part == 14 && LastLetterTyped != "o"):
+									ValueToCheck+="o"
+									ScoreAddPointsOnWord+=1
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "o"
+								elif (InputCore.KeyTypedOnKeyboard == "p" && part == 15 && LastLetterTyped != "p"):
+									ValueToCheck+="p"
+									ScoreAddPointsOnWord+=3
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "p"
+								elif (InputCore.KeyTypedOnKeyboard == "q" && part == 16 && LastLetterTyped != "q"):
+									ValueToCheck+="q"
+									ScoreAddPointsOnWord+=10
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "q"
+								elif (InputCore.KeyTypedOnKeyboard == "r" && part == 17 && LastLetterTyped != "r"):
+									ValueToCheck+="r"
+									ScoreAddPointsOnWord+=1
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "r"
+								elif (InputCore.KeyTypedOnKeyboard == "s" && part == 18 && LastLetterTyped != "s"):
+									ValueToCheck+="s"
+									ScoreAddPointsOnWord+=1
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "s"
+								elif (InputCore.KeyTypedOnKeyboard == "t" && part == 19 && LastLetterTyped != "t"):
+									ValueToCheck+="t"
+									ScoreAddPointsOnWord+=1
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "t"
+								elif (InputCore.KeyTypedOnKeyboard == "u" && part == 20 && LastLetterTyped != "u"):
+									ValueToCheck+="u"
+									ScoreAddPointsOnWord+=1
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "u"
+								elif (InputCore.KeyTypedOnKeyboard == "v" && part == 21 && LastLetterTyped != "v"):
+									ValueToCheck+="v"
+									ScoreAddPointsOnWord+=4
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "v"
+								elif (InputCore.KeyTypedOnKeyboard == "w" && part == 22 && LastLetterTyped != "w"):
+									ValueToCheck+="w"
+									ScoreAddPointsOnWord+=4
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "w"
+								elif (InputCore.KeyTypedOnKeyboard == "x" && part == 23 && LastLetterTyped != "x"):
+									ValueToCheck+="x"
+									ScoreAddPointsOnWord+=8
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "x"
+								elif (InputCore.KeyTypedOnKeyboard == "y" && part == 24 && LastLetterTyped != "y"):
+									ValueToCheck+="y"
+									ScoreAddPointsOnWord+=4
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "y"
+								elif (InputCore.KeyTypedOnKeyboard == "z" && part == 25 && LastLetterTyped != "z"):
+									ValueToCheck+="z"
+									ScoreAddPointsOnWord+=10
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "z"
+								elif (InputCore.KeyTypedOnKeyboard == "'" && part == 26 && LastLetterTyped != "'"):
+									ValueToCheck+="'"
+									ScoreAddPointsOnWord+=5
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "'"
+								elif (InputCore.KeyTypedOnKeyboard == "-" && part == 27 && LastLetterTyped != "-"):
+									ValueToCheck+="-"
+									ScoreAddPointsOnWord+=10
+									xPos = x
+									yPos = y
+									CurrentLetterTyped = "-"
+								else:
+									CurrentLetterTyped = "`"
+
+								var selected = false
+								for index in range(0, 18):
+									if (SelectedTilePlayfieldX[index] == xPos and SelectedTilePlayfieldY[index] == yPos):
+										selected = true
+
+								if (selected == false):
+									allowTileSelection = true
+									TouchChooseOnlyOne = true
+									FramesSinceLastPlayerInput = 0
+
+									if (CurrentLetterTyped == LastLetterTyped):
+										InputCore.DelayAllUserInput = 10
+									else:
+										InputCore.DelayAllUserInput = 0
+
+									LastLetterTyped = CurrentLetterTyped
+
+									exitDoubleForLoop = true
+			else:
+				LastLetterTyped = "`"
+
+			if (InputCore.KeyboardBackspacePressed == true && InputCore.DelayAllUserInput == -1):
+				if (LogicCore.SelectedTileIndex > 0):
+					LogicCore.SelectedTileIndex-=1
+					LogicCore.SelectedTilePlayfieldX[LogicCore.SelectedTileIndex] = -1
+					LogicCore.SelectedTilePlayfieldY[LogicCore.SelectedTileIndex] = -1
+					AudioCore.PlayEffect(5)
+					DrawEverything = true
+					InputCore.DelayAllUserInput = 5
+
+			if (InputCore.KeyboardEnterPressed == true && LogicCore.SelectedTileIndex > 2):
+				if (LogicCore.GameState == LogicCore.Playing):
+					if (LogicCore.BadEquationRedTimer == 0):
+						if ( LogicCore.CheckWordIsCorrect() == false ):
+							AudioCore.PlayEffect(6)
+							RenderingServer.canvas_item_set_modulate(VisualsCore.Sprites.ci_rid[2002], Color(1.0, 0.0, 0.0, 1.0))
+							LogicCore.BadEquationRedTimer = 20
+						else:
+							AudioCore.PlayEffect(7)
+							LogicCore.BadEquationRedTimer = 20
+							LogicCore.GameState = LogicCore.FadingTiles
+							LogicCore.SelectedTilesAlpha = 1.0
+
+							LogicCore.DrawEverything = true
 
 		if (allowTileSelection == true):
 			SelectedTilePlayfieldX[SelectedTileIndex] = xPos
@@ -682,7 +924,7 @@ func _ready():
 	FallingTile.resize(3)
 	NumberOfFallingTiles = 1
 
-	LevelAdvance.resize(8)
+	LevelAdvance.resize(9)
 	LevelAdvance[EasyStoryMode] 		= 7
 	LevelAdvance[NormalStoryMode] 		= (7 * 2)
 	LevelAdvance[HardStoryMode]  		= (7 * 3)
@@ -691,6 +933,7 @@ func _ready():
 	LevelAdvance[NormalNeverMode] 		= (7 * 2)
 	LevelAdvance[HardNeverMode]  		= (7 * 3)
 	LevelAdvance[VeryHardNeverMode] 	= (7 * 4)
+	LevelAdvance[TypingOnKeyboardMode]  = (7 * 4)
 
 	Playfield.resize(18)
 	for x in range(18):

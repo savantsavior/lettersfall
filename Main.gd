@@ -17,7 +17,7 @@
 #
 # ------------------------------------------------------------------------------
 #                    Cross-Platform / M.I.T. Open-Source
-#      "Grand National GNX" v3 Godot Engine 4.7.2+ 2D Video Game Framework
+#      "Grand National GNX" v4 Godot Engine 4.7.2+ 2D Video Game Framework
 # ------------------------------------------------------------------------------
 #                                               TM
 #                            "Learn To Have Fun!"
@@ -30,7 +30,7 @@
 #                                               TM
 #                              "LettersFall 110%"
 #
-#                             Retail Version 1.1.0
+#                         Version 1.1.1 - Retail 2 Final
 #
 #                            Linux Flatpak On Flathub
 #                 HTML5 Enabled Desktop/Laptop Internet Browsers
@@ -42,6 +42,20 @@ extends Node2D
 #----------------------------------------------------------------------------------------
 func _ready():
 	VisualsCore.SetFramesPerSecond(30)
+
+	if (ScreensCore.OperatingSys == ScreensCore.OSHTMLFive):  VisualsCore.FullScreenMode = 0
+
+	VisualsCore.MonitorScreenSize = DisplayServer.screen_get_size(0)
+	print( "Width="+str(VisualsCore.MonitorScreenSize.x)+"/Height="+str(VisualsCore.MonitorScreenSize.y) )
+	var ratio: float = ( float(VisualsCore.MonitorScreenSize.x) / float(VisualsCore.MonitorScreenSize.y) )
+	var sixteenByNineRatio: float = 1.77777777777778
+	print( "Ratio="+str(ratio) )
+	if is_equal_approx(ratio, sixteenByNineRatio):
+		VisualsCore.KeepAspectRatio = false
+		print("16:9 Ratio - KeepAspectRatio=false")
+	else:
+		VisualsCore.KeepAspectRatio = true
+		print("Not 16:9 Ratio - KeepAspectRatio=true")
 
 	DataCore.LoadOptionsAndHighScores()
 
@@ -57,6 +71,8 @@ func _ready():
 func _process(_delta):
 
 	ScreensCore.ProcessScreenToDisplay()
+
+	VisualsCore.DrawSprite(100000, InputCore.MouseScreenX+25, InputCore.MouseScreenY+25, 999, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0)
 
 	pass
 

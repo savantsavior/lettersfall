@@ -60,8 +60,8 @@ var OptionsInJoySetup
 var MouseButtonLeftPressed
 var MouseButtonRightPressed
 
-var MouseScreenX
-var MouseScreenY
+var MouseScreenX = 0
+var MouseScreenY = 0
 
 var TouchDragDetected
 
@@ -337,15 +337,15 @@ func _process(_delta):
 				LogicCore.PauseWasJustPressed = true
 
 				OldMusicVolume = AudioCore.MusicVolume
-				AudioCore.MusicPlayer.set_volume_db(AudioCore.ConvertLinearToDB(0.0))
+				AudioCore.MusicPlayer.set_volume_db(linear_to_db(0.0))
 			elif (LogicCore.PAUSEgame == true):
 				LogicCore.PAUSEgame = false
 				LogicCore.PauseWasJustPressed = true
 
-				VisualsCore.DrawSprite(2, (VisualsCore.ScreenWidth/2.0), (VisualsCore.ScreenHeight/2.0), 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.0)
+				VisualsCore.DrawSprite(2, (VisualsCore.ScreenWidth/2.0), (VisualsCore.ScreenHeight/2.0), 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.0)
 
 				AudioCore.MusicVolume = OldMusicVolume
-				AudioCore.MusicPlayer.set_volume_db(AudioCore.ConvertLinearToDB(AudioCore.MusicVolume))
+				AudioCore.MusicPlayer.set_volume_db(linear_to_db(AudioCore.MusicVolume))
 
 			AudioCore.PlayEffect(1)
 			DelayAllUserInput = 25
@@ -368,9 +368,14 @@ func _input(event):
 
 	KeyTypedOnKeyboard = "`"
 
-	if ScreensCore.ScreenFadeStatus != ScreensCore.FadingIdle:  return
+	if event is InputEventMouseMotion:
+		MouseScreenX = event.position.x
+		MouseScreenY = event.position.y
 
 	MouseButtonLeftPressed = false
+
+#	if ScreensCore.ScreenFadeStatus != ScreensCore.FadingIdle:  return
+
 	if (InputCore.DelayAllUserInput > -1):  return
 
 	if event is InputEventKey:
@@ -383,8 +388,8 @@ func _input(event):
 			LogicCore.GameQuit = true
 			LogicCore.GameOver = true
 			InputCore.MouseButtonLeftPressed = false
-			InputCore.DelayAllUserInput = 35
-			AudioCore.PlayMusic(0, true)
+			InputCore.DelayAllUserInput = 10
+			if (AudioCore.MusicCurrentlyPlaying > 0):  AudioCore.PlayMusic(0, true)
 		elif event.keycode == KEY_SPACE and event.pressed:
 			if (ScreensCore.ScreenToDisplay < ScreensCore.TitleScreen):  AudioCore.PlayEffect(1)
 			KeyboardSpacebarPressed = true
@@ -398,6 +403,10 @@ func _input(event):
 		if (event.pressed && event.keycode != KEY_SHIFT):
 			if (event.unicode > 32 && event.unicode < 137):
 				KeyTypedOnKeyboard = char(event.unicode)
+
+				if (ScreensCore.ScreenToDisplay == ScreensCore.PlayingGameScreen && LogicCore.GameMode == LogicCore.TypingOnKeyboardMode):
+					if (event.echo):
+						KeyTypedOnKeyboard = "`"
 
 	if (event is InputEventScreenTouch and event.is_pressed() == true):
 		MouseButtonLeftPressed = true
@@ -447,10 +456,10 @@ func _input(event):
 		LogicCore.PAUSEgame = false
 		LogicCore.PauseWasJustPressed = true
 
-		VisualsCore.DrawSprite(2, (VisualsCore.ScreenWidth/2.0), (VisualsCore.ScreenHeight/2.0), 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.0)
+		VisualsCore.DrawSprite(2, (VisualsCore.ScreenWidth/2.0), (VisualsCore.ScreenHeight/2.0), 1, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 0.0)
 
 		AudioCore.MusicVolume = OldMusicVolume
-		AudioCore.MusicPlayer.set_volume_db(AudioCore.ConvertLinearToDB(AudioCore.MusicVolume))
+		AudioCore.MusicPlayer.set_volume_db(linear_to_db(AudioCore.MusicVolume))
 
 		AudioCore.PlayEffect(1)
 		DelayAllUserInput = 25
