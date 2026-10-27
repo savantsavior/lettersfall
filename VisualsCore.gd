@@ -120,14 +120,10 @@ var StarColorB = []
 
 var ScreenIsDirty = false
 
+var MonitorScreenSize
+
 #----------------------------------------------------------------------------------------
 func _ready():
-	var viewport_size = get_viewport().size
-	DisplayWidth = viewport_size.x
-	DisplayHeight = viewport_size.y
-
-	print("width=", DisplayWidth, " /height=", DisplayHeight)
-
 	for _index in range(0, 10):
 		FramesPerSecondArray.append(0)
 
@@ -170,7 +166,7 @@ func _ready():
 	Sprites.SpriteImage[3] = load("res://media/images/backgrounds/MIT_License.png")
 	Sprites.SpriteActive[3] = true
 
-	Sprites.SpriteImage[5] = load("res://media/images/logos/BG_Godot_Logo.png")
+	Sprites.SpriteImage[5] = load("res://media/images/backgrounds/BG_Godot_Logo.png")
 	Sprites.SpriteActive[5] = true
 
 	Sprites.SpriteImage[10] = load("res://media/images/backgrounds/BG_Title.png")
@@ -188,7 +184,7 @@ func _ready():
 		Sprites.SpriteImage[index] = Sprites.SpriteImage[30].duplicate()
 		Sprites.SpriteActive[index] = true
 
-	Sprites.SpriteImage[40] = load("res://media/images/gui/Button2.png")
+	Sprites.SpriteImage[40] = load("res://media/images/gui/Button.png")
 	Sprites.SpriteActive[40] = true
 	for index in range(41, 50):
 		Sprites.SpriteImage[index] = Sprites.SpriteImage[40].duplicate()
@@ -217,19 +213,16 @@ func _ready():
 	Sprites.SpriteImage[111] = load("res://media/images/gui/SpeakerON.png")
 	Sprites.SpriteActive[111] = true
 
-	Sprites.SpriteImage[117] = load("res://media/images/gui/Exit2.png")
+	Sprites.SpriteImage[117] = load("res://media/images/gui/Exit.png")
 	Sprites.SpriteActive[117] = true
 
 	Sprites.SpriteImage[118] = load("res://media/images/gui/Pause.png")
 	Sprites.SpriteActive[118] = true
 
-	Sprites.SpriteImage[119] = load("res://media/images/gui/Play.png")
-	Sprites.SpriteActive[119] = true
-
-	Sprites.SpriteImage[190] = load("res://media/images/gui/Play2.png")
+	Sprites.SpriteImage[190] = load("res://media/images/gui/Play.png")
 	Sprites.SpriteActive[190] = true
 
-	Sprites.SpriteImage[200] = load("res://media/images/gui/NameInputButton2.png")
+	Sprites.SpriteImage[200] = load("res://media/images/gui/NameInputButton.png")
 	Sprites.SpriteActive[200] = true
 	for index in range(1, 100):
 		Sprites.SpriteImage[200+index] = Sprites.SpriteImage[200].duplicate()
@@ -332,59 +325,6 @@ func _ready():
 			var xform = Transform2D().translated(Vector2(-99999 - sprite_size.x / 2.0, -99999 - sprite_size.y / 2.0))
 			RenderingServer.canvas_item_set_transform(Sprites.ci_rid[index], xform)
 
-			#if (index == 0):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 999999999)
-			#elif (index == 100000):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 9999)
-			#elif (index == 2):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 500)
-			#elif (index == 10):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], -25)
-			#elif (index == 20):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 1)
-			#elif (index == 130):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], -100)
-			#elif (index > 39 && index < 49):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], -10)
-			#elif (index > 49 && index < 129):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], -3)
-			#elif (index > 139 && index < 150):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], -5)
-			#elif (index == 170):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], -20)
-			#elif (index == 171):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], -15)
-			#elif (index == 172):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], -10)
-			#elif (index == 173):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], -5)
-			#elif (index > 9999 and index < 19980):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], -2)
-			#if (index > 19999 and index < 48000):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 0)
-			#elif (index > 47999 and index < 49000):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 1)
-			#elif (index == 131):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], -99999)
-			#elif (index == 132):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 1)
-			#elif (index == 134):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 1)
-			#elif (index == 135):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 250)
-			#elif (index == 19980):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 100)
-			#elif (index == 3000):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 999998)
-			#elif (index > 3000 and index < 3010):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 3)
-			#elif (index == 3010):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 5)
-			#elif (index == 5000):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 9999)
-			#elif (index == 20000):
-			#	RenderingServer.canvas_item_set_draw_index(Sprites.ci_rid[index], 600)
-
 	FontTTF.append(-1)
 	FontTTF[0] = load("res://media/fonts/FNT_01.ttf")
 	FontTTF.append(-1)
@@ -431,8 +371,6 @@ func _ready():
 	FramesPerSecondText.TextImage[0].pivot_offset = Vector2((VisualsCore.ScreenWidth / 2.0), (textHeight / 2.0))
 	FramesPerSecondText.TextImage[0].scale = Vector2(1.0, 1.0)
 	FramesPerSecondText.TextImage[0].rotation = 0.0
-
-	KeepAspectRatio = false
 
 	FullScreenMode = 1
 
@@ -713,8 +651,8 @@ func LoadAboutScreenTexts():
 	AddAboutScreenText("Higgins", 1.0)
 
 	AddAboutScreenText("BGM: InGame 2", 0.0)
-	AddAboutScreenText("''Revival''", 1.0)
-	AddAboutScreenText("Kirill Kharchenko", 1.0)
+	AddAboutScreenText("''Heart Wide Open''", 1.0)
+	AddAboutScreenText("Open Frequency Collective", 1.0)
 
 	AddAboutScreenText("BGM: InGame 3", 0.0)
 	AddAboutScreenText("''We Are Alive''", 1.0)

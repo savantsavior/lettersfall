@@ -20,7 +20,7 @@ extends Node2D
 
 var HideCopyright = false
 
-var Version = "v1.1.1 - Retail 2"
+var Version = "v1.1.1 - Retail 2 Final"
 
 const EasyStoryMode					= 0
 const NormalStoryMode				= 1
