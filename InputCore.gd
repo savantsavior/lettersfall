@@ -372,9 +372,9 @@ func _input(event):
 		MouseScreenX = event.position.x
 		MouseScreenY = event.position.y
 
-	if ScreensCore.ScreenFadeStatus != ScreensCore.FadingIdle:  return
-
 	MouseButtonLeftPressed = false
+
+#	if ScreensCore.ScreenFadeStatus != ScreensCore.FadingIdle:  return
 
 	if (InputCore.DelayAllUserInput > -1):  return
 
@@ -388,8 +388,8 @@ func _input(event):
 			LogicCore.GameQuit = true
 			LogicCore.GameOver = true
 			InputCore.MouseButtonLeftPressed = false
-			InputCore.DelayAllUserInput = 35
-			AudioCore.PlayMusic(0, true)
+			InputCore.DelayAllUserInput = 10
+			if (AudioCore.MusicCurrentlyPlaying > 0):  AudioCore.PlayMusic(0, true)
 		elif event.keycode == KEY_SPACE and event.pressed:
 			if (ScreensCore.ScreenToDisplay < ScreensCore.TitleScreen):  AudioCore.PlayEffect(1)
 			KeyboardSpacebarPressed = true

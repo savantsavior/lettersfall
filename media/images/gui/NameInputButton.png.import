@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c5w8sjf5qwibe"
-path="res://.godot/imported/4-LF-Staff.png-b660b013ee194670c597955ce3b7b8c1.ctex"
+uid="uid://dlfm5mqy3q87n"
+path="res://.godot/imported/NameInputButton.png-f2300a8fe8a98afb51a800208eb5eb82.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Flatpak_Info/4-LF-Staff.png"
-dest_files=["res://.godot/imported/4-LF-Staff.png-b660b013ee194670c597955ce3b7b8c1.ctex"]
+source_file="res://media/images/gui/NameInputButton.png"
+dest_files=["res://.godot/imported/NameInputButton.png-f2300a8fe8a98afb51a800208eb5eb82.ctex"]
 
 [params]
 

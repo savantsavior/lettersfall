@@ -17,7 +17,7 @@
 #
 # ------------------------------------------------------------------------------
 #                    Cross-Platform / M.I.T. Open-Source
-#      "Grand National GNX" v4 Godot Engine 4.8+ 2D Video Game Framework
+#      "Grand National GNX" v4 Godot Engine 4.7.2+ 2D Video Game Framework
 # ------------------------------------------------------------------------------
 #                                               TM
 #                            "Learn To Have Fun!"
@@ -30,7 +30,7 @@
 #                                               TM
 #                              "LettersFall 110%"
 #
-#                            Version 1.1.1 - Retail 2
+#                         Version 1.1.1 - Retail 2 Final
 #
 #                            Linux Flatpak On Flathub
 #                 HTML5 Enabled Desktop/Laptop Internet Browsers
@@ -45,11 +45,17 @@ func _ready():
 
 	if (ScreensCore.OperatingSys == ScreensCore.OSHTMLFive):  VisualsCore.FullScreenMode = 0
 
-	#LogicCore.SecretCode[0] = 5
-	#LogicCore.SecretCode[1] = 4
-	#LogicCore.SecretCode[2] = 3
-	#LogicCore.SecretCode[3] = 1
-	#LogicCore.SecretCodeCombined = 5431
+	VisualsCore.MonitorScreenSize = DisplayServer.screen_get_size(0)
+	print( "Width="+str(VisualsCore.MonitorScreenSize.x)+"/Height="+str(VisualsCore.MonitorScreenSize.y) )
+	var ratio: float = ( float(VisualsCore.MonitorScreenSize.x) / float(VisualsCore.MonitorScreenSize.y) )
+	var sixteenByNineRatio: float = 1.77777777777778
+	print( "Ratio="+str(ratio) )
+	if is_equal_approx(ratio, sixteenByNineRatio):
+		VisualsCore.KeepAspectRatio = false
+		print("16:9 Ratio - KeepAspectRatio=false")
+	else:
+		VisualsCore.KeepAspectRatio = true
+		print("Not 16:9 Ratio - KeepAspectRatio=true")
 
 	DataCore.LoadOptionsAndHighScores()
 

@@ -377,9 +377,9 @@ func DisplayTitleScreen():
 		buttonY+=buttonOffsetY
 
 		if (LogicCore.HideCopyright == false):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''TeamJeZxLee.itch.io''", 0, 640-19-4-15+10, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "TeamJeZxLee.itch.io", 0, 640-19-4-15+10, 3, 1, 1, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif (LogicCore.HideCopyright == true):
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''SavantSavior.itch.io''", 0, 640-19-4-15+10, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "SavantSavior.itch.io", 0, 640-19-4-15+10, 3, 1, 1, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
 		VisualsCore.DrawText(VisualsCore.TextCurrentIndex, LogicCore.Version, 10, VisualsCore.ScreenHeight-15, 3, 0, 1, 15, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
@@ -391,9 +391,9 @@ func DisplayTitleScreen():
 			InterfaceCore.CreateIcon( 190, 40, (110), " " )
 
 	if InterfaceCore.ThisIconWasPressed(0, -1) == true:
-		if (AudioCore.MusicVolume == 0.0 && AudioCore.EffectsVolume == 0.0):
+		if (AudioCore.MusicVolume == 0.0):
 			if (TitleScreenOldMusicVol == -1):
-				AudioCore.MusicVolume = 1.0
+				AudioCore.MusicVolume = 0.75
 			else:
 				AudioCore.MusicVolume = TitleScreenOldMusicVol
 
@@ -465,8 +465,6 @@ func DisplayTitleScreen():
 
 #----------------------------------------------------------------------------------------
 func DisplayOptionsScreen():
-	var window
-
 	if ScreenFadeStatus == FadingFromBlack && ScreenFadeTransparency == 1.0:
 		RenderingServer.set_default_clear_color(Color(0.0, 0.0, 0.0, 1.0))
 		if (JoystickSetupIndex == JoySetupNotStarted):
@@ -503,14 +501,6 @@ func DisplayOptionsScreen():
 				OptionsTextEffectsVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "25% Volume", -95, 51+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			elif AudioCore.EffectsVolume == 0.0:
 				OptionsTextEffectsVol = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "0% Volume", -95, 51+50, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-
-			#window = get_window()
-			#if window.mode == Window.MODE_MAXIMIZED:
-				#VisualsCore.FullScreenMode = 1
-			#elif window.mode == Window.MODE_WINDOWED:
-				#VisualsCore.FullScreenMode = 0
-			#elif window.mode == Window.MODE_FULLSCREEN:
-				#VisualsCore.FullScreenMode = 2
 
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Full Screen Mode:", 95, 51+50+50, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			InterfaceCore.CreateArrowSet(2, 65+50+50)
@@ -558,7 +548,7 @@ func DisplayOptionsScreen():
 			elif LogicCore.UndoAction == 0:
 				OptionsTextUndoAction = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Clear One Tile At A Time", -95, 70+50+50+50+65+50-14-13+2, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Right Mouse Buttton Action:", 95, 70+50+50+50+65+50-14+50-2-14, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Right Mouse Button Action:", 95, 70+50+50+50+65+50-14+50-2-14, 3, 0, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			InterfaceCore.CreateArrowSet(5, 70+50+50+50+65+50-14+50-2)
 			if LogicCore.EnableRightClick == 1:
 				OptionsTextRightMouseButtonAction = VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Clear One Tile", -95, 70+50+50+50+65+50-14+50-2-14, 3, 2, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
@@ -1382,8 +1372,8 @@ func DisplayMusicTestScreen():
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Higgins", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif AudioCore.MusicCurrentlyPlaying == 2:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame 2", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Revival''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 3, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
-			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Kirill Kharchenko", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''Heart Wide Open''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 3, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
+			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "Open Frequency Collective", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120+80, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 		elif AudioCore.MusicCurrentlyPlaying == 3:
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "BGM: InGame 3", 0, (VisualsCore.ScreenHeight/2.0)-85-12, 3, 1, 0, 35, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
 			VisualsCore.DrawText(VisualsCore.TextCurrentIndex, "''We Are Alive''", 0, (VisualsCore.ScreenHeight/2.0)-85-12+120, 3, 1, 0, 55, 1.0, 1.0, 0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0)
