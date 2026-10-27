@@ -88,16 +88,40 @@
 
     <screenshots>
         <screenshot type="default">
-            <image>https://raw.githubusercontent.com/savantsavior/lettersfall/1731e8d3086e387b8407e141eebb0b2ea0502383/Flatpak_Info/First-LF-Playing.png</image>
+            <image>https://raw.githubusercontent.com/savantsavior/lettersfall/f94f89d8c89f50356c281b434f937d011e46540e/Flatpak_Info/1-LF-Playing.png</image>
             <caption>Educational word spelling gameplay with falling letters</caption>
         </screenshot>
         <screenshot>
-            <image>https://raw.githubusercontent.com/savantsavior/lettersfall/1731e8d3086e387b8407e141eebb0b2ea0502383/Flatpak_Info/Second-LF-Title.png</image>
+            <image>https://raw.githubusercontent.com/savantsavior/lettersfall/f94f89d8c89f50356c281b434f937d011e46540e/Flatpak_Info/2-LF-Title.png</image>
             <caption>Title screen with game modes and dictionary support</caption>
+        </screenshot>
+        <screenshot>
+            <image>https://raw.githubusercontent.com/savantsavior/lettersfall/f94f89d8c89f50356c281b434f937d011e46540e/Flatpak_Info/3-LF-Story.png</image>
+            <caption>Story mode narrative cutscenes</caption>
+        </screenshot>
+        <screenshot>
+            <image>https://raw.githubusercontent.com/savantsavior/lettersfall/f94f89d8c89f50356c281b434f937d011e46540e/Flatpak_Info/4-LF-Options.png</image>
+            <caption>Game settings and controls configuration</caption>
+        </screenshot>
+        <screenshot>
+            <image>https://raw.githubusercontent.com/savantsavior/lettersfall/f94f89d8c89f50356c281b434f937d011e46540e/Flatpak_Info/5-LF-HighScores.png</image>
+            <caption>High scores ranking table</caption>
         </screenshot>
     </screenshots>
 
     <releases>
+        <release version="1.1.1" date="2026-10-27">
+            <description>
+                <p>LettersFall 110% Retail 2 Final update!</p>
+                <ul>
+                    <li>Added visible custom cursor with improved pointing controls</li>
+                    <li>Automatic 16:9 aspect ratio detection and display support</li>
+                    <li>Audio engine modernized with balanced sound levels</li>
+                    <li>Improved keyboard input responsiveness and new typing mode support</li>
+                    <li>Updated story cutscenes, credits, and high score tables</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.0.0" date="2026-08-02">
             <description>
                 <p>Initial release of LettersFall 110% with Flatpak support!</p>
